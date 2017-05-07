@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "angular-dtm",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -8,7 +8,7 @@
     "clean-start": "npm run clean-install && npm start",
     "watch": "webpack --watch --progress --profile",
     "build": "rimraf dist && webpack --progress --profile --bail",
-    "server": "webpack-dev-server --inline --progress --port 8080",
+    "server": "webpack-dev-server --open --inline --progress --port 8080",
     "webdriver-update": "webdriver-manager update",
     "webdriver-start": "webdriver-manager start",
     "lint": "tslint --force \"src/**/*.ts\"",
@@ -25,15 +25,18 @@
     "postinstall": "npm run webdriver-update"
   },
   "dependencies": {
+    "@angular/animations": "^4.1.1",
     "@angular/common": "4.0.0",
     "@angular/compiler": "4.0.0",
     "@angular/core": "4.0.0",
     "@angular/forms": "4.0.0",
     "@angular/http": "4.0.0",
+    "@angular/material": "^2.0.0-beta.3",
     "@angular/platform-browser": "4.0.0",
     "@angular/platform-browser-dynamic": "4.0.0",
     "@angular/router": "4.0.0",
     "core-js": "^2.4.1",
+    "hammerjs": "^2.0.8",
     "reflect-metadata": "^0.1.3",
     "rxjs": "^5.0.1",
     "zone.js": "^0.8.5"
