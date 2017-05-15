@@ -7,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutComponent implements OnInit {
 
+  color = 'primary';
+  mode = 'determinate';
+  value = 50;
+  bufferValue = 75;
+
   constructor() {
     // Do stuff
   }
