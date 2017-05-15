@@ -5,12 +5,10 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MdDataTableModule } from './data-table';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
-import { DataTableDemo } from './data-table/data-table-demo';
 import { ApiService } from './shared';
 import { routing } from './app.routing';
 
@@ -24,14 +22,12 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     FormsModule,
     MaterialModule,
     FlexLayoutModule,
-    routing,
-    MdDataTableModule
+    routing
   ],
   declarations: [
     AppComponent,
     HomeComponent,
-    AboutComponent,
-    DataTableDemo
+    AboutComponent
   ],
   providers: [
     ApiService
