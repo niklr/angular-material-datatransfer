@@ -10,6 +10,12 @@ a {
     color: #03A9F4;
 }
 
+.truncate-text {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 // table
 // https://github.com/daniel-nagy/md-data-table
 .md-table-container {
