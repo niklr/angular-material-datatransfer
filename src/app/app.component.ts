@@ -1,19 +1,24 @@
 import { Component } from '@angular/core';
 
-import { ApiService } from './shared';
+import { ApiService } from './services';
 
 import '../style/app.scss';
 import '../style/angular-material-theme.scss';
 
 @Component({
-  selector: 'my-app', // <my-app></my-app>
+  selector: 'my-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title: string;
+  color = 'primary';
+  mode = 'determinate';
+  value = 50;
+  bufferValue = 75;
+
+  testItems = this.api.testItems;
 
   constructor(private api: ApiService) {
-    this.title = this.api.title;
+
   }
 }

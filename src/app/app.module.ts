@@ -7,10 +7,7 @@ import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { ApiService } from './shared';
-import { routing } from './app.routing';
+import { ApiService } from './services';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
@@ -21,13 +18,10 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     HttpModule,
     FormsModule,
     MaterialModule,
-    FlexLayoutModule,
-    routing
+    FlexLayoutModule
   ],
   declarations: [
-    AppComponent,
-    HomeComponent,
-    AboutComponent
+    AppComponent
   ],
   providers: [
     ApiService
