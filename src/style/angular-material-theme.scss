@@ -12,6 +12,8 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
+// https://github.com/angular/material2/blob/master/src/lib/core/theming/_theming.scss
+// @function mat-palette($base-palette, $default: 500, $lighter: 100, $darker: 700)
 $candy-app-primary: mat-palette($mat-blue);
 $candy-app-accent:  mat-palette($mat-light-blue, A200, A100, A400);
 

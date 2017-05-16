@@ -1,13 +1,26 @@
 import { Injectable } from '@angular/core';
 
+interface TestItem {
+  name: string;
+  path: string;
+  size: number;
+  transferType: string;
+  status: string;
+  progress: number;
+  speed?: string;
+  elapsedTime?: string;
+  remainingTime?: string;
+}
+
 @Injectable()
 export class ApiService {
   title = 'angular-dtm';
 
-  testItems = [
+  testItems: TestItem[] = [
     {
       'name': 'DICOM_patientXY_1.dcm',
-      'size': '15 MB',
+      'path': '/mnt/sdcard/folder1/a/b/',
+      'size': 15,
       'transferType': 'Upload',
       'status': 'Uploading',
       'progress': 50,
@@ -17,33 +30,27 @@ export class ApiService {
     },
     {
       'name': 'DICOM_patientXY_2.dcm',
-      'size': '17 MB',
+      'path': '/mnt/sdcard/folder1/a/b/',
+      'size': 17,
       'transferType': 'Upload',
       'status': 'Failed',
-      'progress': 0,
-      'speed': '',
-      'elapsedTime': '',
-      'remainingTime': ''
+      'progress': 0
     },
     {
       'name': 'SMIR.Thorax.089Y.M.CT.7.000.dcm.zip',
-      'size': '2 GB',
+      'path': '/',
+      'size': 2,
       'transferType': 'Download',
       'status': 'Queued',
-      'progress': 0,
-      'speed': '',
-      'elapsedTime': '',
-      'remainingTime': ''
+      'progress': 0
     },
     {
       'name': 'NIFTI_patientXY.nii',
-      'size': '12 GB',
+      'path': '/mnt/sdcard/folder2/d/',
+      'size': 12,
       'transferType': 'Upload',
       'status': 'Queued',
-      'progress': 0,
-      'speed': '',
-      'elapsedTime': '',
-      'remainingTime': ''
+      'progress': 0
     }
   ];
 }

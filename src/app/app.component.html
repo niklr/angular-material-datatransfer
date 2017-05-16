@@ -25,13 +25,33 @@
   </div>
 </div>
 
-<md-card>
+<div class="dtm-container">
+  <div fxLayout="column" class="dtm-container-head">
+    <div fxFlex>
+      <div style="align-items: center;">
+        <div fxFlex="40px">
+          <md-checkbox></md-checkbox>
+        </div>
+        <div fxFlex="50%">
+          Filename
+        </div>
+        <div fxFlex="50%">
+          Progress
+        </div>
+        <div fxFlex="20px">
+        </div>
+      </div>
+    </div>
+  </div>
   <ng-template ngFor let-item [ngForOf]="testItems" let-i="index" [ngForTrackBy]="trackByFn">
-    <div fxLayout="column" class="transfer-item">
+    <div *ngIf="showPath(i)" class="dtm-container-headline">
+      <i class="fa fa-folder-o" aria-hidden="true"></i> {{item.path}}
+    </div>
+    <div fxLayout="column" class="dtm-container-item" [ngClass]="{'selected': item.isSelected}">
       <div fxFlex>
         <div style="align-items: center;">
           <div fxFlex="40px">
-            <md-checkbox></md-checkbox>
+            <md-checkbox [(ngModel)]="item.isSelected"></md-checkbox>
           </div>
           <div fxFlex="50%" class="truncate-text">
             <div mdTooltip="{{item.name}}" mdTooltipPosition="above">
@@ -42,16 +62,19 @@
             <div *ngIf="item.progress > 0; else elseBlock">
               <div fxLayout="column">
                 <div fxFlex>
-                  <div>
-                    <div fxFlex="33%">
+                  <div class="dtm-container-item-stats">
+                    <div fxFlex="25%">
                         <i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i> {{item.speed}}
                     </div>
-                    <div fxFlex="33%" style="text-align: center">
+                    <div fxFlex="25%" style="text-align: center">
                         {{item.elapsedTime}}
                     </div>
-                    <div fxFlex="33%" style="text-align: right">
-                        {{item.remainingTime}}
-                    </div>                                     
+                    <div fxFlex="25%" style="text-align: center">
+                        {{item.progress}}%
+                    </div>
+                     <div fxFlex="25%" style="text-align: right">
+                        {{item.progress / 100 * item.size}} / {{item.size}} MB
+                    </div>                                                        
                   </div>
                 </div>
               </div>              
@@ -83,7 +106,7 @@
       </div>
     </div>
   </ng-template>
-</md-card>
+</div>
 
 <div style="margin-bottom: 20px"></div>
 

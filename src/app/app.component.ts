@@ -21,4 +21,20 @@ export class AppComponent {
   constructor(private api: ApiService) {
 
   }
+
+  showPath(index: number): boolean {
+    if (index > 0 && this.testItems.length > index) {
+      let currentPath = this.testItems[index].path;
+      // switch (currentPath) {
+      //   case undefined:
+      //   case '':
+      //   case '\\':
+      //   case '/':
+      //     return false;
+      // }
+      // don't show if previous path is same as current
+      return this.testItems[index - 1].path !== currentPath;
+    }
+    return true;
+  }
 }

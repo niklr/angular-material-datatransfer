@@ -1,4 +1,46 @@
-.transfer-item {
-    //margin-bottom: 10px;
+@import '~@angular/material/theming';
+@import 'src/style/angular-material-theme.scss';
+
+$dtm-container-radius: 2px !default;
+
+.dtm-container {
+    @include mat-elevation-transition;
+    display: block;
+    border-radius: $dtm-container-radius;
+
+    &:not([class*='mat-elevation-z']) {
+        @include mat-elevation(2);
+    }
+
+    > .dtm-container-headline:first-child  {
+        border-top-left-radius: $dtm-container-radius;
+        border-top-right-radius: $dtm-container-radius;
+    }
+}
+
+.dtm-container-head {
+    padding: 10px 20px 10px 10px;
     font-size: 13px;
+    font-weight: bold;
+}
+
+.dtm-container-headline {
+    padding: 10px;
+    font-size: 11px;
+    color: mat-contrast($candy-app-primary, 600);
+    background-color: mat-color($candy-app-primary, 600);
+}
+
+.dtm-container-item {
+    //margin-bottom: 10px;
+    padding: 0px 20px 0px 10px;
+    font-size: 13px;
+
+    &.selected {
+        background-color: mat-color($candy-app-primary, 100);
+    }
+}
+
+.dtm-container-item-stats {
+    font-size: 11px;
 }
