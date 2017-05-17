@@ -10,6 +10,7 @@ interface TestItem {
   speed?: string;
   elapsedTime?: string;
   remainingTime?: string;
+  isSelected?: boolean;
 }
 
 @Injectable()

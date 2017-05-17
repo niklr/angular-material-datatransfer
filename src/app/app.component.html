@@ -30,7 +30,7 @@
     <div fxFlex>
       <div style="align-items: center;">
         <div fxFlex="40px">
-          <md-checkbox></md-checkbox>
+          <md-checkbox (change)="toggleAll($event.checked)"></md-checkbox>
         </div>
         <div fxFlex="50%">
           Filename

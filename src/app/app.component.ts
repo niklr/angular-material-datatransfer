@@ -37,6 +37,12 @@ export class AppComponent {
     }
   }
 
+  toggleAll(checked: boolean): void {
+    this.testItems.forEach(element => {
+      element.isSelected = checked;
+    });
+  }
+
   showPath(index: number): boolean {
     if (index > 0 && this.testItems.length > index) {
       let currentPath = this.testItems[index].path;
