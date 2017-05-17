@@ -37,8 +37,13 @@ $dtm-container-radius: 2px !default;
     font-size: 13px;
 
     &.selected {
-        background-color: mat-color($candy-app-primary, 100);
+        color: mat-contrast($candy-app-accent, 900);
+        background-color: mat-color($candy-app-accent);
     }
+}
+
+.dtm-container-item-entry-1 {
+    padding: 10px 0px 10px 0px;
 }
 
 .dtm-container-item-stats {

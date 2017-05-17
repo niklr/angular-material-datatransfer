@@ -22,6 +22,21 @@ export class AppComponent {
 
   }
 
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'Uploading':
+        return 'fa fa-arrow-circle-o-up';
+      case 'Downloading':
+        return 'fa fa-arrow-circle-o-down';
+      case 'Failed':
+        return 'fa fa-exclamation-circle';
+      case 'Queued':
+        return 'fa fa-circle-o';
+      default:
+        return '';
+    }
+  }
+
   showPath(index: number): boolean {
     if (index > 0 && this.testItems.length > index) {
       let currentPath = this.testItems[index].path;

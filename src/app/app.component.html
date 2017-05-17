@@ -26,7 +26,7 @@
 </div>
 
 <div class="dtm-container">
-  <div fxLayout="column" class="dtm-container-head">
+  <div fxLayout="row" class="dtm-container-head">
     <div fxFlex>
       <div style="align-items: center;">
         <div fxFlex="40px">
@@ -35,7 +35,9 @@
         <div fxFlex="50%">
           Filename
         </div>
-        <div fxFlex="50%">
+        <div fxFlex="20px">
+        </div>
+        <div fxFlex="50%" fxHide.lt-sm>
           Progress
         </div>
         <div fxFlex="20px">
@@ -47,37 +49,40 @@
     <div *ngIf="showPath(i)" class="dtm-container-headline">
       <i class="fa fa-folder-o" aria-hidden="true"></i> {{item.path}}
     </div>
-    <div fxLayout="column" class="dtm-container-item" [ngClass]="{'selected': item.isSelected}">
-      <div fxFlex>
+    <div fxLayout="row" fxLayout.lt-sm="column" class="dtm-container-item" [ngClass]="{'selected': item.isSelected}">
+      <div fxFlex class="dtm-container-item-entry-1">
         <div style="align-items: center;">
           <div fxFlex="40px">
             <md-checkbox [(ngModel)]="item.isSelected"></md-checkbox>
           </div>
-          <div fxFlex="50%" class="truncate-text">
+          <div fxFlex="100%" class="truncate-text">
             <div mdTooltip="{{item.name}}" mdTooltipPosition="above">
               <span>{{item.name}}</span>
             </div>
           </div>
-          <div fxFlex="50%">
+        </div>
+      </div>
+      <div fxFlex class="dtm-container-item-entry-2">
+        <div style="align-items: center;">
+          <div fxFlex="20px">
+            <i class="fa-lg" [ngClass]="getStatusClass(item.status)" aria-hidden="true"></i>
+          </div>
+          <div fxFlex="100%">
             <div *ngIf="item.progress > 0; else elseBlock">
-              <div fxLayout="column">
-                <div fxFlex>
-                  <div class="dtm-container-item-stats">
-                    <div fxFlex="25%">
-                        <i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i> {{item.speed}}
-                    </div>
-                    <div fxFlex="25%" style="text-align: center">
-                        {{item.elapsedTime}}
-                    </div>
-                    <div fxFlex="25%" style="text-align: center">
-                        {{item.progress}}%
-                    </div>
-                     <div fxFlex="25%" style="text-align: right">
-                        {{item.progress / 100 * item.size}} / {{item.size}} MB
-                    </div>                                                        
-                  </div>
+              <div class="dtm-container-item-stats">
+                <div fxFlex="25%" fxFlex.lt-md="50%">
+                  {{item.speed}}
                 </div>
-              </div>              
+                <div fxFlex="25%" fxHide.lt-md style="text-align: center">
+                  {{item.elapsedTime}}
+                </div>
+                <div fxFlex="25%" fxHide.lt-md style="text-align: center">
+                  {{item.progress}}%
+                </div>
+                <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
+                  {{item.progress / 100 * item.size}} / {{item.size}} MB
+                </div>
+              </div>
               <md-progress-bar [color]="color" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
               </md-progress-bar>
             </div>
@@ -86,20 +91,20 @@
           <div fxFlex="20px">
             <md-menu #appMenu="mdMenu">
               <button md-menu-item>
-                  <i class="fa fa-pause" aria-hidden="true"></i>
-                  <span>Pause</span>
-                </button>
+                <i class="fa fa-pause" aria-hidden="true"></i>
+                <span>Pause</span>
+              </button>
               <button md-menu-item>
-                  <i class="fa fa-play" aria-hidden="true"></i>
-                  <span>Start</span>
-                </button>
+                <i class="fa fa-play" aria-hidden="true"></i>
+                <span>Start</span>
+              </button>
               <button md-menu-item>
-                  <i class="fa fa-stop" aria-hidden="true"></i>
-                  <span>Stop</span>
-                </button>
+                <i class="fa fa-stop" aria-hidden="true"></i>
+                <span>Stop</span>
+              </button>
             </md-menu>
             <button md-icon-button [mdMenuTriggerFor]="appMenu">
-                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+              <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
             </button>
           </div>
         </div>
@@ -107,68 +112,3 @@
     </div>
   </ng-template>
 </div>
-
-<div style="margin-bottom: 20px"></div>
-
-<md-card>
-  <div class="md-table-container">
-    <table class="md-table">
-      <thead class="md-head">
-        <tr class="md-row">
-          <th class="md-column">
-            <md-checkbox></md-checkbox>
-          </th>
-          <th class="md-column">Name</th>
-          <th class="md-column">Size</th>
-          <th class="md-column">Transfer Type</th>
-          <th class="md-column">Status</th>
-          <th class="md-column">Speed</th>
-          <th class="md-column">Elapsed Time</th>
-          <th class="md-column">Remaining Time</th>
-          <th class="md-column">Actions</th>
-        </tr>
-      </thead>
-      <tbody class="md-body">
-        <ng-template ngFor let-item [ngForOf]="testItems" let-i="index" [ngForTrackBy]="trackByFn">
-          <tr class="md-row">
-            <td class="md-cell">
-              <md-checkbox></md-checkbox>
-            </td>
-            <td class="md-cell">{{item.name}}</td>
-            <td class="md-cell">{{item.size}}</td>
-            <td class="md-cell">{{item.transferType}}</td>
-            <td class="md-cell">
-              <div *ngIf="item.progress > 0; else elseBlock">
-                <md-progress-bar [color]="color" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
-                </md-progress-bar>
-              </div>
-              <ng-template #elseBlock>{{item.status}}</ng-template>
-            </td>
-            <td class="md-cell">{{item.speed}}</td>
-            <td class="md-cell">{{item.elapsedTime}}</td>
-            <td class="md-cell">{{item.remainingTime}}</td>
-            <td class="md-cell">
-              <md-menu #appMenu="mdMenu">
-                <button md-menu-item>
-                  <i class="fa fa-pause" aria-hidden="true"></i>
-                  <span>Pause</span>
-                </button>
-                <button md-menu-item>
-                  <i class="fa fa-play" aria-hidden="true"></i>
-                  <span>Start</span>
-                </button>
-                <button md-menu-item>
-                  <i class="fa fa-stop" aria-hidden="true"></i>
-                  <span>Stop</span>
-                </button>
-              </md-menu>
-              <button md-icon-button [mdMenuTriggerFor]="appMenu">
-                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-              </button>
-            </td>
-          </tr>
-        </ng-template>
-      </tbody>
-    </table>
-  </div>
-</md-card>
