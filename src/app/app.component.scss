@@ -1,7 +1,27 @@
 @import '~@angular/material/theming';
 @import 'src/style/angular-material-theme.scss';
 
+$dtm-dropzone-radius: 6px !default;
 $dtm-container-radius: 2px !default;
+
+$dtm-gray: lighten(#000, 90%);;
+
+.dtm-dropzone {
+    cursor: pointer;
+	border: 2px dashed;
+	border-radius: $dtm-dropzone-radius;
+	width: 100%;
+	height: 150px;
+	text-align: center;
+	display: table;
+    color: mat-contrast($candy-app-primary, 50);
+	background-color: mat-color($candy-app-primary, 50);
+}
+
+.dtm-dropzone-content {
+	vertical-align: middle;
+	display: table-cell;
+}
 
 .dtm-container {
     @include mat-elevation-transition;
@@ -42,8 +62,8 @@ $dtm-container-radius: 2px !default;
     font-size: 13px;
 
     &.selected {
-        color: mat-contrast($candy-app-accent, 400);
-        background-color: mat-color($candy-app-accent);
+        color: mat-contrast($candy-app-primary, 50);
+        background-color: mat-color($candy-app-primary, 50);
     }
 }
 

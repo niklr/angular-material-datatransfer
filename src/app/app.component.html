@@ -1,8 +1,17 @@
+<div style="padding: 40px;">
+  <div class="dtm-dropzone">
+    <div class="dtm-dropzone-content">
+      <i class="fa fa-file-o fa-3x"></i><i class="fa fa-plus-circle"></i>
+      <p>Drop your files/folders here or click to upload.</p>
+    </div>
+  </div>
+</div>
+
 <div fxLayout="row" fxLayout.lt-sm="column" style="margin-bottom: 10px">
   <div fxFlex>
     <button md-raised-button>Start all</button>
     <button md-raised-button [mdMenuTriggerFor]="appMenu">Batch actions <i class="fa fa-caret-down" aria-hidden="true"></i></button>
-    <button md-raised-button>Retry (2)</button>    
+    <button md-raised-button>Retry (2)</button>
     <md-menu #appMenu="mdMenu">
       <button md-menu-item>
         <i class="fa fa-pause" aria-hidden="true"></i>
@@ -19,7 +28,7 @@
       <button md-menu-item>
         <i class="fa fa-times" aria-hidden="true"></i>
         <span>Remove</span>
-      </button>      
+      </button>
     </md-menu>
   </div>
   <div fxFlex>
@@ -122,7 +131,7 @@
               <button md-menu-item>
                 <i class="fa fa-times" aria-hidden="true"></i>
                 <span>Remove</span>
-              </button>                
+              </button>
             </md-menu>
             <button md-icon-button [mdMenuTriggerFor]="appMenu">
               <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
