@@ -26,7 +26,7 @@
 </div>
 
 <div class="dtm-container">
-  <div fxLayout="row" class="dtm-container-head">
+  <div fxLayout="row" class="dtm-container-header">
     <div fxFlex>
       <div style="align-items: center;">
         <div fxFlex="40px">
@@ -111,4 +111,19 @@
       </div>
     </div>
   </ng-template>
+</div>
+
+<div style="font-size: 12px; margin-top: 20px; text-align: right;">
+  <md-select placeholder="Page">
+    <md-option>1</md-option>
+    <md-option>2</md-option>
+  </md-select>
+  <md-select placeholder="Rows per page">
+    <md-option>5</md-option>
+    <md-option>10</md-option>
+    <md-option>15</md-option>
+  </md-select>
+  <span>1-5 of 522</span>
+  <button md-icon-button md-button><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+  <button md-icon-button md-button><i class="fa fa-angle-right" aria-hidden="true"></i></button>
 </div>
