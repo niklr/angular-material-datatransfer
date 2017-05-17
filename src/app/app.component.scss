@@ -42,7 +42,7 @@ $dtm-container-radius: 2px !default;
     font-size: 13px;
 
     &.selected {
-        color: mat-contrast($candy-app-accent, 900);
+        color: mat-contrast($candy-app-accent, 400);
         background-color: mat-color($candy-app-accent);
     }
 }

@@ -17,9 +17,13 @@ export class AppComponent {
   bufferValue = 75;
 
   testItems = this.api.testItems;
+  testItem0 = this.testItems[0];
 
   constructor(private api: ApiService) {
-
+    // Update the value for the progress-bar on an interval.
+    setInterval(() => {
+      this.testItem0.progress = (this.testItem0.progress + Math.floor(Math.random() * 4) + 1) % 100;
+    }, 200);
   }
 
   getStatusClass(status: string): string {
@@ -35,6 +39,10 @@ export class AppComponent {
       default:
         return '';
     }
+  }
+
+  calculateProgressSize(item): number {
+    return Number((item.progress / 100 * item.size).toFixed(2));
   }
 
   toggleAll(checked: boolean): void {

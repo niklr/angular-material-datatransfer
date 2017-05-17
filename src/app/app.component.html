@@ -1,5 +1,8 @@
-<div fxLayout style="margin-bottom: 10px">
+<div fxLayout="row" fxLayout.lt-sm="column" style="margin-bottom: 10px">
   <div fxFlex>
+    <button md-raised-button>Start all</button>
+    <button md-raised-button [mdMenuTriggerFor]="appMenu">Batch actions <i class="fa fa-caret-down" aria-hidden="true"></i></button>
+    <button md-raised-button>Retry (2)</button>    
     <md-menu #appMenu="mdMenu">
       <button md-menu-item>
         <i class="fa fa-pause" aria-hidden="true"></i>
@@ -13,14 +16,28 @@
         <i class="fa fa-stop" aria-hidden="true"></i>
         <span>Stop</span>
       </button>
+      <button md-menu-item>
+        <i class="fa fa-times" aria-hidden="true"></i>
+        <span>Remove</span>
+      </button>      
     </md-menu>
-    <button md-raised-button [mdMenuTriggerFor]="appMenu">
-      <button md-menu-item>Batch Actions</button>
-    </button>
   </div>
-  <div fxFlex="50%">
-    <small class="md-caption">11.66 Mbit/s | 00:01:45 | 50% | 1.5 MB / 3 MB</small>
-    <md-progress-bar [color]="color" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+  <div fxFlex>
+    <div class="dtm-container-item-stats" style="margin-top: 10px;">
+      <div fxFlex="25%" fxFlex.lt-md="50%">
+        489.7 KB/s
+      </div>
+      <div fxFlex="25%" fxHide.lt-md style="text-align: center">
+        00:00:49
+      </div>
+      <div fxFlex="25%" fxHide.lt-md style="text-align: center">
+        50%
+      </div>
+      <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
+        {{calculateProgressSize(testItem0)}} / 15 MB
+      </div>
+    </div>
+    <md-progress-bar [color]="color" [mode]="mode" [value]="testItem0.progress" [bufferValue]="bufferValue">
     </md-progress-bar>
   </div>
 </div>
@@ -80,10 +97,10 @@
                   {{item.progress}}%
                 </div>
                 <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
-                  {{item.progress / 100 * item.size}} / {{item.size}} MB
+                  {{calculateProgressSize(item)}} / {{item.size}} MB
                 </div>
               </div>
-              <md-progress-bar [color]="color" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+              <md-progress-bar [color]="color" [mode]="mode" [value]="item.progress" [bufferValue]="bufferValue">
               </md-progress-bar>
             </div>
             <ng-template #elseBlock>{{item.status}}</ng-template>
@@ -102,6 +119,10 @@
                 <i class="fa fa-stop" aria-hidden="true"></i>
                 <span>Stop</span>
               </button>
+              <button md-menu-item>
+                <i class="fa fa-times" aria-hidden="true"></i>
+                <span>Remove</span>
+              </button>                
             </md-menu>
             <button md-icon-button [mdMenuTriggerFor]="appMenu">
               <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
