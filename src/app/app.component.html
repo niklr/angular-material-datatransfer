@@ -1,5 +1,5 @@
 <div style="padding: 40px;">
-  <div class="dtm-dropzone">
+  <div class="dtm-dropzone" id="dropzoneElement">
     <div class="dtm-dropzone-content">
       <i class="fa fa-file-o fa-3x"></i><i class="fa fa-plus-circle"></i>
       <p>Drop your files/folders here or click to upload.</p>
@@ -11,7 +11,7 @@
   <div fxFlex>
     <button md-raised-button>Start all</button>
     <button md-raised-button [mdMenuTriggerFor]="appMenu">Batch actions <i class="fa fa-caret-down" aria-hidden="true"></i></button>
-    <button md-raised-button>Retry (2)</button>
+    <button md-raised-button (click)="testFn()">Retry (2)</button>
     <md-menu #appMenu="mdMenu">
       <button md-menu-item>
         <i class="fa fa-pause" aria-hidden="true"></i>
