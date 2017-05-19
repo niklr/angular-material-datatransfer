@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from './services';
 import { TestItem } from './services';
+import { DecimalByteUnit, DecimalByteUnitConvertResult, DecimalByteUnitUtil } from './utils';
 
 import * as Resumable from 'resumablejs';
 
@@ -24,7 +25,7 @@ export class AppComponent implements OnInit {
 
   r = undefined;
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService, private decimalByteUnitUtil: DecimalByteUnitUtil) {
     // Update the value for the progress-bar on an interval.
     setInterval(() => {
       this.testItem0.progress = (this.testItem0.progress + Math.floor(Math.random() * 4) + 1) % 100;
@@ -94,11 +95,12 @@ export class AppComponent implements OnInit {
 
     this.r.on('fileAdded', function (file, event) {
       console.log(file);
+      let convertResult: DecimalByteUnitConvertResult = this.decimalByteUnitUtil.toHumanReadable(file.size, DecimalByteUnit.BYTE);
       let newItem: TestItem = {
         'name': file.fileName,
         'path': file.relativePath.substr(0, file.relativePath.length - file.fileName.length),
-        'size': file.size,
-        'sizeUnit': 'Byte',
+        'size': convertResult.number,
+        'sizeUnit': DecimalByteUnit[convertResult.unit],
         'transferType': 'Upload',
         'status': 'Queued',
         'progress': 0

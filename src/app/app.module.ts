@@ -8,6 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 import { ApiService } from './services';
+import { DecimalByteUnitUtil } from './utils';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
@@ -24,7 +25,8 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     AppComponent
   ],
   providers: [
-    ApiService
+    ApiService,
+    DecimalByteUnitUtil
   ],
   bootstrap: [AppComponent]
 })
