@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from './services';
+import { TestItem } from './services';
 
 import * as Resumable from 'resumablejs';
 
@@ -12,7 +13,7 @@ import '../style/angular-material-theme.scss';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   color = 'primary';
   mode = 'determinate';
   value = 50;
@@ -30,6 +31,13 @@ export class AppComponent {
     }, 200);
 
     this.initResumable();
+  }
+
+  ngOnInit() {
+    let dropzoneElement = document.getElementById('dropzoneElement');
+    console.log(dropzoneElement);
+    this.r.assignBrowse(dropzoneElement);
+    this.r.assignDrop(dropzoneElement);
   }
 
   getStatusClass(status: string): string {
@@ -75,22 +83,40 @@ export class AppComponent {
 
   initResumable(): void {
     this.r = new Resumable({
-        target: '/echo/json/',
-        query: {},
-        maxChunkRetries: 2,
-        maxFiles: 3,
-        prioritizeFirstAndLastChunk: true,
-        simultaneousUploads: 4,
-        chunkSize: 1 * 1024 * 1024
+      target: '/echo/json/',
+      query: {},
+      maxChunkRetries: 2,
+      maxFiles: 10,
+      prioritizeFirstAndLastChunk: true,
+      simultaneousUploads: 2,
+      chunkSize: 1 * 1024 * 1024
+    });
+
+    this.r.on('fileAdded', function (file, event) {
+      console.log(file);
+      let newItem: TestItem = {
+        'name': file.fileName,
+        'path': file.relativePath.substr(0, file.relativePath.length - file.fileName.length),
+        'size': file.size,
+        'sizeUnit': 'Byte',
+        'transferType': 'Upload',
+        'status': 'Queued',
+        'progress': 0
+      };
+
+      this.testItems.push(newItem);
+    }.bind(this));
+    this.r.on('fileSuccess', function (file, message) {
+
+    });
+    this.r.on('fileError', function (file, message) {
+
     });
   }
 
   testFn(): void {
-    let dropzoneElement = document.getElementById('dropzoneElement');
-    console.log(dropzoneElement);
-    this.r.assignBrowse(dropzoneElement);
-    this.r.assignDrop(dropzoneElement);
+    this.testItems.length = 0;
+    this.r.files.length = 0;
     console.log(this.r);
   }
-
 }

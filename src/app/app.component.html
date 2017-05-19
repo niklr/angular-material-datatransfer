@@ -43,7 +43,7 @@
         50%
       </div>
       <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
-        {{calculateProgressSize(testItem0)}} / 15 MB
+        {{calculateProgressSize(testItem0)}} / {{testItem0.size}} {{testItem0.sizeUnit}}
       </div>
     </div>
     <md-progress-bar [color]="color" [mode]="mode" [value]="testItem0.progress" [bufferValue]="bufferValue">
@@ -106,13 +106,13 @@
                   {{item.progress}}%
                 </div>
                 <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
-                  {{calculateProgressSize(item)}} / {{item.size}} MB
+                  {{calculateProgressSize(item)}} / {{item.size}} {{item.sizeUnit}}
                 </div>
               </div>
               <md-progress-bar [color]="color" [mode]="mode" [value]="item.progress" [bufferValue]="bufferValue">
               </md-progress-bar>
             </div>
-            <ng-template #elseBlock>{{item.status}}</ng-template>
+            <ng-template #elseBlock>{{item.status}} {{item.size}} {{item.sizeUnit}}</ng-template>
           </div>
           <div fxFlex="20px">
             <md-menu #appMenu="mdMenu">

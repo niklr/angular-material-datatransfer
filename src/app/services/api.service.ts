@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
-interface TestItem {
+export interface TestItem {
   name: string;
   path: string;
   size: number;
+  sizeUnit: string;
   transferType: string;
   status: string;
   progress: number;
@@ -22,6 +23,7 @@ export class ApiService {
       'name': 'DICOM_patientXY_1.dcm',
       'path': '/mnt/sdcard/folder1/a/b/',
       'size': 15,
+      'sizeUnit': 'MB',
       'transferType': 'Upload',
       'status': 'Uploading',
       'progress': 50,
@@ -33,6 +35,7 @@ export class ApiService {
       'name': 'DICOM_patientXY_2.dcm',
       'path': '/mnt/sdcard/folder1/a/b/',
       'size': 17,
+      'sizeUnit': 'MB',
       'transferType': 'Upload',
       'status': 'Failed',
       'progress': 0
@@ -41,6 +44,7 @@ export class ApiService {
       'name': 'SMIR.Thorax.089Y.M.CT.7.000.dcm.zip',
       'path': '/',
       'size': 2,
+      'sizeUnit': 'GB',
       'transferType': 'Download',
       'status': 'Queued',
       'progress': 0
@@ -49,6 +53,7 @@ export class ApiService {
       'name': 'NIFTI_patientXY.nii',
       'path': '/mnt/sdcard/folder2/d/',
       'size': 12,
+      'sizeUnit': 'GB',
       'transferType': 'Upload',
       'status': 'Queued',
       'progress': 0
