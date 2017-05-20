@@ -7,7 +7,8 @@ import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
-import { ApiService } from './services';
+import { PaginationComponent } from './components/pagination.component';
+import { ApiService, LoggerService } from './services';
 import { DecimalByteUnitUtil } from './utils';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
@@ -22,10 +23,12 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     FlexLayoutModule
   ],
   declarations: [
-    AppComponent
+    AppComponent,
+    PaginationComponent
   ],
   providers: [
     ApiService,
+    LoggerService,
     DecimalByteUnitUtil
   ],
   bootstrap: [AppComponent]

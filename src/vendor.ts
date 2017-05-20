@@ -14,6 +14,7 @@ import 'rxjs';
 import 'hammerjs';
 import '@angularclass/hmr';
 import 'resumablejs';
+import 'underscore';
 
 // Other vendors for example jQuery, Lodash or Bootstrap
 // You can import js, ts, css, sass, ...

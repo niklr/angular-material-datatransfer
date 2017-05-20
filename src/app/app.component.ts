@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ApiService } from './services';
-import { TestItem } from './services';
+import { ApiService, LoggerService, TestItem } from './services';
 import { DecimalByteUnit, DecimalByteUnitConvertResult, DecimalByteUnitUtil } from './utils';
 
 import * as Resumable from 'resumablejs';
+import * as _ from 'underscore';
 
 import '../style/app.scss';
 import '../style/angular-material-theme.scss';
@@ -20,12 +20,18 @@ export class AppComponent implements OnInit {
   value = 50;
   bufferValue = 75;
 
-  testItems = this.api.testItems;
-  testItem0 = this.testItems[0];
+  options = {
+    pagination: {
+      rppOptions: [2, 5, 10]
+    }
+  };
+
+  items = this.api.testItems;
+  testItem0 = this.items[0];
 
   r = undefined;
 
-  constructor(private api: ApiService, private decimalByteUnitUtil: DecimalByteUnitUtil) {
+  constructor(private api: ApiService, private logger: LoggerService, private decimalByteUnitUtil: DecimalByteUnitUtil) {
     // Update the value for the progress-bar on an interval.
     setInterval(() => {
       this.testItem0.progress = (this.testItem0.progress + Math.floor(Math.random() * 4) + 1) % 100;
@@ -36,7 +42,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     let dropzoneElement = document.getElementById('dropzoneElement');
-    console.log(dropzoneElement);
+    this.logger.log(dropzoneElement);
     this.r.assignBrowse(dropzoneElement);
     this.r.assignDrop(dropzoneElement);
   }
@@ -61,14 +67,14 @@ export class AppComponent implements OnInit {
   }
 
   toggleAll(checked: boolean): void {
-    this.testItems.forEach(element => {
+    this.items.forEach(element => {
       element.isSelected = checked;
     });
   }
 
   showPath(index: number): boolean {
-    if (index > 0 && this.testItems.length > index) {
-      let currentPath = this.testItems[index].path;
+    if (index > 0 && this.items.length > index) {
+      let currentPath = this.items[index].path;
       // switch (currentPath) {
       //   case undefined:
       //   case '':
@@ -77,7 +83,7 @@ export class AppComponent implements OnInit {
       //     return false;
       // }
       // don't show if previous path is same as current
-      return this.testItems[index - 1].path !== currentPath;
+      return this.items[index - 1].path !== currentPath;
     }
     return true;
   }
@@ -94,8 +100,8 @@ export class AppComponent implements OnInit {
     });
 
     this.r.on('fileAdded', function (file, event) {
-      console.log(file);
-      let convertResult: DecimalByteUnitConvertResult = this.decimalByteUnitUtil.toHumanReadable(file.size, DecimalByteUnit.BYTE);
+      this.logger.log(file);
+      let convertResult: DecimalByteUnitConvertResult = this.decimalByteUnitUtil.toHumanReadable(file.size, DecimalByteUnit.Byte);
       let newItem: TestItem = {
         'name': file.fileName,
         'path': file.relativePath.substr(0, file.relativePath.length - file.fileName.length),
@@ -106,7 +112,7 @@ export class AppComponent implements OnInit {
         'progress': 0
       };
 
-      this.testItems.push(newItem);
+      this.items.push(newItem);
     }.bind(this));
     this.r.on('fileSuccess', function (file, message) {
 
@@ -117,8 +123,8 @@ export class AppComponent implements OnInit {
   }
 
   testFn(): void {
-    this.testItems.length = 0;
+    this.items.length = 0;
     this.r.files.length = 0;
-    console.log(this.r);
+    this.logger.log(this.r);
   }
 }

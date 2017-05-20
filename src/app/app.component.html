@@ -40,7 +40,7 @@
         00:00:49
       </div>
       <div fxFlex="25%" fxHide.lt-md style="text-align: center">
-        50%
+        {{testItem0.progress}}%
       </div>
       <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
         {{calculateProgressSize(testItem0)}} / {{testItem0.size}} {{testItem0.sizeUnit}}
@@ -71,7 +71,7 @@
       </div>
     </div>
   </div>
-  <ng-template ngFor let-item [ngForOf]="testItems" let-i="index" [ngForTrackBy]="trackByFn">
+  <ng-template ngFor let-item [ngForOf]="items" let-i="index" [ngForTrackBy]="trackByFn">
     <div *ngIf="showPath(i)" class="dtm-container-headline">
       <i class="fa fa-folder-o" aria-hidden="true"></i> {{item.path}}
     </div>
@@ -144,16 +144,5 @@
 </div>
 
 <div style="font-size: 12px; margin-top: 20px; text-align: right;">
-  <md-select placeholder="Page">
-    <md-option>1</md-option>
-    <md-option>2</md-option>
-  </md-select>
-  <md-select placeholder="Rows per page">
-    <md-option>5</md-option>
-    <md-option>10</md-option>
-    <md-option>15</md-option>
-  </md-select>
-  <span>1-5 of 522</span>
-  <button md-icon-button md-button><i class="fa fa-angle-left" aria-hidden="true"></i></button>
-  <button md-icon-button md-button><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+  <pagination [total]="items?.length" [rppOptions]="options?.pagination?.rppOptions"></pagination>
 </div>

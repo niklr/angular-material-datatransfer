@@ -1,0 +1,13 @@
+<md-select placeholder="Page" [(ngModel)]="page" (change)="onPageChange()" aria-label="Page">
+    <md-option *ngFor="let p of pages" [value]="p">
+        {{ p }}
+    </md-option>
+</md-select>
+<md-select placeholder="Rows per page" [(ngModel)]="rpp" (change)="onRppChange()" aria-label="Rows per page">
+    <md-option *ngFor="let o of rppOptions" [value]="o">
+        {{ o }}
+    </md-option>
+</md-select>
+<span>{{min()}} - {{max()}} of {{total}}</span>
+<button md-icon-button md-button (click)="movePrevious()" [disabled]="!hasPrevious()"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+<button md-icon-button md-button (click)="moveNext()" [disabled]="!hasNext()"><i class="fa fa-angle-right" aria-hidden="true"></i></button>

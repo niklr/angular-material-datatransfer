@@ -6,7 +6,7 @@ export enum DecimalByteUnit {
 	 * Byte (B)
 	 * 1 Byte
 	 */
-    BYTE,
+    Byte,
 
 	/**
 	 * Kilobyte (kB)
@@ -72,7 +72,7 @@ export class DecimalByteUnitUtil {
     public convert(number: number, fromUnit: DecimalByteUnit, toUnit: DecimalByteUnit): number {
         let bytes: number = this.toBytes(number, fromUnit);
         switch (toUnit) {
-            case DecimalByteUnit.BYTE:
+            case DecimalByteUnit.Byte:
                 return bytes;
             case DecimalByteUnit.KB:
                 return bytes / this.C_KB;
@@ -90,7 +90,7 @@ export class DecimalByteUnitUtil {
 
     public toBytes(number: number, fromUnit: DecimalByteUnit): number {
         switch (fromUnit) {
-            case DecimalByteUnit.BYTE:
+            case DecimalByteUnit.Byte:
                 return number;
             case DecimalByteUnit.KB:
                 return this.multiply(number, this.C_KB);
