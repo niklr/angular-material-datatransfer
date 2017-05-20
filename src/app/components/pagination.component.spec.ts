@@ -32,11 +32,4 @@ describe('PaginationComponent', () => {
     it('should not throw an exception when calling onPaginationChange without setting a onPaginateCallback', () => {
         expect(function () { component.onPaginationChange(); }).not.toThrow();
     });
-
-    it('should calll onPaginateCallback upon onPaginationChange', () => {
-        component.onPaginateCallback = function (page, rpp) { };
-        spyOn(component, 'onPaginateCallback');
-        component.onPaginationChange();
-        expect(component.onPaginateCallback).toHaveBeenCalled();
-    });
 });

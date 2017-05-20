@@ -71,7 +71,7 @@
       </div>
     </div>
   </div>
-  <ng-template ngFor let-item [ngForOf]="items" let-i="index" [ngForTrackBy]="trackByFn">
+  <ng-template ngFor let-item [ngForOf]="paginatedItems" let-i="index" [ngForTrackBy]="trackByFn">
     <div *ngIf="showPath(i)" class="dtm-container-headline">
       <i class="fa fa-folder-o" aria-hidden="true"></i> {{item.path}}
     </div>
@@ -144,5 +144,5 @@
 </div>
 
 <div style="font-size: 12px; margin-top: 20px; text-align: right;">
-  <pagination [total]="items?.length" [rppOptions]="options?.pagination?.rppOptions"></pagination>
+  <pagination [total]="items?.length" [rppOptions]="options?.pagination?.rppOptions" (updatePaginatedItems)="paginateItems($event)"></pagination>
 </div>

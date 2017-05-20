@@ -41,6 +41,24 @@ export class ApiService {
       'progress': 0
     },
     {
+      'name': 'DICOM_patientXY_3.dcm',
+      'path': '/mnt/sdcard/folder1/a/b/',
+      'size': 13,
+      'sizeUnit': 'MB',
+      'transferType': 'Upload',
+      'status': 'Queued',
+      'progress': 0
+    },
+    {
+      'name': 'DICOM_patientXY_4.dcm',
+      'path': '/mnt/sdcard/folder1/a/b/',
+      'size': 11,
+      'sizeUnit': 'MB',
+      'transferType': 'Upload',
+      'status': 'Queued',
+      'progress': 0
+    },
+    {
       'name': 'SMIR.Thorax.089Y.M.CT.7.000.dcm.zip',
       'path': '/',
       'size': 2,

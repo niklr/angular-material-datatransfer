@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { ApiService, LoggerService, TestItem } from './services';
 import { DecimalByteUnit, DecimalByteUnitConvertResult, DecimalByteUnitUtil } from './utils';
@@ -15,6 +15,7 @@ import '../style/angular-material-theme.scss';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+
   color = 'primary';
   mode = 'determinate';
   value = 50;
@@ -22,16 +23,18 @@ export class AppComponent implements OnInit {
 
   options = {
     pagination: {
-      rppOptions: [2, 5, 10]
+      rppOptions: [5, 10, 15]
     }
   };
 
-  items = this.api.testItems;
+  private items = this.api.testItems;
+  paginatedItems: any = [];
   testItem0 = this.items[0];
 
   r = undefined;
 
-  constructor(private api: ApiService, private logger: LoggerService, private decimalByteUnitUtil: DecimalByteUnitUtil) {
+  constructor(private cdr: ChangeDetectorRef, private api: ApiService,
+    private logger: LoggerService, private decimalByteUnitUtil: DecimalByteUnitUtil) {
     // Update the value for the progress-bar on an interval.
     setInterval(() => {
       this.testItem0.progress = (this.testItem0.progress + Math.floor(Math.random() * 4) + 1) % 100;
@@ -67,7 +70,7 @@ export class AppComponent implements OnInit {
   }
 
   toggleAll(checked: boolean): void {
-    this.items.forEach(element => {
+    this.paginatedItems.forEach(element => {
       element.isSelected = checked;
     });
   }
@@ -126,5 +129,11 @@ export class AppComponent implements OnInit {
     this.items.length = 0;
     this.r.files.length = 0;
     this.logger.log(this.r);
+  }
+
+  paginateItems(event: any): void {
+    // this.logger.log('startIndex: ' + event.startIndex + ' endIndex: ' + event.endIndex);
+    this.paginatedItems = this.items.slice(event.startIndex, event.endIndex);
+    this.cdr.detectChanges();
   }
 }

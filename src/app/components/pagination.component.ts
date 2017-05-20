@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
 import { LoggerService } from '../services';
 import { _ } from 'underscore';
 
@@ -12,25 +12,25 @@ import { _ } from 'underscore';
 export class PaginationComponent implements OnInit, OnChanges {
 
     pages = [];
+    page = 1;
+    rpp = 5;
 
-    @Input() page = 1;
-    @Input() rpp = 2;
     @Input() total = 1;
-    @Input() onPaginateCallback = undefined;
     @Input() rppOptions = [];
+
+    @Output() updatePaginatedItems = new EventEmitter<any>();
 
     constructor(private logger: LoggerService) { }
 
     ngOnInit() {
-        this.setPages();
+        this.setPaginationInformation();
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        this.logger.log(changes);
-        this.setPages();
+        this.setPaginationInformation();
     }
 
-    setPages(): void {
+    setPaginationInformation(): void {
         let pageCount: number = this.pageCount();
         if (this.pages.length > pageCount) {
             this.pages.splice(pageCount);
@@ -39,6 +39,13 @@ export class PaginationComponent implements OnInit, OnChanges {
                 this.pages.push(i + 1);
             }
         }
+        if (!_.contains(this.pages, this.page)) {
+            this.page = 1;
+        }
+        if (!!this.rppOptions && this.rppOptions.length > 0 && !_.contains(this.rppOptions, this.rpp)) {
+            this.rpp = this.rppOptions[0];
+        }
+        this.onPaginationChange();
     }
 
     max(): number {
@@ -78,20 +85,23 @@ export class PaginationComponent implements OnInit, OnChanges {
     }
 
     onPageChange(): void {
+        this.setPaginationInformation();
         this.onPaginationChange();
     }
 
     onRppChange(): void {
-        this.setPages();
+        this.setPaginationInformation();
         this.page = 1;
         this.onPaginationChange();
     }
 
     onPaginationChange(): void {
-        // this.logger.log('page: ' + this.page + ' rpp: ' + this.rpp);
-        if (_.isFunction(this.onPaginateCallback)) {
-            this.onPaginateCallback(this.page, this.rpp);
-        }
+        let startIndex = (this.page - 1) * this.rpp;
+        let endIndex = Math.min(startIndex + this.rpp, this.total);
+        this.updatePaginatedItems.emit({
+            startIndex: startIndex,
+            endIndex: endIndex
+        });
     }
 
     pageCount(): number {
