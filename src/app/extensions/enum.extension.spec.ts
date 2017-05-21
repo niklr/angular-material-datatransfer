@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 
 import { EnumExtension } from './enum.extension';
-import { DecimalByteUnit } from '../utils/decimal-byte-unit.util';
+import { DecimalByteUnit } from '../enums';
 
 describe('EnumExtension', () => {
     beforeEach(() => {

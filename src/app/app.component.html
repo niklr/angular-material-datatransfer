@@ -9,10 +9,10 @@
 
 <div fxLayout="row" fxLayout.lt-sm="column" style="margin-bottom: 10px">
   <div fxFlex>
-    <button md-raised-button>Start all</button>
-    <button md-raised-button [mdMenuTriggerFor]="appMenu">Batch actions <i class="fa fa-caret-down" aria-hidden="true"></i></button>
+    <button md-raised-button (click)="datatransferFacade.startAll()">Start all</button>
+    <button md-raised-button [mdMenuTriggerFor]="batchActions">Batch actions <i class="fa fa-caret-down" aria-hidden="true"></i></button>
     <button md-raised-button (click)="testFn()">Retry (2)</button>
-    <md-menu #appMenu="mdMenu">
+    <md-menu #batchActions="mdMenu">
       <button md-menu-item>
         <i class="fa fa-pause" aria-hidden="true"></i>
         <span>Pause</span>
@@ -115,7 +115,7 @@
             <ng-template #elseBlock>{{item.status}} ({{item.size}} {{item.sizeUnit}})</ng-template>
           </div>
           <div fxFlex="20px">
-            <md-menu #appMenu="mdMenu">
+            <md-menu #itemMenu="mdMenu">
               <button md-menu-item>
                 <i class="fa fa-pause" aria-hidden="true"></i>
                 <span>Pause</span>
@@ -133,7 +133,7 @@
                 <span>Remove</span>
               </button>
             </md-menu>
-            <button md-icon-button [mdMenuTriggerFor]="appMenu">
+            <button md-icon-button [mdMenuTriggerFor]="itemMenu">
               <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
             </button>
           </div>

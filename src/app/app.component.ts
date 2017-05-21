@@ -1,7 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { ApiService, LoggerService, TestItem } from './services';
-import { DecimalByteUnit, DecimalByteUnitConvertResult, DecimalByteUnitUtil } from './utils';
+import { DecimalByteUnitUtil } from './utils';
+import { DatatransferFacade } from './facades';
+import { DatatransferFacadeFactory } from './factories';
+import { DecimalByteUnit } from './enums';
 
 import * as Resumable from 'resumablejs';
 import * as _ from 'underscore';
@@ -16,6 +19,7 @@ import '../style/angular-material-theme.scss';
 })
 export class AppComponent implements OnInit {
 
+  datatransferFacade: DatatransferFacade;
   color = 'primary';
   mode = 'determinate';
   value = 50;
@@ -33,13 +37,13 @@ export class AppComponent implements OnInit {
 
   r = undefined;
 
-  constructor(private cdr: ChangeDetectorRef, private api: ApiService,
+  constructor(private cdr: ChangeDetectorRef, private api: ApiService, private datatransferFacadeFactory: DatatransferFacadeFactory,
     private logger: LoggerService, private decimalByteUnitUtil: DecimalByteUnitUtil) {
     // Update the value for the progress-bar on an interval.
-    setInterval(() => {
+/*    setInterval(() => {
       this.testItem0.progress = (this.testItem0.progress + Math.floor(Math.random() * 4) + 1) % 100;
-    }, 200);
-
+    }, 200);*/
+    this.datatransferFacade = datatransferFacadeFactory.createDatatransferFacade();
     this.initResumable();
   }
 
@@ -104,12 +108,12 @@ export class AppComponent implements OnInit {
 
     this.r.on('fileAdded', function (file, event) {
       this.logger.log(file);
-      let convertResult: DecimalByteUnitConvertResult = this.decimalByteUnitUtil.toHumanReadable(file.size, DecimalByteUnit.Byte);
+      let convertResult: [DecimalByteUnit, number] = this.decimalByteUnitUtil.toHumanReadable(file.size, DecimalByteUnit.Byte);
       let newItem: TestItem = {
         'name': file.fileName,
         'path': file.relativePath.substr(0, file.relativePath.length - file.fileName.length),
-        'size': convertResult.number,
-        'sizeUnit': DecimalByteUnit[convertResult.unit],
+        'size': convertResult[1],
+        'sizeUnit': DecimalByteUnit[convertResult[0]],
         'transferType': 'Upload',
         'status': 'Queued',
         'progress': 0
@@ -133,7 +137,11 @@ export class AppComponent implements OnInit {
 
   paginateItems(event: any): void {
     // this.logger.log('startIndex: ' + event.startIndex + ' endIndex: ' + event.endIndex);
-    this.paginatedItems = this.items.slice(event.startIndex, event.endIndex);
-    this.cdr.detectChanges();
+    setTimeout(() => {
+      this.paginatedItems = this.items.slice(event.startIndex, event.endIndex);
+    }, 1);
+
+    // batch actions md-menu not working anymore when calling detectChanges of ChangeDetectorRef
+    // this.cdr.detectChanges();
   }
 }

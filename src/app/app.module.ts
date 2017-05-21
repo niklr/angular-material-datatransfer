@@ -9,6 +9,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppComponent } from './app.component';
 import { PaginationComponent } from './components/pagination.component';
 import { ApiService, LoggerService } from './services';
+import { DatatransferFacadeFactory } from './factories';
+import { BaseUploader, ResumableJsUploader } from './uploaders';
 import { DecimalByteUnitUtil } from './utils';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
@@ -29,6 +31,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
   providers: [
     ApiService,
     LoggerService,
+    DatatransferFacadeFactory,
     DecimalByteUnitUtil
   ],
   bootstrap: [AppComponent]

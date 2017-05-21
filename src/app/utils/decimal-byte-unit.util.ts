@@ -1,48 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EnumExtension } from '../extensions/enum.extension';
-
-export enum DecimalByteUnit {
-	/**
-	 * Byte (B)
-	 * 1 Byte
-	 */
-    Byte,
-
-	/**
-	 * Kilobyte (kB)
-	 * 10^3 Byte = 1.000 Byte
-	 */
-    KB,
-
-	/**
-	 * Megabyte (MB)
-	 * 10^6 Byte = 1.000.000 Byte
-	 */
-    MB,
-
-	/**
-	 * Gigabyte (GB)
-	 * 10^9 Byte = 1.000.000.000 Byte
-	 */
-    GB,
-
-	/**
-	 * Terabyte (TB)
-	 * 10^12 Byte = 1.000.000.000.000 Byte
-	 */
-    TB,
-
-	/**
-	 * Petabyte (PB)
-	 * 10^15 Byte = 1.000.000.000.000.000 Byte
-	 */
-    PB
-}
-
-export interface DecimalByteUnitConvertResult {
-    unit: DecimalByteUnit;
-    number: number;
-}
+import { DecimalByteUnit } from '../enums';
 
 @Injectable()
 export class DecimalByteUnitUtil {
@@ -106,20 +64,18 @@ export class DecimalByteUnitUtil {
         return number;
     }
 
-    public toHumanReadable(number: number, fromUnit: DecimalByteUnit): DecimalByteUnitConvertResult {
-        let result: DecimalByteUnitConvertResult = {
-            number: number,
-            unit: fromUnit
-        };
+    public toHumanReadable(number: number, fromUnit: DecimalByteUnit): [DecimalByteUnit, number] {
+        let result: [DecimalByteUnit, number];
+        result = [fromUnit, number];
         for (let currentUnit of this.byteUnits) {
-            if (Math.abs(result.number) < 1000) {
-                result.unit = DecimalByteUnit[currentUnit];
+            if (Math.abs(result[1]) < 1000) {
+                result[0] = DecimalByteUnit[currentUnit];
                 break;
             } else {
-                result.number /= 1000;
+                result[1] /= 1000;
             }
         }
-        result.number = Number(result.number.toFixed(2));
+        result[1] = Number(result[1].toFixed(2));
         return result;
     }
 }

@@ -1,6 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 
-import { DecimalByteUnit, DecimalByteUnitConvertResult, DecimalByteUnitUtil } from './decimal-byte-unit.util';
+import { DecimalByteUnit } from '../enums';
+import { DecimalByteUnitUtil } from './decimal-byte-unit.util';
 
 describe('DecimalByteUnit Util', () => {
     beforeEach(() => {
@@ -20,8 +21,8 @@ describe('DecimalByteUnit Util', () => {
     }));
 
     it('should convert Byte to human readable', inject([DecimalByteUnitUtil], (util) => {
-        let result: DecimalByteUnitConvertResult = util.toHumanReadable(10146666, DecimalByteUnit.Byte);
-        expect(result.number).toBe(10.15);
-        expect(result.unit).toBe(DecimalByteUnit.MB);
+        let result: [DecimalByteUnit, number] = util.toHumanReadable(10146666, DecimalByteUnit.Byte);
+        expect(result[1]).toBe(10.15);
+        expect(result[0]).toBe(DecimalByteUnit.MB);
     }));
 });
