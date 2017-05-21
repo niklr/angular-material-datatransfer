@@ -27,6 +27,7 @@ export class PaginationComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
+        this.logger.log(changes);
         this.setPaginationInformation();
     }
 

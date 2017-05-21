@@ -40,13 +40,13 @@
         00:00:49
       </div>
       <div fxFlex="25%" fxHide.lt-md style="text-align: center">
-        {{testItem0.progress}}%
+        {{testItem0?.progress}}%
       </div>
       <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
-        {{calculateProgressSize(testItem0)}} / {{testItem0.size}} {{testItem0.sizeUnit}}
+        {{calculateProgressSize(testItem0)}} / {{testItem0?.size}} {{testItem0?.sizeUnit}}
       </div>
     </div>
-    <md-progress-bar [color]="color" [mode]="mode" [value]="testItem0.progress" [bufferValue]="bufferValue">
+    <md-progress-bar [color]="color" [mode]="mode" [value]="testItem0?.progress" [bufferValue]="bufferValue">
     </md-progress-bar>
   </div>
 </div>
@@ -72,7 +72,7 @@
     </div>
   </div>
   <ng-template ngFor let-item [ngForOf]="paginatedItems" let-i="index" [ngForTrackBy]="trackByFn">
-    <div *ngIf="showPath(i)" class="dtm-container-headline">
+    <div *ngIf="datatransferFacade.showPath(paginatedItems, i)" class="dtm-container-headline">
       <i class="fa fa-folder-o" aria-hidden="true"></i> {{item.path}}
     </div>
     <div fxLayout="row" fxLayout.lt-sm="column" class="dtm-container-item" [ngClass]="{'selected': item.isSelected}">
@@ -144,5 +144,5 @@
 </div>
 
 <div style="font-size: 12px; margin-top: 20px; text-align: right;">
-  <pagination [total]="items?.length" [rppOptions]="options?.pagination?.rppOptions" (updatePaginatedItems)="paginateItems($event)"></pagination>
+  <pagination [total]="datatransferItemStore.count" [rppOptions]="options?.pagination?.rppOptions" (updatePaginatedItems)="paginateItems($event)"></pagination>
 </div>

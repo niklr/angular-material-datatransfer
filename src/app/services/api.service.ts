@@ -1,24 +1,11 @@
 import { Injectable } from '@angular/core';
-
-export interface TestItem {
-  name: string;
-  path: string;
-  size: number;
-  sizeUnit: string;
-  transferType: string;
-  status: string;
-  progress: number;
-  speed?: string;
-  elapsedTime?: string;
-  remainingTime?: string;
-  isSelected?: boolean;
-}
+import { IDatatransferItem } from '../models';
 
 @Injectable()
 export class ApiService {
   title = 'angular-dtm';
 
-  testItems: TestItem[] = [
+  testItems: IDatatransferItem[] = [
     {
       'name': 'DICOM_patientXY_1.dcm',
       'path': '/mnt/sdcard/folder1/a/b/',

@@ -1,12 +1,12 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
-import { ApiService, LoggerService, TestItem } from './services';
+import { ApiService, LoggerService } from './services';
 import { DecimalByteUnitUtil } from './utils';
 import { DatatransferFacade } from './facades';
 import { DatatransferFacadeFactory } from './factories';
-import { DecimalByteUnit } from './enums';
+import { DatatransferItemStore } from './stores';
+import { IDatatransferItem } from './models';
 
-import * as Resumable from 'resumablejs';
 import * as _ from 'underscore';
 
 import '../style/app.scss';
@@ -31,27 +31,28 @@ export class AppComponent implements OnInit {
     }
   };
 
-  private items = this.api.testItems;
-  paginatedItems: any = [];
-  testItem0 = this.items[0];
+  paginatedItems: IDatatransferItem[] = [];
+  testItem0: IDatatransferItem = undefined;
 
   r = undefined;
 
   constructor(private cdr: ChangeDetectorRef, private api: ApiService, private datatransferFacadeFactory: DatatransferFacadeFactory,
-    private logger: LoggerService, private decimalByteUnitUtil: DecimalByteUnitUtil) {
+    private logger: LoggerService, private datatransferItemStore: DatatransferItemStore) {
     // Update the value for the progress-bar on an interval.
-/*    setInterval(() => {
-      this.testItem0.progress = (this.testItem0.progress + Math.floor(Math.random() * 4) + 1) % 100;
-    }, 200);*/
+    /*    setInterval(() => {
+          this.testItem0.progress = (this.testItem0.progress + Math.floor(Math.random() * 4) + 1) % 100;
+        }, 200);*/
     this.datatransferFacade = datatransferFacadeFactory.createDatatransferFacade();
-    this.initResumable();
+    _.each(this.api.testItems, function(item: IDatatransferItem) {
+      this.datatransferItemStore.addItem(item);
+    }.bind(this));
+    this.testItem0 = this.api.testItems[0];
   }
 
   ngOnInit() {
     let dropzoneElement = document.getElementById('dropzoneElement');
-    this.logger.log(dropzoneElement);
-    this.r.assignBrowse(dropzoneElement);
-    this.r.assignDrop(dropzoneElement);
+    this.datatransferFacade.assignUploadBrowse(dropzoneElement);
+    this.datatransferFacade.assignUploadDrop(dropzoneElement);
   }
 
   getStatusClass(status: string): string {
@@ -70,7 +71,11 @@ export class AppComponent implements OnInit {
   }
 
   calculateProgressSize(item): number {
-    return Number((item.progress / 100 * item.size).toFixed(2));
+    if (!!item) {
+      return Number((item.progress / 100 * item.size).toFixed(2));
+    } else {
+      return 0;
+    }
   }
 
   toggleAll(checked: boolean): void {
@@ -79,66 +84,14 @@ export class AppComponent implements OnInit {
     });
   }
 
-  showPath(index: number): boolean {
-    if (index > 0 && this.items.length > index) {
-      let currentPath = this.items[index].path;
-      // switch (currentPath) {
-      //   case undefined:
-      //   case '':
-      //   case '\\':
-      //   case '/':
-      //     return false;
-      // }
-      // don't show if previous path is same as current
-      return this.items[index - 1].path !== currentPath;
-    }
-    return true;
-  }
-
-  initResumable(): void {
-    this.r = new Resumable({
-      target: '/echo/json/',
-      query: {},
-      maxChunkRetries: 2,
-      maxFiles: 10,
-      prioritizeFirstAndLastChunk: true,
-      simultaneousUploads: 2,
-      chunkSize: 1 * 1024 * 1024
-    });
-
-    this.r.on('fileAdded', function (file, event) {
-      this.logger.log(file);
-      let convertResult: [DecimalByteUnit, number] = this.decimalByteUnitUtil.toHumanReadable(file.size, DecimalByteUnit.Byte);
-      let newItem: TestItem = {
-        'name': file.fileName,
-        'path': file.relativePath.substr(0, file.relativePath.length - file.fileName.length),
-        'size': convertResult[1],
-        'sizeUnit': DecimalByteUnit[convertResult[0]],
-        'transferType': 'Upload',
-        'status': 'Queued',
-        'progress': 0
-      };
-
-      this.items.push(newItem);
-    }.bind(this));
-    this.r.on('fileSuccess', function (file, message) {
-
-    });
-    this.r.on('fileError', function (file, message) {
-
-    });
-  }
-
   testFn(): void {
-    this.items.length = 0;
-    this.r.files.length = 0;
-    this.logger.log(this.r);
+    this.datatransferFacade.removeAll();
   }
 
   paginateItems(event: any): void {
     // this.logger.log('startIndex: ' + event.startIndex + ' endIndex: ' + event.endIndex);
     setTimeout(() => {
-      this.paginatedItems = this.items.slice(event.startIndex, event.endIndex);
+      this.paginatedItems = this.datatransferItemStore.getItems().slice(event.startIndex, event.endIndex);
     }, 1);
 
     // batch actions md-menu not working anymore when calling detectChanges of ChangeDetectorRef

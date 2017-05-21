@@ -10,4 +10,5 @@ export interface IDatatransferItem {
   elapsedTime?: string;
   remainingTime?: string;
   isSelected?: boolean;
+  externalItem?: any;
 }
