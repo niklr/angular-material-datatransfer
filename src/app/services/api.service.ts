@@ -3,7 +3,7 @@ import { IDatatransferItem } from '../models';
 
 @Injectable()
 export class ApiService {
-  title = 'angular-dtm';
+  title = 'angular-material-datatransfer';
 
   testItems: IDatatransferItem[] = [
     {
