@@ -32,6 +32,7 @@ export class ResumableJsUploader extends BaseUploader {
         this.r.on('fileAdded', function (file, event) {
             let convertResult: [DecimalByteUnit, number] = this.decimalByteUnitUtil.toHumanReadable(file.size, DecimalByteUnit.Byte);
             let newItem: IDatatransferItem = {
+                'id': file.uniqueIdentifier,
                 'name': file.fileName,
                 'path': file.relativePath.substr(0, file.relativePath.length - file.fileName.length),
                 'size': convertResult[1],
@@ -45,20 +46,36 @@ export class ResumableJsUploader extends BaseUploader {
             this.logger.log(newItem);
             this.addItem(newItem);
         }.bind(this));
+        this.r.on('fileProgress', function (file, message) {
+            this.logger.log('fileProgress', file);
+        }.bind(this));
         this.r.on('fileSuccess', function (file, message) {
-
-        });
+            this.logger.log('fileSuccess', file);
+        }.bind(this));
         this.r.on('fileError', function (file, message) {
-
-        });
+            this.logger.log('fileError', file, message);
+        }.bind(this));
+        this.r.on('uploadStart', function () {
+            this.logger.log('uploadStart');
+        }.bind(this));
+        this.r.on('complete', function () {
+            this.logger.log('complete');
+        }.bind(this));
     }
 
     public assignBrowse(element): void {
+        super.assignBrowse(element);
         this.r.assignBrowse(element);
     }
 
     public assignDrop(element): void {
+        super.assignDrop(element);
         this.r.assignDrop(element);
+    }
+
+    public startAll(): void {
+        super.startAll();
+        this.r.upload();
     }
 
     public removeAll(): void {
@@ -67,5 +84,10 @@ export class ResumableJsUploader extends BaseUploader {
             this.r.removeFile(file);
         }.bind(this));
         super.removeAll();
+    }
+
+    public retryItem(item: IDatatransferItem): void {
+        super.retryItem(item);
+        item.externalItem.retry();
     }
 }

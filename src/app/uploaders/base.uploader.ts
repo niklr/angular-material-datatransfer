@@ -9,8 +9,10 @@ export interface IUploader {
     on(event: string, callback: Function): void;
     assignBrowse(element): void;
     assignDrop(element): void;
-    addItem(item: IDatatransferItem): void;
+    startAll(): void;
     removeAll(): void;
+    addItem(item: IDatatransferItem): void;
+    retryItem(item: IDatatransferItem): void;
 }
 
 @Injectable()
@@ -47,11 +49,19 @@ export class BaseUploader implements IUploader {
 
     }
 
-    public addItem(item: IDatatransferItem): void {
-        this.fire('itemAdded', item);
+    public startAll(): void {
+
     }
 
     public removeAll(): void {
         this.fire('removeAll');
+    }
+
+    public addItem(item: IDatatransferItem): void {
+        this.fire('itemAdded', item);
+    }
+
+    public retryItem(item: IDatatransferItem): void {
+
     }
 }

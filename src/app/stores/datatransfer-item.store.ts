@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { IDatatransferItem } from '../models';
 
+import * as _ from 'underscore';
+
 @Injectable()
 export class DatatransferItemStore {
 
@@ -20,6 +22,10 @@ export class DatatransferItemStore {
 
     public getItems(): IDatatransferItem[] {
         return this.items;
+    }
+
+    public getById(id: string): IDatatransferItem {
+        return _.find(this.items, function (item) { return item.id === id; });
     }
 
     public clear(): void {

@@ -31,12 +31,8 @@ export class DatatransferFacade {
         this.uploader.assignDrop(element);
     }
 
-    public addItem(item): void {
-
-    }
-
     public startAll(): void {
-        this.logger.log('start all');
+        this.uploader.startAll();
     }
 
     public removeAll(): void {
@@ -44,7 +40,15 @@ export class DatatransferFacade {
         this.store.clear();
     }
 
-    public startSelected(item): void {
+    public retryById(id: string): void {
+        let item: IDatatransferItem = this.store.getById(id);
+        if (!!item) {
+            this.logger.log(item);
+            this.uploader.retryItem(item);
+        }
+    }
+
+    public startSelected(): void {
 
     }
 

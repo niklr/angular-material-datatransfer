@@ -7,6 +7,7 @@ export class ApiService {
 
   testItems: IDatatransferItem[] = [
     {
+      'id': '1',
       'name': 'DICOM_patientXY_1.dcm',
       'path': '/mnt/sdcard/folder1/a/b/',
       'size': 15,
@@ -19,6 +20,7 @@ export class ApiService {
       'remainingTime': '00:02:00'
     },
     {
+      'id': '2',
       'name': 'DICOM_patientXY_2.dcm',
       'path': '/mnt/sdcard/folder1/a/b/',
       'size': 17,
@@ -28,6 +30,7 @@ export class ApiService {
       'progress': 0
     },
     {
+      'id': '3',
       'name': 'DICOM_patientXY_3.dcm',
       'path': '/mnt/sdcard/folder1/a/b/',
       'size': 13,
@@ -37,6 +40,7 @@ export class ApiService {
       'progress': 0
     },
     {
+      'id': '4',
       'name': 'DICOM_patientXY_4.dcm',
       'path': '/mnt/sdcard/folder1/a/b/',
       'size': 11,
@@ -46,6 +50,7 @@ export class ApiService {
       'progress': 0
     },
     {
+      'id': '5',
       'name': 'SMIR.Thorax.089Y.M.CT.7.000.dcm.zip',
       'path': '/',
       'size': 2,
@@ -55,6 +60,7 @@ export class ApiService {
       'progress': 0
     },
     {
+      'id': '6',
       'name': 'NIFTI_patientXY.nii',
       'path': '/mnt/sdcard/folder2/d/',
       'size': 12,

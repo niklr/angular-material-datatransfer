@@ -1,4 +1,5 @@
 export interface IDatatransferItem {
+  id: string;
   name: string;
   path: string;
   size: number;
