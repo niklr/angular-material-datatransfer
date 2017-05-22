@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
 
 import { ApiService, LoggerService } from './services';
 import { DecimalByteUnitUtil } from './utils';
@@ -36,15 +36,16 @@ export class AppComponent implements OnInit {
 
   r = undefined;
 
-  constructor(private cdr: ChangeDetectorRef, private api: ApiService, private datatransferFacadeFactory: DatatransferFacadeFactory,
-    private logger: LoggerService, private datatransferItemStore: DatatransferItemStore) {
+  constructor(private zone: NgZone, private cdr: ChangeDetectorRef, private api: ApiService,
+    private datatransferFacadeFactory: DatatransferFacadeFactory, private logger: LoggerService,
+    private datatransferItemStore: DatatransferItemStore) {
     // Update the value for the progress-bar on an interval.
     /*    setInterval(() => {
           this.testItem0.progress = (this.testItem0.progress + Math.floor(Math.random() * 4) + 1) % 100;
         }, 200);*/
     this.datatransferFacade = datatransferFacadeFactory.createDatatransferFacade();
-    _.each(this.api.testItems, function(item: IDatatransferItem) {
-      this.datatransferItemStore.addItem(item);
+    _.each(this.api.testItems, function (item: IDatatransferItem) {
+      // this.datatransferItemStore.addItem(item);
     }.bind(this));
     this.testItem0 = this.api.testItems[0];
   }

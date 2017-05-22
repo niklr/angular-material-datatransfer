@@ -1,3 +1,4 @@
+import { Component, NgZone } from '@angular/core';
 import { IUploader } from '../uploaders';
 import { LoggerService } from '../services';
 import { DatatransferItemStore } from '../stores';
@@ -5,14 +6,16 @@ import { IDatatransferItem } from '../models';
 
 export class DatatransferFacade {
 
-    constructor(private logger: LoggerService, private store: DatatransferItemStore, private uploader: IUploader) {
+    constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferItemStore, private uploader: IUploader) {
         this.init();
     }
 
     public init(): void {
         this.uploader.on('itemAdded', function (item: IDatatransferItem) {
-            this.logger.log('itemAdded');
-            this.store.addItem(item);
+            this.zone.run(() => {
+                // this.logger.log('itemAdded');
+                this.store.addItem(item);
+            });
         }.bind(this));
         this.uploader.on('removeAll', function () {
             this.logger.log('removeAll');
