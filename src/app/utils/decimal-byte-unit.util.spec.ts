@@ -22,7 +22,13 @@ describe('DecimalByteUnit Util', () => {
 
     it('should convert Byte to human readable', inject([DecimalByteUnitUtil], (util) => {
         let result: [DecimalByteUnit, number] = util.toHumanReadable(10146666, DecimalByteUnit.Byte);
-        expect(result[1]).toBe(10.15);
         expect(result[0]).toBe(DecimalByteUnit.MB);
+        expect(result[1]).toBe(10.15);
+    }));
+
+    it('should convert MB to human readable', inject([DecimalByteUnitUtil], (util) => {
+        let result: [DecimalByteUnit, number] = util.toHumanReadable(10146, DecimalByteUnit.MB);
+        expect(result[0]).toBe(DecimalByteUnit.GB);
+        expect(result[1]).toBe(10.15);
     }));
 });

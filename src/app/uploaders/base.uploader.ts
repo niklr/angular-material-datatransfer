@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { LoggerService } from '../services';
-import { IDatatransferItem } from '../models';
+import { IDatatransferItem, ISizeInformation } from '../models';
 import { TransferStatus } from '../enums';
-import { DecimalByteUnitUtil } from '../utils';
 
 export interface IUploader {
     on(event: string, callback: Function): void;
@@ -20,7 +19,7 @@ export class BaseUploader implements IUploader {
 
     private events = [];
 
-    constructor(protected logger: LoggerService, protected decimalByteUnitUtil: DecimalByteUnitUtil) {
+    constructor(protected logger: LoggerService) {
 
     }
 
@@ -47,6 +46,14 @@ export class BaseUploader implements IUploader {
 
     protected updateItemProgress(id: string, progress: number): void {
         this.fire('itemProgressUpdated', id, progress);
+    }
+
+    protected updateOverallProgress(progress: number): void {
+        this.fire('overallProgressUpdated', progress);
+    }
+
+    protected updateOverallSize(size: ISizeInformation): void {
+        this.fire('overallSizeUpdated', size);
     }
 
     public assignBrowse(element): void {

@@ -72,9 +72,17 @@ export class AppComponent implements OnInit {
     }
   }
 
+  calculateProgressPercent(item): number {
+    if (!!item) {
+      return Number((item.progress * 100).toFixed(2));
+    } else {
+      return 0;
+    }
+  }
+
   calculateProgressSize(item): number {
     if (!!item) {
-      return Number((item.progress / 100 * item.size).toFixed(2));
+      return Number((item.progress * item.sizeInformation.displaySize).toFixed(2));
     } else {
       return 0;
     }

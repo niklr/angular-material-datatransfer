@@ -4,8 +4,7 @@ import * as Resumable from 'resumablejs';
 
 import { BaseUploader } from './base.uploader';
 import { LoggerService } from '../services';
-import { IDatatransferItem, DatatransferItem } from '../models';
-import { DecimalByteUnitUtil } from '../utils';
+import { IDatatransferItem, DatatransferItem, SizeInformation } from '../models';
 import { TransferType, TransferStatus, DecimalByteUnit } from '../enums';
 
 @Injectable()
@@ -13,8 +12,8 @@ export class ResumableJsUploader extends BaseUploader {
 
     private r = undefined;
 
-    constructor(protected logger: LoggerService, protected decimalByteUnitUtil: DecimalByteUnitUtil) {
-        super(logger, decimalByteUnitUtil);
+    constructor(protected logger: LoggerService) {
+        super(logger);
         this.initResumable();
     }
 
@@ -30,17 +29,15 @@ export class ResumableJsUploader extends BaseUploader {
         });
 
         this.r.on('fileAdded', function (file, event) {
-            let convertResult: [DecimalByteUnit, number] = this.decimalByteUnitUtil.toHumanReadable(file.size, DecimalByteUnit.Byte);
             let newItem = new DatatransferItem({
-                'id': file.uniqueIdentifier,
-                'name': file.fileName,
-                'path': file.relativePath.substr(0, file.relativePath.length - file.fileName.length),
-                'size': convertResult[1],
-                'sizeUnit': DecimalByteUnit[convertResult[0]],
-                'transferType': TransferType.Upload,
-                'status': TransferStatus.Queued,
-                'progress': 0,
-                'externalItem': file
+                id: file.uniqueIdentifier,
+                name: file.fileName,
+                path: file.relativePath.substr(0, file.relativePath.length - file.fileName.length),
+                sizeInformation: new SizeInformation({decimalByteUnit: DecimalByteUnit.Byte, decimalByteUnitSize: file.size}),
+                transferType: TransferType.Upload,
+                status: TransferStatus.Queued,
+                progress: 0,
+                externalItem: file
             });
 
             // this.logger.log(newItem);
@@ -48,7 +45,8 @@ export class ResumableJsUploader extends BaseUploader {
         }.bind(this));
         this.r.on('fileProgress', function (file, message) {
             // this.logger.log('fileProgress', file.progress());
-            this.updateItemProgress(file.uniqueIdentifier, file.progress() * 100);
+            this.updateItemProgress(file.uniqueIdentifier, file.progress());
+            this.updateOverallProgress(this.r.progress());
         }.bind(this));
         this.r.on('fileSuccess', function (file, message) {
             // this.logger.log('fileSuccess', file);
@@ -58,7 +56,8 @@ export class ResumableJsUploader extends BaseUploader {
             this.logger.log('fileError', file, message);
         }.bind(this));
         this.r.on('uploadStart', function () {
-            this.logger.log('uploadStart');
+            this.updateOverallProgress(this.r.progress());
+            this.updateOverallSize(new SizeInformation({decimalByteUnit: DecimalByteUnit.Byte, decimalByteUnitSize: this.r.getSize()}));
         }.bind(this));
         this.r.on('chunkingComplete', function () {
             // this.logger.log('chunkingComplete');

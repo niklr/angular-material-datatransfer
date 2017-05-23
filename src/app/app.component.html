@@ -36,13 +36,13 @@
         00:00:49
       </div>
       <div fxFlex="25%" fxHide.lt-md style="text-align: center">
-        {{testItem0?.progress}}%
+        {{calculateProgressPercent(testItem0)}}%
       </div>
       <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
-        {{calculateProgressSize(testItem0)}} / {{testItem0?.size}} {{testItem0?.sizeUnit}}
+        {{calculateProgressSize(testItem0)}} / {{testItem0.sizeInformation.displaySize}} {{testItem0.sizeInformation.displayUnit}}
       </div>
     </div>
-    <md-progress-bar [color]="color" [mode]="mode" [value]="testItem0?.progress" [bufferValue]="bufferValue">
+    <md-progress-bar [color]="color" [mode]="mode" [value]="calculateProgressPercent(testItem0)" [bufferValue]="bufferValue">
     </md-progress-bar>
   </div>
 </div>
@@ -99,16 +99,16 @@
                   {{item.elapsedTime}}
                 </div>
                 <div fxFlex="25%" fxHide.lt-md style="text-align: center">
-                  {{item.progress}}%
+                  {{calculateProgressPercent(item)}}%
                 </div>
                 <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
-                  {{calculateProgressSize(item)}} / {{item.size}} {{item.sizeUnit}}
+                  {{calculateProgressSize(item)}} / {{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}}
                 </div>
               </div>
-              <md-progress-bar [color]="color" [mode]="mode" [value]="item.progress" [bufferValue]="bufferValue">
+              <md-progress-bar [color]="color" [mode]="mode" [value]="calculateProgressPercent(item)" [bufferValue]="bufferValue">
               </md-progress-bar>
             </div>
-            <ng-template #elseBlock>{{item.getStatusName()}} ({{item.size}} {{item.sizeUnit}})</ng-template>
+            <ng-template #elseBlock>{{item.getStatusName()}} ({{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}})</ng-template>
           </div>
           <div fxFlex="20px">
             <md-menu #itemMenu="mdMenu">

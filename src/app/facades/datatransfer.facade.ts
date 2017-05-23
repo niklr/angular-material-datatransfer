@@ -2,7 +2,7 @@ import { Component, NgZone } from '@angular/core';
 import { IUploader } from '../uploaders';
 import { LoggerService } from '../services';
 import { DatatransferItemStore } from '../stores';
-import { IDatatransferItem } from '../models';
+import { IDatatransferItem, ISizeInformation } from '../models';
 import { TransferStatus } from '../enums';
 
 export class DatatransferFacade {
@@ -26,6 +26,16 @@ export class DatatransferFacade {
         this.uploader.on('itemProgressUpdated', function (id: string, progress: number) {
             this.zone.run(() => {
                 this.updateItemProgress(id, progress);
+            });
+        }.bind(this));
+        this.uploader.on('overallProgressUpdated', function (progress: number) {
+            this.zone.run(() => {
+
+            });
+        }.bind(this));
+        this.uploader.on('overallSizeUpdated', function (size: ISizeInformation) {
+            this.zone.run(() => {
+
             });
         }.bind(this));
         this.uploader.on('removeAll', function () {

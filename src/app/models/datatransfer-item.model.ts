@@ -1,11 +1,11 @@
+import { SizeInformation } from '.';
 import { TransferType, TransferStatus } from '../enums';
 
 export interface IDatatransferItem {
   id: string;
   name: string;
   path: string;
-  size: number;
-  sizeUnit: string;
+  sizeInformation: SizeInformation;
   transferType: TransferType;
   status: TransferStatus;
   progress: number;
@@ -20,8 +20,7 @@ export class DatatransferItem implements IDatatransferItem {
   public id: string;
   public name: string;
   public path: string;
-  public size: number;
-  public sizeUnit: string;
+  public sizeInformation: SizeInformation;
   public transferType: TransferType;
   public status: TransferStatus;
   public progress: number;

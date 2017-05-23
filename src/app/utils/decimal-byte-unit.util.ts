@@ -66,7 +66,7 @@ export class DecimalByteUnitUtil {
 
     public toHumanReadable(number: number, fromUnit: DecimalByteUnit): [DecimalByteUnit, number] {
         let result: [DecimalByteUnit, number];
-        result = [fromUnit, number];
+        result = [DecimalByteUnit.Byte, this.toBytes(number, fromUnit)];
         for (let currentUnit of this.byteUnits) {
             if (Math.abs(result[1]) < 1000) {
                 result[0] = DecimalByteUnit[currentUnit];
