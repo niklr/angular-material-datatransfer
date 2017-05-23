@@ -3,6 +3,7 @@ import { IUploader } from '../uploaders';
 import { LoggerService } from '../services';
 import { DatatransferItemStore } from '../stores';
 import { IDatatransferItem } from '../models';
+import { TransferStatus } from '../enums';
 
 export class DatatransferFacade {
 
@@ -15,6 +16,16 @@ export class DatatransferFacade {
             this.zone.run(() => {
                 // this.logger.log('itemAdded');
                 this.store.addItem(item);
+            });
+        }.bind(this));
+        this.uploader.on('itemStatusChanged', function (id: string, status: TransferStatus, message?: string) {
+            this.zone.run(() => {
+                this.changeItemStatus(id, status, message);
+            });
+        }.bind(this));
+        this.uploader.on('itemProgressUpdated', function (id: string, progress: number) {
+            this.zone.run(() => {
+                this.updateItemProgress(id, progress);
             });
         }.bind(this));
         this.uploader.on('removeAll', function () {
@@ -48,8 +59,24 @@ export class DatatransferFacade {
         }
     }
 
-    public startSelected(): void {
+    public changeItemStatus(id: string, status: TransferStatus, message?: string): IDatatransferItem {
+        let item: IDatatransferItem = this.store.getById(id);
+        if (!!item) {
+            item.status = status;
+        }
+        return item;
+    }
 
+    public updateItemProgress(id: string, progress: number): IDatatransferItem {
+        let item: IDatatransferItem = this.changeItemStatus(id, TransferStatus.Uploading);
+        if (!!item) {
+            item.progress = Number(progress.toFixed(2));
+        }
+        return item;
+    }
+
+    public showProgressbar(item: IDatatransferItem): boolean {
+        return item.progress > 0 && (item.status === TransferStatus.Uploading || item.status === TransferStatus.Downloading);
     }
 
     public showPath(items: IDatatransferItem[], index: number): boolean {

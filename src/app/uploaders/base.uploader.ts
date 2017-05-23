@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { LoggerService } from '../services';
-import { DatatransferItemStore } from '../stores';
 import { IDatatransferItem } from '../models';
+import { TransferStatus } from '../enums';
 import { DecimalByteUnitUtil } from '../utils';
 
 export interface IUploader {
@@ -40,6 +40,14 @@ export class BaseUploader implements IUploader {
             }
         }
     };
+
+    protected changeItemStatus(id: string, status: TransferStatus, message?: string) {
+        this.fire('itemStatusChanged', id, status, message);
+    }
+
+    protected updateItemProgress(id: string, progress: number): void {
+        this.fire('itemProgressUpdated', id, progress);
+    }
 
     public assignBrowse(element): void {
 

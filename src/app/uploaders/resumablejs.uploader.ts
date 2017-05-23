@@ -43,20 +43,25 @@ export class ResumableJsUploader extends BaseUploader {
                 'externalItem': file
             });
 
-            this.logger.log(newItem);
+            // this.logger.log(newItem);
             this.addItem(newItem);
         }.bind(this));
         this.r.on('fileProgress', function (file, message) {
-            this.logger.log('fileProgress', file.progress());
+            // this.logger.log('fileProgress', file.progress());
+            this.updateItemProgress(file.uniqueIdentifier, file.progress() * 100);
         }.bind(this));
         this.r.on('fileSuccess', function (file, message) {
-            this.logger.log('fileSuccess', file);
+            // this.logger.log('fileSuccess', file);
+            this.changeItemStatus(file.uniqueIdentifier, TransferStatus.Finished);
         }.bind(this));
         this.r.on('fileError', function (file, message) {
             this.logger.log('fileError', file, message);
         }.bind(this));
         this.r.on('uploadStart', function () {
             this.logger.log('uploadStart');
+        }.bind(this));
+        this.r.on('chunkingComplete', function () {
+            // this.logger.log('chunkingComplete');
         }.bind(this));
         this.r.on('complete', function () {
             this.logger.log('complete');

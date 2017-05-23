@@ -90,7 +90,7 @@
             <i class="fa-lg" [ngClass]="getStatusClass(item.status)" aria-hidden="true"></i>
           </div>
           <div fxFlex="100%">
-            <div *ngIf="item.progress > 0; else elseBlock">
+            <div *ngIf="datatransferFacade.showProgressbar(item); else elseBlock">
               <div class="dtm-container-item-stats">
                 <div fxFlex="25%" fxFlex.lt-md="50%">
                   {{item.speed}}
