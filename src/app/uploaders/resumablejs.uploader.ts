@@ -4,9 +4,9 @@ import * as Resumable from 'resumablejs';
 
 import { BaseUploader } from './base.uploader';
 import { LoggerService } from '../services';
-import { IDatatransferItem } from '../models';
+import { IDatatransferItem, DatatransferItem } from '../models';
 import { DecimalByteUnitUtil } from '../utils';
-import { DecimalByteUnit } from '../enums';
+import { TransferType, TransferStatus, DecimalByteUnit } from '../enums';
 
 @Injectable()
 export class ResumableJsUploader extends BaseUploader {
@@ -31,23 +31,23 @@ export class ResumableJsUploader extends BaseUploader {
 
         this.r.on('fileAdded', function (file, event) {
             let convertResult: [DecimalByteUnit, number] = this.decimalByteUnitUtil.toHumanReadable(file.size, DecimalByteUnit.Byte);
-            let newItem: IDatatransferItem = {
+            let newItem = new DatatransferItem({
                 'id': file.uniqueIdentifier,
                 'name': file.fileName,
                 'path': file.relativePath.substr(0, file.relativePath.length - file.fileName.length),
                 'size': convertResult[1],
                 'sizeUnit': DecimalByteUnit[convertResult[0]],
-                'transferType': 'Upload',
-                'status': 'Queued',
+                'transferType': TransferType.Upload,
+                'status': TransferStatus.Queued,
                 'progress': 0,
                 'externalItem': file
-            };
+            });
 
             this.logger.log(newItem);
             this.addItem(newItem);
         }.bind(this));
         this.r.on('fileProgress', function (file, message) {
-            this.logger.log('fileProgress', file);
+            this.logger.log('fileProgress', file.progress());
         }.bind(this));
         this.r.on('fileSuccess', function (file, message) {
             this.logger.log('fileSuccess', file);

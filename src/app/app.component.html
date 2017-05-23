@@ -108,7 +108,7 @@
               <md-progress-bar [color]="color" [mode]="mode" [value]="item.progress" [bufferValue]="bufferValue">
               </md-progress-bar>
             </div>
-            <ng-template #elseBlock>{{item.status}} ({{item.size}} {{item.sizeUnit}})</ng-template>
+            <ng-template #elseBlock>{{item.getStatusName()}} ({{item.size}} {{item.sizeUnit}})</ng-template>
           </div>
           <div fxFlex="20px">
             <md-menu #itemMenu="mdMenu">

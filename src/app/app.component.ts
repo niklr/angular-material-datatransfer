@@ -6,6 +6,7 @@ import { DatatransferFacade } from './facades';
 import { DatatransferFacadeFactory } from './factories';
 import { DatatransferItemStore } from './stores';
 import { IDatatransferItem } from './models';
+import { TransferStatus } from './enums';
 
 import * as _ from 'underscore';
 
@@ -56,15 +57,15 @@ export class AppComponent implements OnInit {
     this.datatransferFacade.assignUploadDrop(dropzoneElement);
   }
 
-  getStatusClass(status: string): string {
+  getStatusClass(status: TransferStatus): string {
     switch (status) {
-      case 'Uploading':
+      case TransferStatus.Uploading:
         return 'fa fa-arrow-circle-o-up';
-      case 'Downloading':
+      case TransferStatus.Downloading:
         return 'fa fa-arrow-circle-o-down';
-      case 'Failed':
+      case TransferStatus.Failed:
         return 'fa fa-exclamation-circle';
-      case 'Queued':
+      case TransferStatus.Queued:
         return 'fa fa-circle-o';
       default:
         return '';
