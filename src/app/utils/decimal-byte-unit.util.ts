@@ -64,7 +64,7 @@ export class DecimalByteUnitUtil {
         return number;
     }
 
-    public toHumanReadable(number: number, fromUnit: DecimalByteUnit): [DecimalByteUnit, number] {
+    public format(number: number, fromUnit: DecimalByteUnit): [DecimalByteUnit, number] {
         let result: [DecimalByteUnit, number];
         result = [DecimalByteUnit.Byte, this.toBytes(number, fromUnit)];
         for (let currentUnit of this.byteUnits) {

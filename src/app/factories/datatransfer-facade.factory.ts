@@ -1,13 +1,13 @@
 import { Injectable, NgZone } from '@angular/core';
 import { LoggerService } from '../services';
 import { DatatransferFacade } from '../facades';
-import { DatatransferItemStore } from '../stores';
+import { DatatransferStore } from '../stores';
 import { ResumableJsUploader } from '../uploaders';
 
 @Injectable()
 export class DatatransferFacadeFactory {
 
-    constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferItemStore) {
+    constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferStore) {
 
     }
 

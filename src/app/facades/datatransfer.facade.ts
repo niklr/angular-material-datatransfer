@@ -1,20 +1,19 @@
 import { Component, NgZone } from '@angular/core';
 import { IUploader } from '../uploaders';
 import { LoggerService } from '../services';
-import { DatatransferItemStore } from '../stores';
+import { DatatransferStore } from '../stores';
 import { IDatatransferItem, ISizeInformation } from '../models';
 import { TransferStatus } from '../enums';
 
 export class DatatransferFacade {
 
-    constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferItemStore, private uploader: IUploader) {
+    constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferStore, private uploader: IUploader) {
         this.init();
     }
 
     public init(): void {
         this.uploader.on('itemAdded', function (item: IDatatransferItem) {
             this.zone.run(() => {
-                // this.logger.log('itemAdded');
                 this.store.addItem(item);
             });
         }.bind(this));
@@ -92,13 +91,6 @@ export class DatatransferFacade {
     public showPath(items: IDatatransferItem[], index: number): boolean {
         if (index > 0 && items.length > index) {
             let currentPath = items[index].path;
-            // switch (currentPath) {
-            //   case undefined:
-            //   case '':
-            //   case '\\':
-            //   case '/':
-            //     return false;
-            // }
             // don't show if previous path is same as current
             return items[index - 1].path !== currentPath;
         }

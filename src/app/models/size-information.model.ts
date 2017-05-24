@@ -7,9 +7,13 @@ export interface ISizeInformation {
     displaySize: number;
     decimalByteUnit: DecimalByteUnit;
     decimalByteUnitSize: number;
+    update(init?: Partial<SizeInformation>): void;
 }
 
 export class SizeInformation implements ISizeInformation {
+
+    private decimalByteUnitUtil: DecimalByteUnitUtil;
+
     public displayUnit: string;
     public displaySize: number;
     public decimalByteUnit: DecimalByteUnit = DecimalByteUnit.MB;
@@ -17,11 +21,14 @@ export class SizeInformation implements ISizeInformation {
 
     public constructor(init?: Partial<SizeInformation>) {
         let injector = ReflectiveInjector.resolveAndCreate([DecimalByteUnitUtil]);
-        let decimalByteUnitUtil: DecimalByteUnitUtil = injector.get(DecimalByteUnitUtil);
+        this.decimalByteUnitUtil = injector.get(DecimalByteUnitUtil);
+        this.update(init);
+    }
 
-        if (!!decimalByteUnitUtil && !!init && !!init.decimalByteUnitSize) {
+    public update(init?: Partial<SizeInformation>): void {
+        if (!!this.decimalByteUnitUtil && !!init && !!init.decimalByteUnitSize) {
             let convertResult: [DecimalByteUnit, number] =
-                decimalByteUnitUtil.toHumanReadable(init.decimalByteUnitSize, init.decimalByteUnit);
+                this.decimalByteUnitUtil.format(init.decimalByteUnitSize, init.decimalByteUnit);
 
             this.decimalByteUnit = convertResult[0];
             this.decimalByteUnitSize = convertResult[1];

@@ -1,1 +1,1 @@
-export * from './datatransfer-item.store';
+export * from './datatransfer.store';

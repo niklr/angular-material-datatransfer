@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
-import { IDatatransferItem } from '../models';
+import { IDatatransferItem, IProgressInformation, ProgressInformation } from '../models';
 
 import * as _ from 'underscore';
 
 @Injectable()
-export class DatatransferItemStore {
+export class DatatransferStore {
 
-    private static instance: DatatransferItemStore = null;
+    private static instance: DatatransferStore = null;
     private items: IDatatransferItem[] = [];
 
     public count = 0;
+    public uploadProgress: IProgressInformation = new ProgressInformation();
 
     constructor() {
         // ensure singleton
-        return DatatransferItemStore.instance = DatatransferItemStore.instance || this;
+        return DatatransferStore.instance = DatatransferStore.instance || this;
     }
 
     private updateCount(): void {

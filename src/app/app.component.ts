@@ -4,7 +4,7 @@ import { ApiService, LoggerService } from './services';
 import { DecimalByteUnitUtil } from './utils';
 import { DatatransferFacade } from './facades';
 import { DatatransferFacadeFactory } from './factories';
-import { DatatransferItemStore } from './stores';
+import { DatatransferStore } from './stores';
 import { IDatatransferItem } from './models';
 import { TransferStatus } from './enums';
 
@@ -39,14 +39,14 @@ export class AppComponent implements OnInit {
 
   constructor(private zone: NgZone, private cdr: ChangeDetectorRef, private api: ApiService,
     private datatransferFacadeFactory: DatatransferFacadeFactory, private logger: LoggerService,
-    private datatransferItemStore: DatatransferItemStore) {
+    private datatransferStore: DatatransferStore) {
     // Update the value for the progress-bar on an interval.
     /*    setInterval(() => {
           this.testItem0.progress = (this.testItem0.progress + Math.floor(Math.random() * 4) + 1) % 100;
         }, 200);*/
     this.datatransferFacade = datatransferFacadeFactory.createDatatransferFacade();
     _.each(this.api.testItems, function (item: IDatatransferItem) {
-      // this.datatransferItemStore.addItem(item);
+      // this.datatransferStore.addItem(item);
     }.bind(this));
     this.testItem0 = this.api.testItems[0];
   }
@@ -101,7 +101,7 @@ export class AppComponent implements OnInit {
   paginateItems(event: any): void {
     // this.logger.log('startIndex: ' + event.startIndex + ' endIndex: ' + event.endIndex);
     setTimeout(() => {
-      this.paginatedItems = this.datatransferItemStore.getItems().slice(event.startIndex, event.endIndex);
+      this.paginatedItems = this.datatransferStore.getItems().slice(event.startIndex, event.endIndex);
     }, 1);
 
     // batch actions md-menu not working anymore when calling detectChanges of ChangeDetectorRef
