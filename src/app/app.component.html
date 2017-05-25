@@ -27,13 +27,13 @@
       </button>
     </md-menu>
   </div>
-  <div fxFlex>
+  <div fxFlex *ngIf="uploadProgress.percent > 0">
     <div class="dtm-container-item-stats" style="margin-top: 10px;">
       <div fxFlex="25%" fxFlex.lt-md="50%">
         {{uploadProgress.displayBitrate}}
       </div>
       <div fxFlex="25%" fxHide.lt-md style="text-align: center">
-        00:00:49
+        {{uploadProgress.displayTimeLeft}}
       </div>
       <div fxFlex="25%" fxHide.lt-md style="text-align: center">
         {{uploadProgress.percent}}%
@@ -96,7 +96,7 @@
                   {{item.progressInformation.displayBitrate}}
                 </div>
                 <div fxFlex="25%" fxHide.lt-md style="text-align: center">
-                  -
+                  {{item.progressInformation.displayTimeLeft}}
                 </div>
                 <div fxFlex="25%" fxHide.lt-md style="text-align: center">
                   {{item.progressInformation.percent}}%

@@ -10,6 +10,7 @@ export interface IProgressInformation {
     bitrate: number; // bit/s
     percent: number; // 0-100
     displayBitrate: string;
+    displayTimeLeft: string;
     reset(total: number): void;
     updateProgress(now: number, loaded: number, interval: number): void;
     updateBitrate(now: number, loaded: number, interval: number): void;
@@ -26,6 +27,7 @@ export class ProgressInformation implements IProgressInformation {
     public bitrate: number;
     public percent: number;
     public displayBitrate: string;
+    public displayTimeLeft: string;
     public loadedSizeInformation: ISizeInformation;
     public totalSizeInformation: ISizeInformation;
 
@@ -47,6 +49,7 @@ export class ProgressInformation implements IProgressInformation {
         this.percent = 0;
         this.total = total;
         this.displayBitrate = undefined;
+        this.displayTimeLeft = undefined;
         this.bitrateSizeInformation.updateDecimal(DecimalByteUnit.Byte, this.bitrate);
         this.loadedSizeInformation.updateDecimal(DecimalByteUnit.Byte, this.loaded);
         this.totalSizeInformation.updateDecimal(DecimalByteUnit.Byte, this.total);
@@ -59,6 +62,7 @@ export class ProgressInformation implements IProgressInformation {
             this.loaded = loaded;
             this.loadedSizeInformation.updateDecimal(DecimalByteUnit.Byte, this.loaded);
             this.progressTimestamp = now;
+            this.displayTimeLeft = this.dateUtil.format((this.total - this.loaded) * 8 / this.bitrate);
         }
     }
 
