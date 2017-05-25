@@ -2,16 +2,26 @@ import { Component, NgZone } from '@angular/core';
 import { IUploader } from '../uploaders';
 import { LoggerService } from '../services';
 import { DatatransferStore } from '../stores';
-import { IDatatransferItem, ISizeInformation } from '../models';
+import { IDatatransferItem, ISizeInformation, IProgressInformation } from '../models';
+import { DateUtil } from '../utils';
 import { TransferStatus } from '../enums';
 
 export class DatatransferFacade {
 
-    constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferStore, private uploader: IUploader) {
+    private uploadProgress: IProgressInformation;
+
+    // Interval in milliseconds to calculate and trigger progress events:
+    private progressInterval = 100;
+    // Interval in milliseconds to calculate progress bitrate:
+    private bitrateInterval = 500;
+
+    constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferStore,
+        private dateUtil: DateUtil, private uploader: IUploader) {
         this.init();
     }
 
     public init(): void {
+        this.uploadProgress = this.store.uploadProgress;
         this.uploader.on('itemAdded', function (item: IDatatransferItem) {
             this.zone.run(() => {
                 this.store.addItem(item);
@@ -27,14 +37,14 @@ export class DatatransferFacade {
                 this.updateItemProgress(id, progress);
             });
         }.bind(this));
-        this.uploader.on('overallProgressUpdated', function (progress: number) {
+        this.uploader.on('overallUploadProgressUpdated', function (progress: number) {
             this.zone.run(() => {
-
+                this.updateOverallUploadProgress(progress);
             });
         }.bind(this));
-        this.uploader.on('overallSizeUpdated', function (size: ISizeInformation) {
+        this.uploader.on('overallUploadSizeUpdated', function (size: number) {
             this.zone.run(() => {
-
+                this.updateOverallUploadSize(size);
             });
         }.bind(this));
         this.uploader.on('removeAll', function () {
@@ -58,6 +68,7 @@ export class DatatransferFacade {
     public removeAll(): void {
         this.uploader.removeAll();
         this.store.clear();
+        this.uploadProgress.reset(0);
     }
 
     public retryById(id: string): void {
@@ -79,13 +90,28 @@ export class DatatransferFacade {
     public updateItemProgress(id: string, progress: number): IDatatransferItem {
         let item: IDatatransferItem = this.changeItemStatus(id, TransferStatus.Uploading);
         if (!!item) {
-            item.progress = Number(progress.toFixed(2));
+            let now: number = this.dateUtil.now();
+            let loaded: number = item.progressInformation.total * progress;
+            item.progressInformation.updateProgress(now, loaded, this.progressInterval);
+            item.progressInformation.updateBitrate(now, loaded, this.bitrateInterval);
         }
         return item;
     }
 
+    public updateOverallUploadProgress(progress: number): void {
+        let now: number = this.dateUtil.now();
+        let loaded: number = this.uploadProgress.total * progress;
+        this.uploadProgress.updateProgress(now, loaded, this.progressInterval);
+        this.uploadProgress.updateBitrate(now, loaded, this.bitrateInterval);
+    }
+
+    public updateOverallUploadSize(size: number): void {
+        this.uploadProgress.reset(size);
+    }
+
     public showProgressbar(item: IDatatransferItem): boolean {
-        return item.progress > 0 && (item.status === TransferStatus.Uploading || item.status === TransferStatus.Downloading);
+        return item.progressInformation.percent > 0 &&
+            (item.status === TransferStatus.Uploading || item.status === TransferStatus.Downloading);
     }
 
     public showPath(items: IDatatransferItem[], index: number): boolean {

@@ -5,7 +5,7 @@ import { DecimalByteUnitUtil } from './utils';
 import { DatatransferFacade } from './facades';
 import { DatatransferFacadeFactory } from './factories';
 import { DatatransferStore } from './stores';
-import { IDatatransferItem } from './models';
+import { IDatatransferItem, IProgressInformation } from './models';
 import { TransferStatus } from './enums';
 
 import * as _ from 'underscore';
@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
   };
 
   paginatedItems: IDatatransferItem[] = [];
+  uploadProgress: IProgressInformation;
   testItem0: IDatatransferItem = undefined;
 
   r = undefined;
@@ -55,6 +56,7 @@ export class AppComponent implements OnInit {
     let dropzoneElement = document.getElementById('dropzoneElement');
     this.datatransferFacade.assignUploadBrowse(dropzoneElement);
     this.datatransferFacade.assignUploadDrop(dropzoneElement);
+    this.uploadProgress = this.datatransferStore.uploadProgress;
   }
 
   getStatusClass(status: TransferStatus): string {
@@ -69,22 +71,6 @@ export class AppComponent implements OnInit {
         return 'fa fa-circle-o';
       default:
         return '';
-    }
-  }
-
-  calculateProgressPercent(item): number {
-    if (!!item) {
-      return Number((item.progress * 100).toFixed(2));
-    } else {
-      return 0;
-    }
-  }
-
-  calculateProgressSize(item): number {
-    if (!!item) {
-      return Number((item.progress * item.sizeInformation.displaySize).toFixed(2));
-    } else {
-      return 0;
     }
   }
 

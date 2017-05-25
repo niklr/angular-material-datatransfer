@@ -10,7 +10,7 @@ export class DatatransferStore {
     private items: IDatatransferItem[] = [];
 
     public count = 0;
-    public uploadProgress: IProgressInformation = new ProgressInformation();
+    public uploadProgress: IProgressInformation = new ProgressInformation(0);
 
     constructor() {
         // ensure singleton

@@ -49,11 +49,11 @@ export class BaseUploader implements IUploader {
     }
 
     protected updateOverallProgress(progress: number): void {
-        this.fire('overallProgressUpdated', progress);
+        this.fire('overallUploadProgressUpdated', progress);
     }
 
-    protected updateOverallSize(size: ISizeInformation): void {
-        this.fire('overallSizeUpdated', size);
+    protected updateOverallSize(size: number): void {
+        this.fire('overallUploadSizeUpdated', size);
     }
 
     public assignBrowse(element): void {

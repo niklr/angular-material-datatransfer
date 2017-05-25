@@ -30,19 +30,19 @@
   <div fxFlex>
     <div class="dtm-container-item-stats" style="margin-top: 10px;">
       <div fxFlex="25%" fxFlex.lt-md="50%">
-        489.7 KB/s
+        {{uploadProgress.displayBitrate}}
       </div>
       <div fxFlex="25%" fxHide.lt-md style="text-align: center">
         00:00:49
       </div>
       <div fxFlex="25%" fxHide.lt-md style="text-align: center">
-        {{calculateProgressPercent(testItem0)}}%
+        {{uploadProgress.percent}}%
       </div>
       <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
-        {{calculateProgressSize(testItem0)}} / {{testItem0.sizeInformation.displaySize}} {{testItem0.sizeInformation.displayUnit}}
+        {{uploadProgress.loadedSizeInformation.displaySize}} / {{uploadProgress.totalSizeInformation.displaySize}} {{uploadProgress.totalSizeInformation.displayUnit}}
       </div>
     </div>
-    <md-progress-bar [color]="color" [mode]="mode" [value]="calculateProgressPercent(testItem0)" [bufferValue]="bufferValue">
+    <md-progress-bar [color]="color" [mode]="mode" [value]="uploadProgress.percent" [bufferValue]="bufferValue">
     </md-progress-bar>
   </div>
 </div>
@@ -93,19 +93,19 @@
             <div *ngIf="datatransferFacade.showProgressbar(item); else elseBlock">
               <div class="dtm-container-item-stats">
                 <div fxFlex="25%" fxFlex.lt-md="50%">
-                  {{item.speed}}
+                  {{item.progressInformation.displayBitrate}}
                 </div>
                 <div fxFlex="25%" fxHide.lt-md style="text-align: center">
-                  {{item.elapsedTime}}
+                  -
                 </div>
                 <div fxFlex="25%" fxHide.lt-md style="text-align: center">
-                  {{calculateProgressPercent(item)}}%
+                  {{item.progressInformation.percent}}%
                 </div>
                 <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
-                  {{calculateProgressSize(item)}} / {{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}}
+                  {{item.progressInformation.loadedSizeInformation.displaySize}} / {{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}}
                 </div>
               </div>
-              <md-progress-bar [color]="color" [mode]="mode" [value]="calculateProgressPercent(item)" [bufferValue]="bufferValue">
+              <md-progress-bar [color]="color" [mode]="mode" [value]="item.progressInformation.percent" [bufferValue]="bufferValue">
               </md-progress-bar>
             </div>
             <ng-template #elseBlock>{{item.getStatusName()}} ({{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}})</ng-template>

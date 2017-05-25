@@ -11,7 +11,7 @@ import { PaginationComponent } from './components/pagination.component';
 import { ApiService, LoggerService } from './services';
 import { DatatransferStore } from './stores';
 import { DatatransferFacadeFactory } from './factories';
-import { DecimalByteUnitUtil } from './utils';
+import { DateUtil, DecimalByteUnitUtil } from './utils';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
@@ -33,6 +33,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     LoggerService,
     DatatransferStore,
     DatatransferFacadeFactory,
+    DateUtil,
     DecimalByteUnitUtil
   ],
   bootstrap: [AppComponent]

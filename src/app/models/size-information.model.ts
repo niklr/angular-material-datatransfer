@@ -8,6 +8,7 @@ export interface ISizeInformation {
     decimalByteUnit: DecimalByteUnit;
     decimalByteUnitSize: number;
     update(init?: Partial<SizeInformation>): void;
+    updateDecimal(decimalByteUnit: DecimalByteUnit, decimalByteUnitSize: number): void;
 }
 
 export class SizeInformation implements ISizeInformation {
@@ -27,14 +28,18 @@ export class SizeInformation implements ISizeInformation {
 
     public update(init?: Partial<SizeInformation>): void {
         if (!!this.decimalByteUnitUtil && !!init && !!init.decimalByteUnitSize) {
-            let convertResult: [DecimalByteUnit, number] =
-                this.decimalByteUnitUtil.format(init.decimalByteUnitSize, init.decimalByteUnit);
-
-            this.decimalByteUnit = convertResult[0];
-            this.decimalByteUnitSize = convertResult[1];
-
-            this.displayUnit = DecimalByteUnit[this.decimalByteUnit];
-            this.displaySize = this.decimalByteUnitSize;
+            this.updateDecimal(init.decimalByteUnit, init.decimalByteUnitSize);
         }
+    }
+
+    public updateDecimal(decimalByteUnit: DecimalByteUnit, decimalByteUnitSize: number): void {
+        let convertResult: [DecimalByteUnit, number] =
+            this.decimalByteUnitUtil.format(decimalByteUnitSize, decimalByteUnit);
+
+        this.decimalByteUnit = convertResult[0];
+        this.decimalByteUnitSize = convertResult[1];
+
+        this.displayUnit = DecimalByteUnit[this.decimalByteUnit];
+        this.displaySize = this.decimalByteUnitSize;
     }
 }

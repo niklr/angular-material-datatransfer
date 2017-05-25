@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IDatatransferItem, DatatransferItem, SizeInformation } from '../models';
+import { IDatatransferItem, DatatransferItem, SizeInformation, ProgressInformation } from '../models';
 import { TransferType, TransferStatus, DecimalByteUnit } from '../enums';
 
 @Injectable()
@@ -12,12 +12,9 @@ export class ApiService {
       name: 'DICOM_patientXY_1.dcm',
       path: '/mnt/sdcard/folder1/a/b/',
       sizeInformation: new SizeInformation({decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 15}),
+      progressInformation: new ProgressInformation(15 * 1000 * 1000),
       transferType: TransferType.Upload,
-      status: TransferStatus.Uploading,
-      progress: 0.5,
-      speed: '489.7 KB/s',
-      elapsedTime: '00:00:49',
-      remainingTime: '00:02:00'
+      status: TransferStatus.Uploading
     }),
     new DatatransferItem({
       id: '2',
@@ -25,8 +22,7 @@ export class ApiService {
       path: '/mnt/sdcard/folder1/a/b/',
       sizeInformation: new SizeInformation({decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 17}),
       transferType: TransferType.Upload,
-      status: TransferStatus.Failed,
-      progress: 0
+      status: TransferStatus.Failed
     }),
     new DatatransferItem({
       id: '3',
@@ -34,8 +30,7 @@ export class ApiService {
       path: '/mnt/sdcard/folder1/a/b/',
       sizeInformation: new SizeInformation({decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 13}),
       transferType: TransferType.Upload,
-      status: TransferStatus.Queued,
-      progress: 0
+      status: TransferStatus.Queued
     }),
     new DatatransferItem({
       id: '4',
@@ -44,7 +39,6 @@ export class ApiService {
       sizeInformation: new SizeInformation({decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 11}),
       transferType: TransferType.Upload,
       status: TransferStatus.Queued,
-      progress: 0
     }),
     new DatatransferItem({
       id: '5',
@@ -52,8 +46,7 @@ export class ApiService {
       path: '/',
       sizeInformation: new SizeInformation({decimalByteUnit: DecimalByteUnit.GB, decimalByteUnitSize: 2}),
       transferType: TransferType.Download,
-      status: TransferStatus.Queued,
-      progress: 0
+      status: TransferStatus.Queued
     }),
     new DatatransferItem({
       id: '6',
@@ -62,7 +55,6 @@ export class ApiService {
       sizeInformation: new SizeInformation({decimalByteUnit: DecimalByteUnit.GB, decimalByteUnitSize: 12}),
       transferType: TransferType.Upload,
       status: TransferStatus.Queued,
-      progress: 0
     })
   ];
 }
