@@ -1,9 +1,9 @@
 import { inject, TestBed } from '@angular/core/testing';
-
 import { MaterialModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from './pagination.component';
-import { LoggerService } from '../services';
+import { LoggerService, PaginationService } from '../services';
+import { DatatransferStore } from '../stores';
 
 describe('PaginationComponent', () => {
 
@@ -18,7 +18,7 @@ describe('PaginationComponent', () => {
                 PaginationComponent
             ],
             providers: [
-                LoggerService
+                LoggerService, PaginationService, DatatransferStore
             ],
         });
         const fixture = TestBed.createComponent(PaginationComponent);
@@ -27,9 +27,5 @@ describe('PaginationComponent', () => {
 
     it('should have a defined component', () => {
         expect(component).toBeDefined();
-    });
-
-    it('should not throw an exception when calling onPaginationChange without setting a onPaginateCallback', () => {
-        expect(function () { component.onPaginationChange(); }).not.toThrow();
     });
 });

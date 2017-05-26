@@ -6,15 +6,13 @@ import * as _ from 'underscore';
 @Injectable()
 export class DatatransferStore {
 
-    private static instance: DatatransferStore = null;
     private items: IDatatransferItem[] = [];
 
     public count = 0;
     public uploadProgress: IProgressInformation = new ProgressInformation(0);
 
     constructor() {
-        // ensure singleton
-        return DatatransferStore.instance = DatatransferStore.instance || this;
+
     }
 
     private updateCount(): void {

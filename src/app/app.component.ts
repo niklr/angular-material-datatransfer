@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
 
-import { ApiService, LoggerService } from './services';
+import { ApiService, LoggerService, PaginationService } from './services';
 import { DecimalByteUnitUtil } from './utils';
 import { DatatransferFacade } from './facades';
 import { DatatransferFacadeFactory } from './factories';
@@ -32,31 +32,27 @@ export class AppComponent implements OnInit {
     }
   };
 
-  paginatedItems: IDatatransferItem[] = [];
   uploadProgress: IProgressInformation;
-  testItem0: IDatatransferItem = undefined;
 
   r = undefined;
 
   constructor(private zone: NgZone, private cdr: ChangeDetectorRef, private api: ApiService,
     private datatransferFacadeFactory: DatatransferFacadeFactory, private logger: LoggerService,
-    private datatransferStore: DatatransferStore) {
-    // Update the value for the progress-bar on an interval.
-    /*    setInterval(() => {
-          this.testItem0.progress = (this.testItem0.progress + Math.floor(Math.random() * 4) + 1) % 100;
-        }, 200);*/
-    this.datatransferFacade = datatransferFacadeFactory.createDatatransferFacade();
-    _.each(this.api.testItems, function (item: IDatatransferItem) {
-      // this.datatransferStore.addItem(item);
-    }.bind(this));
-    this.testItem0 = this.api.testItems[0];
+    private datatransferStore: DatatransferStore, private paginationService: PaginationService) {
+
   }
 
   ngOnInit() {
     let dropzoneElement = document.getElementById('dropzoneElement');
+    this.datatransferFacade = this.datatransferFacadeFactory.createDatatransferFacade();
     this.datatransferFacade.assignUploadBrowse(dropzoneElement);
     this.datatransferFacade.assignUploadDrop(dropzoneElement);
     this.uploadProgress = this.datatransferStore.uploadProgress;
+    this.paginationService.setRppOptions(this.options.pagination.rppOptions);
+
+    _.each(this.api.testItems, function (item: IDatatransferItem) {
+      this.datatransferFacade.addItem(item);
+    }.bind(this));
   }
 
   getStatusClass(status: TransferStatus): string {
@@ -75,22 +71,12 @@ export class AppComponent implements OnInit {
   }
 
   toggleAll(checked: boolean): void {
-    this.paginatedItems.forEach(element => {
+    this.paginationService.paginatedItems.forEach(element => {
       element.isSelected = checked;
     });
   }
 
   testFn(): void {
     this.datatransferFacade.removeAll();
-  }
-
-  paginateItems(event: any): void {
-    // this.logger.log('startIndex: ' + event.startIndex + ' endIndex: ' + event.endIndex);
-    setTimeout(() => {
-      this.paginatedItems = this.datatransferStore.getItems().slice(event.startIndex, event.endIndex);
-    }, 1);
-
-    // batch actions md-menu not working anymore when calling detectChanges of ChangeDetectorRef
-    // this.cdr.detectChanges();
   }
 }

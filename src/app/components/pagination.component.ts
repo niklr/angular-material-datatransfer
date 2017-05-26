@@ -1,6 +1,5 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
-import { LoggerService } from '../services';
-import { _ } from 'underscore';
+import { Component, Input } from '@angular/core';
+import { LoggerService, PaginationService } from '../services';
 
 @Component({
     // tslint:disable-next-line:component-selector
@@ -9,103 +8,57 @@ import { _ } from 'underscore';
     styleUrls: ['pagination.component.scss'],
 })
 
-export class PaginationComponent implements OnInit, OnChanges {
+export class PaginationComponent {
 
-    pages = [];
-    page = 1;
-    rpp = 5;
-
-    @Input() total = 1;
-    @Input() rppOptions = [];
-
-    @Output() updatePaginatedItems = new EventEmitter<any>();
+    @Input() paginationService: PaginationService;
 
     constructor(private logger: LoggerService) { }
 
-    ngOnInit() {
-        this.setPaginationInformation();
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        // this.logger.log(changes);
-        this.setPaginationInformation();
-    }
-
-    setPaginationInformation(): void {
-        let pageCount: number = this.pageCount();
-        if (this.pages.length > pageCount) {
-            this.pages.splice(pageCount);
-        } else {
-            for (let i = this.pages.length; i < pageCount; i++) {
-                this.pages.push(i + 1);
-            }
-        }
-        if (!_.contains(this.pages, this.page)) {
-            this.page = 1;
-        }
-        if (!!this.rppOptions && this.rppOptions.length > 0 && !_.contains(this.rppOptions, this.rpp)) {
-            this.rpp = this.rppOptions[0];
-        }
-        this.onPaginationChange();
-    }
-
     max(): number {
-        return this.hasNext() ? this.page * this.rpp : this.total;
+        return this.paginationService.max();
     };
 
     min(): number {
-        return this.total > 0 ? this.page * this.rpp - this.rpp + 1 : 0;
+        return this.paginationService.min();
     };
 
     first(): void {
-        this.page = 1;
-        this.onPaginationChange();
+        this.paginationService.first();
     }
 
     last(): void {
-        this.page = this.pageCount();
-        this.onPaginationChange();
+        this.paginationService.last();
     }
 
     hasNext(): boolean {
-        return this.page * this.rpp < this.total;
+        return this.paginationService.hasNext();
     }
 
     hasPrevious(): boolean {
-        return this.page > 1;
+        return this.paginationService.hasPrevious();
     };
 
     moveNext(): void {
-        this.page++;
-        this.onPaginationChange();
+        this.paginationService.moveNext();
     }
 
     movePrevious(): void {
-        this.page--;
-        this.onPaginationChange();
+        this.paginationService.movePrevious();
     }
 
     onPageChange(): void {
-        this.setPaginationInformation();
-        this.onPaginationChange();
+        this.paginationService.onPageChange();
     }
 
     onRppChange(): void {
-        this.setPaginationInformation();
-        this.page = 1;
-        this.onPaginationChange();
+        this.paginationService.onRppChange();
     }
 
     onPaginationChange(): void {
-        let startIndex = (this.page - 1) * this.rpp;
-        let endIndex = Math.min(startIndex + this.rpp, this.total);
-        this.updatePaginatedItems.emit({
-            startIndex: startIndex,
-            endIndex: endIndex
-        });
+        this.paginationService.onPaginationChange();
     }
 
     pageCount(): number {
-        return this.total > 0 ? Math.ceil(this.total / (this.rpp > 0 ? this.rpp : 1)) : 1;
+        return this.paginationService.pageCount();
     }
 }

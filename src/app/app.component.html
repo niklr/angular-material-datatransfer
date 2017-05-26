@@ -67,8 +67,8 @@
       </div>
     </div>
   </div>
-  <ng-template ngFor let-item [ngForOf]="paginatedItems" let-i="index" [ngForTrackBy]="trackByFn">
-    <div *ngIf="datatransferFacade.showPath(paginatedItems, i)" class="dtm-container-headline">
+  <ng-template ngFor let-item [ngForOf]="paginationService.paginatedItems" let-i="index" [ngForTrackBy]="trackByFn">
+    <div *ngIf="datatransferFacade.showPath(paginationService.paginatedItems, i)" class="dtm-container-headline">
       <i class="fa fa-folder-o" aria-hidden="true"></i> {{item.path}}
     </div>
     <div fxLayout="row" fxLayout.lt-sm="column" class="dtm-container-item" [ngClass]="{'selected': item.isSelected}">
@@ -136,5 +136,5 @@
 </div>
 
 <div style="font-size: 12px; margin-top: 20px; text-align: right;">
-  <pagination [total]="datatransferStore.count" [rppOptions]="options?.pagination?.rppOptions" (updatePaginatedItems)="paginateItems($event)"></pagination>
+  <pagination [paginationService]="paginationService"></pagination>
 </div>

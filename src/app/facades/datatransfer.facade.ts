@@ -1,6 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { IUploader } from '../uploaders';
-import { LoggerService } from '../services';
+import { LoggerService, PaginationService } from '../services';
 import { DatatransferStore } from '../stores';
 import { IDatatransferItem, ISizeInformation, IProgressInformation } from '../models';
 import { DateUtil } from '../utils';
@@ -16,7 +16,7 @@ export class DatatransferFacade {
     private bitrateInterval = 500;
 
     constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferStore,
-        private dateUtil: DateUtil, private uploader: IUploader) {
+        private dateUtil: DateUtil, private paginationService: PaginationService, private uploader: IUploader) {
         this.init();
     }
 
@@ -24,7 +24,7 @@ export class DatatransferFacade {
         this.uploadProgress = this.store.uploadProgress;
         this.uploader.on('itemAdded', function (item: IDatatransferItem) {
             this.zone.run(() => {
-                this.store.addItem(item);
+                this.addItem(item);
             });
         }.bind(this));
         this.uploader.on('itemStatusChanged', function (id: string, status: TransferStatus, message?: string) {
@@ -61,6 +61,11 @@ export class DatatransferFacade {
         this.uploader.assignDrop(element);
     }
 
+    public addItem(item): void {
+        this.store.addItem(item);
+        this.paginationService.updateTotal(this.store.count);
+    }
+
     public startAll(): void {
         this.uploader.startAll();
     }
@@ -69,6 +74,7 @@ export class DatatransferFacade {
         this.uploader.removeAll();
         this.store.clear();
         this.uploadProgress.reset(0);
+        this.paginationService.updateTotal(0);
     }
 
     public retryById(id: string): void {
