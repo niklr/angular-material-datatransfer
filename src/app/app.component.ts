@@ -50,9 +50,9 @@ export class AppComponent implements OnInit {
     this.uploadProgress = this.datatransferStore.uploadProgress;
     this.paginationService.setRppOptions(this.options.pagination.rppOptions);
 
-    _.each(this.api.testItems, function (item: IDatatransferItem) {
-      this.datatransferFacade.addItem(item);
-    }.bind(this));
+    // _.each(this.api.testItems, function (item: IDatatransferItem) {
+    //   this.datatransferFacade.addItem(item);
+    // }.bind(this));
   }
 
   getStatusClass(status: TransferStatus): string {

@@ -81,6 +81,11 @@ export class PaginationService {
         this.onPaginationChange();
     }
 
+    setPage(page: number) {
+        this.pagination.page = page;
+        this.onPageChange();
+    }
+
     onPageChange(): void {
         this.setPaginationInformation();
         this.onPaginationChange();
@@ -100,5 +105,17 @@ export class PaginationService {
 
     pageCount(): number {
         return this.pagination.total > 0 ? Math.ceil(this.pagination.total / (this.pagination.rpp > 0 ? this.pagination.rpp : 1)) : 1;
+    }
+
+    getPageByItemId(id: string): number {
+        let index: number = this.datatransferStore.getItems().findIndex(i => i.id === id);
+        return Math.trunc((index + 1) / this.pagination.rpp + 1);
+    }
+
+    setPageByItemId(id: string): void {
+        let page = this.getPageByItemId(id);
+        if (this.pagination.page !== page) {
+            this.setPage(page);
+        }
     }
 }

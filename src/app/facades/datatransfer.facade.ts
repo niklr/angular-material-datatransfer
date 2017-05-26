@@ -96,6 +96,7 @@ export class DatatransferFacade {
     public updateItemProgress(id: string, progress: number): IDatatransferItem {
         let item: IDatatransferItem = this.changeItemStatus(id, TransferStatus.Uploading);
         if (!!item) {
+            this.paginationService.setPageByItemId(id);
             let now: number = this.dateUtil.now();
             let loaded: number = item.progressInformation.total * progress;
             item.progressInformation.updateProgress(now, loaded, this.progressInterval);
