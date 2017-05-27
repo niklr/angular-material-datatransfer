@@ -33,7 +33,7 @@ export class ResumableJsUploader extends BaseUploader {
                 id: file.uniqueIdentifier,
                 name: file.fileName,
                 path: file.relativePath.substr(0, file.relativePath.length - file.fileName.length),
-                sizeInformation: new SizeInformation({decimalByteUnit: DecimalByteUnit.Byte, decimalByteUnitSize: file.size}),
+                sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.Byte, decimalByteUnitSize: file.size }),
                 progressInformation: new ProgressInformation(file.size),
                 transferType: TransferType.Upload,
                 status: TransferStatus.Queued,
@@ -92,7 +92,12 @@ export class ResumableJsUploader extends BaseUploader {
     }
 
     public retryItem(item: IDatatransferItem): void {
-        super.retryItem(item);
         item.externalItem.retry();
+        super.retryItem(item);
+    }
+
+    public removeItem(item: IDatatransferItem): void {
+        this.r.removeFile(item.externalItem);
+        super.removeItem(item);
     }
 }

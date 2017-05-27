@@ -21,7 +21,7 @@
         <i class="fa fa-stop" aria-hidden="true"></i>
         <span>Stop</span>
       </button>
-      <button md-menu-item>
+      <button md-menu-item (click)="datatransferFacade.removeSelected()">
         <i class="fa fa-times" aria-hidden="true"></i>
         <span>Remove</span>
       </button>
@@ -52,7 +52,7 @@
     <div fxFlex>
       <div style="align-items: center;">
         <div fxFlex="40px">
-          <md-checkbox (change)="toggleAll($event.checked)"></md-checkbox>
+          <md-checkbox (change)="datatransferFacade.toggleVisible($event.checked)"></md-checkbox>
         </div>
         <div fxFlex="50%">
           Filename
@@ -120,7 +120,7 @@
                 <i class="fa fa-stop" aria-hidden="true"></i>
                 <span>Stop</span>
               </button>
-              <button md-menu-item>
+              <button md-menu-item (click)="datatransferFacade.removeById(item.id)">
                 <i class="fa fa-times" aria-hidden="true"></i>
                 <span>Remove</span>
               </button>

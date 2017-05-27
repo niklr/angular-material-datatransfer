@@ -23,8 +23,16 @@ export class DatatransferStore {
         return this.items;
     }
 
+    public getSelected(): IDatatransferItem[] {
+        return _.where(this.items, { isSelected: true });
+    }
+
     public getById(id: string): IDatatransferItem {
         return _.find(this.items, function (item) { return item.id === id; });
+    }
+
+    public getIndexById(id: string): number {
+        return this.items.findIndex(i => i.id === id);
     }
 
     public clear(): void {
@@ -35,5 +43,13 @@ export class DatatransferStore {
     public addItem(item: IDatatransferItem): void {
         this.items.push(item);
         this.updateCount();
+    }
+
+    public removeById(id: string): void {
+        let index: number = this.getIndexById(id);
+        if (index > -1) {
+            this.items.splice(index, 1);
+            this.updateCount();
+        }
     }
 }

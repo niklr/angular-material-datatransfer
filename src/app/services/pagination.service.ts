@@ -16,9 +16,10 @@ export class PaginationService {
 
     setRppOptions(rppOptions): void {
         this.pagination.rppOptions = rppOptions;
+        this.setPaginationInformation();
     }
 
-    updateTotal(total: number): void {
+    update(total: number): void {
         if (total <= 0) {
             this.paginatedItems.length = 0;
         }
@@ -108,8 +109,10 @@ export class PaginationService {
     }
 
     getPageByItemId(id: string): number {
-        let index: number = this.datatransferStore.getItems().findIndex(i => i.id === id);
-        return Math.trunc((index + 1) / this.pagination.rpp + 1);
+        let index: number = this.datatransferStore.getIndexById(id);
+        if (index > -1) {
+            return Math.ceil((index + 1) / this.pagination.rpp);
+        }
     }
 
     setPageByItemId(id: string): void {

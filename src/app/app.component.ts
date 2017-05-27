@@ -70,12 +70,6 @@ export class AppComponent implements OnInit {
     }
   }
 
-  toggleAll(checked: boolean): void {
-    this.paginationService.paginatedItems.forEach(element => {
-      element.isSelected = checked;
-    });
-  }
-
   testFn(): void {
     this.datatransferFacade.removeAll();
   }

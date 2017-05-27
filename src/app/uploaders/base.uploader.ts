@@ -12,6 +12,7 @@ export interface IUploader {
     removeAll(): void;
     addItem(item: IDatatransferItem): void;
     retryItem(item: IDatatransferItem): void;
+    removeItem(item: IDatatransferItem): void;
 }
 
 @Injectable()
@@ -77,6 +78,10 @@ export class BaseUploader implements IUploader {
     }
 
     public retryItem(item: IDatatransferItem): void {
+
+    }
+
+    public removeItem(item: IDatatransferItem): void {
 
     }
 }

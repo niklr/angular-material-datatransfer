@@ -1,18 +1,20 @@
 import { Component, NgZone } from '@angular/core';
+import * as _ from 'underscore';
+
 import { IUploader } from '../uploaders';
 import { LoggerService, PaginationService } from '../services';
 import { DatatransferStore } from '../stores';
 import { IDatatransferItem, ISizeInformation, IProgressInformation } from '../models';
 import { DateUtil } from '../utils';
-import { TransferStatus } from '../enums';
+import { TransferStatus, TransferType } from '../enums';
 
 export class DatatransferFacade {
 
     private uploadProgress: IProgressInformation;
 
-    // Interval in milliseconds to calculate and trigger progress events:
+    // Interval in milliseconds to calculate progress:
     private progressInterval = 100;
-    // Interval in milliseconds to calculate progress bitrate:
+    // Interval in milliseconds to calculate bitrate:
     private bitrateInterval = 500;
 
     constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferStore,
@@ -61,9 +63,15 @@ export class DatatransferFacade {
         this.uploader.assignDrop(element);
     }
 
+    toggleVisible(checked: boolean): void {
+        _.each(this.paginationService.paginatedItems, function (item) {
+            item.isSelected = checked;
+        });
+    }
+
     public addItem(item): void {
         this.store.addItem(item);
-        this.paginationService.updateTotal(this.store.count);
+        this.paginationService.update(this.store.count);
     }
 
     public startAll(): void {
@@ -74,14 +82,38 @@ export class DatatransferFacade {
         this.uploader.removeAll();
         this.store.clear();
         this.uploadProgress.reset(0);
-        this.paginationService.updateTotal(0);
+        this.paginationService.update(0);
+    }
+
+    public removeById(id: string): void {
+        let item: IDatatransferItem = this.store.getById(id);
+        this.removeItem(item);
+    }
+
+    public removeItem(item: IDatatransferItem): void {
+        if (!!item) {
+            if (item.transferType === TransferType.Upload) {
+                this.uploader.removeItem(item);
+            }
+            this.store.removeById(item.id);
+            this.paginationService.update(this.store.count);
+        }
+    }
+
+    public removeSelected(): void {
+        let temp = this.store.getSelected().slice();
+        _.each(temp, function(item) {
+            this.removeById(item.id);
+        }.bind(this));
     }
 
     public retryById(id: string): void {
         let item: IDatatransferItem = this.store.getById(id);
         if (!!item) {
-            this.logger.log(item);
-            this.uploader.retryItem(item);
+            if (item.transferType === TransferType.Upload) {
+                this.logger.log(item);
+                this.uploader.retryItem(item);
+            }
         }
     }
 
