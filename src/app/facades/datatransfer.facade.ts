@@ -50,7 +50,6 @@ export class DatatransferFacade {
             });
         }.bind(this));
         this.uploader.on('removeAll', function () {
-            this.logger.log('removeAll');
             this.store.clear();
         }.bind(this));
     }
@@ -69,13 +68,12 @@ export class DatatransferFacade {
         });
     }
 
-    public addItem(item): void {
-        this.store.addItem(item);
-        this.paginationService.update(this.store.count);
-    }
-
     public startAll(): void {
         this.uploader.startAll();
+    }
+
+    public pauseAll(): void {
+        this.uploader.pauseAll();
     }
 
     public removeAll(): void {
@@ -85,9 +83,16 @@ export class DatatransferFacade {
         this.paginationService.update(0);
     }
 
-    public removeById(id: string): void {
-        let item: IDatatransferItem = this.store.getById(id);
-        this.removeItem(item);
+    public removeSelected(): void {
+        let temp = this.store.getSelected().slice();
+        _.each(temp, function (item) {
+            this.removeItem(item);
+        }.bind(this));
+    }
+
+    public addItem(item): void {
+        this.store.addItem(item);
+        this.paginationService.update(this.store.count);
     }
 
     public removeItem(item: IDatatransferItem): void {
@@ -100,15 +105,7 @@ export class DatatransferFacade {
         }
     }
 
-    public removeSelected(): void {
-        let temp = this.store.getSelected().slice();
-        _.each(temp, function(item) {
-            this.removeById(item.id);
-        }.bind(this));
-    }
-
-    public retryById(id: string): void {
-        let item: IDatatransferItem = this.store.getById(id);
+    public retryItem(item: IDatatransferItem): void {
         if (!!item) {
             if (item.transferType === TransferType.Upload) {
                 this.logger.log(item);
@@ -146,6 +143,22 @@ export class DatatransferFacade {
 
     public updateOverallUploadSize(size: number): void {
         this.uploadProgress.reset(size);
+    }
+
+    public showStartButton(): boolean {
+        return this.store.count > 0 && !this.uploader.isUploading();
+    }
+
+    public showPauseButton(): boolean {
+        return this.uploader.isUploading();
+    }
+
+    public showRemoveButton(): boolean {
+        return this.store.count > 0;
+    }
+
+    public showRetryButton(): boolean {
+        return false;
     }
 
     public showProgressbar(item: IDatatransferItem): boolean {

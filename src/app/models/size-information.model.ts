@@ -40,6 +40,6 @@ export class SizeInformation implements ISizeInformation {
         this.decimalByteUnitSize = convertResult[1];
 
         this.displayUnit = DecimalByteUnit[this.decimalByteUnit];
-        this.displaySize = this.decimalByteUnitSize;
+        this.displaySize = !!this.decimalByteUnitSize ? this.decimalByteUnitSize : 0;
     }
 }

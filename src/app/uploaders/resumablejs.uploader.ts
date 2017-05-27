@@ -69,18 +69,25 @@ export class ResumableJsUploader extends BaseUploader {
     }
 
     public assignBrowse(element): void {
-        super.assignBrowse(element);
         this.r.assignBrowse(element);
     }
 
     public assignDrop(element): void {
-        super.assignDrop(element);
         this.r.assignDrop(element);
     }
 
+    public isUploading(): boolean {
+        return this.r.isUploading();
+    }
+
     public startAll(): void {
-        super.startAll();
         this.r.upload();
+        super.startAll();
+    }
+
+    public pauseAll(): void {
+        this.r.pause();
+        super.pauseAll();
     }
 
     public removeAll(): void {
@@ -91,13 +98,11 @@ export class ResumableJsUploader extends BaseUploader {
         super.removeAll();
     }
 
-    public retryItem(item: IDatatransferItem): void {
-        item.externalItem.retry();
-        super.retryItem(item);
-    }
-
     public removeItem(item: IDatatransferItem): void {
         this.r.removeFile(item.externalItem);
-        super.removeItem(item);
+    }
+
+    public retryItem(item: IDatatransferItem): void {
+        item.externalItem.retry();
     }
 }

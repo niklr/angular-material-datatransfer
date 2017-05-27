@@ -8,15 +8,17 @@ export interface IUploader {
     on(event: string, callback: Function): void;
     assignBrowse(element): void;
     assignDrop(element): void;
+    isUploading(): boolean;
     startAll(): void;
+    pauseAll(): void;
     removeAll(): void;
     addItem(item: IDatatransferItem): void;
-    retryItem(item: IDatatransferItem): void;
     removeItem(item: IDatatransferItem): void;
+    retryItem(item: IDatatransferItem): void;
 }
 
 @Injectable()
-export class BaseUploader implements IUploader {
+export abstract class BaseUploader implements IUploader {
 
     private events = [];
 
@@ -57,16 +59,18 @@ export class BaseUploader implements IUploader {
         this.fire('overallUploadSizeUpdated', size);
     }
 
-    public assignBrowse(element): void {
+    public abstract assignBrowse(element): void;
 
-    }
+    public abstract assignDrop(element): void;
 
-    public assignDrop(element): void {
-
-    }
+    public abstract isUploading(): boolean;
 
     public startAll(): void {
+        this.fire('startAll');
+    }
 
+    public pauseAll(): void {
+        this.fire('pauseAll');
     }
 
     public removeAll(): void {
@@ -77,11 +81,7 @@ export class BaseUploader implements IUploader {
         this.fire('itemAdded', item);
     }
 
-    public retryItem(item: IDatatransferItem): void {
+    public abstract removeItem(item: IDatatransferItem): void;
 
-    }
-
-    public removeItem(item: IDatatransferItem): void {
-
-    }
+    public abstract retryItem(item: IDatatransferItem): void;
 }
