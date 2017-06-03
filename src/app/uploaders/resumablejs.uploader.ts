@@ -6,26 +6,32 @@ import { BaseUploader } from './base.uploader';
 import { LoggerService } from '../services';
 import { IDatatransferItem, DatatransferItem, SizeInformation, ProgressInformation } from '../models';
 import { TransferType, TransferStatus, DecimalByteUnit } from '../enums';
+import { GuidUtil } from '../utils';
 
 @Injectable()
 export class ResumableJsUploader extends BaseUploader {
 
     private r = undefined;
 
-    constructor(protected logger: LoggerService) {
-        super(logger);
+    constructor(protected logger: LoggerService, protected guidUtil: GuidUtil) {
+        super(logger, guidUtil);
         this.initResumable();
     }
 
     private initResumable(): void {
+
+        function generateId(file, event) {
+            return this.generateUniqueIdentifier();
+        }
+
         this.r = new Resumable({
             target: '/echo/json/',
             query: {},
             maxChunkRetries: 2,
-            maxFiles: 10,
-            prioritizeFirstAndLastChunk: true,
+            prioritizeFirstAndLastChunk: false,
             simultaneousUploads: 2,
-            chunkSize: 1 * 1024 * 1024
+            chunkSize: 1 * 1024 * 1024,
+            generateUniqueIdentifier: generateId.bind(this)
         });
 
         this.r.on('fileAdded', function (file, event) {
@@ -40,7 +46,6 @@ export class ResumableJsUploader extends BaseUploader {
                 externalItem: file
             });
 
-            // this.logger.log(newItem);
             this.addItem(newItem);
         }.bind(this));
         this.r.on('fileProgress', function (file, message) {

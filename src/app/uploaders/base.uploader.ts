@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { LoggerService } from '../services';
 import { IDatatransferItem, ISizeInformation } from '../models';
 import { TransferStatus } from '../enums';
+import { GuidUtil } from '../utils';
 
 export interface IUploader {
     on(event: string, callback: Function): void;
@@ -22,8 +23,12 @@ export abstract class BaseUploader implements IUploader {
 
     private events = [];
 
-    constructor(protected logger: LoggerService) {
+    constructor(protected logger: LoggerService, protected guidUtil: GuidUtil) {
 
+    }
+
+    protected generateUniqueIdentifier(): string {
+        return this.guidUtil.createGuid();
     }
 
     public on(event: string, callback: Function): void {
