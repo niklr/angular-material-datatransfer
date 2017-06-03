@@ -14,6 +14,7 @@
     <button md-raised-button *ngIf="datatransferFacade.showRemoveButton()" (click)="datatransferFacade.removeAll()"><i class="fa fa-times" aria-hidden="true"></i> Remove all</button>
     <button md-raised-button *ngIf="datatransferFacade.showRetryButton()" (click)="datatransferFacade.retryAll()"><i class="fa fa-repeat" aria-hidden="true"></i> Retry ({{datatransferStore.failedCount}})</button>
   </div>
+  <div fxFlex="20px"></div>
   <div fxFlex *ngIf="uploadProgress.percent > 0">
     <div class="dtm-container-item-stats" style="margin-top: 10px;">
       <div fxFlex="25%" fxFlex.lt-md="50%">
@@ -104,7 +105,14 @@
               <md-progress-bar [color]="color" [mode]="mode" [value]="item.progressInformation.percent" [bufferValue]="bufferValue">
               </md-progress-bar>
             </div>
-            <ng-template #elseBlock>{{item.getStatusName()}} ({{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}})</ng-template>
+            <ng-template #elseBlock>
+              {{item.getStatusName()}} ({{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}})
+              <div *ngIf="!!item.message">
+                <div mdTooltip="{{item.message}}" mdTooltipPosition="above">
+                  <span><small>{{item.message}}</small></span>
+                </div>
+              </div>
+            </ng-template>
           </div>
           <div fxFlex="20px">
             <md-menu #itemMenu="mdMenu">

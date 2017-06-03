@@ -9,6 +9,7 @@ export interface IDatatransferItem {
   transferType: TransferType;
   status: TransferStatus;
   progressInformation: IProgressInformation;
+  message?: string;
   isSelected?: boolean;
   externalItem?: any;
 }
@@ -21,6 +22,7 @@ export class DatatransferItem implements IDatatransferItem {
   public transferType: TransferType;
   public status: TransferStatus;
   public progressInformation: IProgressInformation;
+  public message?: string;
   public isSelected?: boolean;
   public externalItem?: any;
 

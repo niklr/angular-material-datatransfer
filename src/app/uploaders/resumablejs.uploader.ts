@@ -55,11 +55,11 @@ export class ResumableJsUploader extends BaseUploader {
         }.bind(this));
         this.r.on('fileSuccess', function (file, message) {
             // this.logger.log('fileSuccess', file);
-            this.changeItemStatus(file.uniqueIdentifier, TransferStatus.Finished);
+            this.changeItemStatus(file.uniqueIdentifier, TransferStatus.Finished, message);
         }.bind(this));
         this.r.on('fileError', function (file, message) {
             this.logger.log('fileError', file, message);
-            this.changeItemStatus(file.uniqueIdentifier, TransferStatus.Failed);
+            this.changeItemStatus(file.uniqueIdentifier, TransferStatus.Failed, message);
         }.bind(this));
         this.r.on('uploadStart', function () {
             this.updateOverallProgress(this.r.progress());

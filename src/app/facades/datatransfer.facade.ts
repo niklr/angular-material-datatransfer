@@ -123,6 +123,9 @@ export class DatatransferFacade {
         let item: IDatatransferItem = this.store.getById(id);
         if (!!item) {
             item.status = status;
+            if (!!message) {
+                item.message = message.startsWith('<!doctype html>') ? undefined : message;
+            }
             this.store.updateFailedCount();
         }
         return item;
