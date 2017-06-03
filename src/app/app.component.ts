@@ -69,8 +69,4 @@ export class AppComponent implements OnInit {
         return '';
     }
   }
-
-  testFn(): void {
-    this.datatransferFacade.removeAll();
-  }
 }

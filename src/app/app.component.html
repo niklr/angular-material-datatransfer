@@ -12,7 +12,7 @@
     <button md-raised-button *ngIf="datatransferFacade.showStartButton()" (click)="datatransferFacade.startAll()"><i class="fa fa-play" aria-hidden="true"></i> Start</button>
     <button md-raised-button *ngIf="datatransferFacade.showPauseButton()" (click)="datatransferFacade.pauseAll()"><i class="fa fa-pause" aria-hidden="true"></i> Pause</button>
     <button md-raised-button *ngIf="datatransferFacade.showRemoveButton()" (click)="datatransferFacade.removeAll()"><i class="fa fa-times" aria-hidden="true"></i> Remove all</button>
-    <button md-raised-button *ngIf="datatransferFacade.showRetryButton()" (click)="testFn()"><i class="fa fa-repeat" aria-hidden="true"></i> Retry (2)</button>
+    <button md-raised-button *ngIf="datatransferFacade.showRetryButton()" (click)="datatransferFacade.retryAll()"><i class="fa fa-repeat" aria-hidden="true"></i> Retry ({{datatransferStore.failedCount}})</button>
   </div>
   <div fxFlex *ngIf="uploadProgress.percent > 0">
     <div class="dtm-container-item-stats" style="margin-top: 10px;">
@@ -58,7 +58,7 @@
           </md-menu>
           <button md-icon-button [mdMenuTriggerFor]="batchItemMenu">
             <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-          </button>          
+          </button>
         </div>
       </div>
     </div>
@@ -108,6 +108,10 @@
           </div>
           <div fxFlex="20px">
             <md-menu #itemMenu="mdMenu">
+              <button md-menu-item (click)="datatransferFacade.retryItem(item)" *ngIf="datatransferFacade.showRetryButtonByItem(item)">
+                <i class="fa fa-repeat" aria-hidden="true"></i>
+                <span>Retry</span>
+              </button>
               <button md-menu-item (click)="datatransferFacade.removeItem(item)">
                 <i class="fa fa-times" aria-hidden="true"></i>
                 <span>Remove</span>

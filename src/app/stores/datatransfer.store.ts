@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IDatatransferItem, IProgressInformation, ProgressInformation } from '../models';
+import { TransferStatus } from '../enums';
 
 import * as _ from 'underscore';
 
@@ -9,6 +10,7 @@ export class DatatransferStore {
     private items: IDatatransferItem[] = [];
 
     public count = 0;
+    public failedCount = 0;
     public uploadProgress: IProgressInformation = new ProgressInformation(0);
 
     constructor() {
@@ -17,6 +19,10 @@ export class DatatransferStore {
 
     private updateCount(): void {
         this.count = this.items.length;
+    }
+
+    public updateFailedCount(): void {
+        this.failedCount = this.getByStatus(TransferStatus.Failed).length;
     }
 
     public getItems(): IDatatransferItem[] {
@@ -51,5 +57,9 @@ export class DatatransferStore {
             this.items.splice(index, 1);
             this.updateCount();
         }
+    }
+
+    public getByStatus(status: TransferStatus) {
+        return _.where(this.items, { status: status });
     }
 }

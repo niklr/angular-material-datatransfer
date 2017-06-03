@@ -83,6 +83,12 @@ export class DatatransferFacade {
         this.paginationService.update(0);
     }
 
+    public retryAll(): void {
+        _.each(this.store.getByStatus(TransferStatus.Failed), function (item) {
+            this.retryItem(item);
+        }.bind(this));
+    }
+
     public removeSelected(): void {
         let temp = this.store.getSelected().slice();
         _.each(temp, function (item) {
@@ -108,7 +114,6 @@ export class DatatransferFacade {
     public retryItem(item: IDatatransferItem): void {
         if (!!item) {
             if (item.transferType === TransferType.Upload) {
-                this.logger.log(item);
                 this.uploader.retryItem(item);
             }
         }
@@ -118,6 +123,7 @@ export class DatatransferFacade {
         let item: IDatatransferItem = this.store.getById(id);
         if (!!item) {
             item.status = status;
+            this.store.updateFailedCount();
         }
         return item;
     }
@@ -158,7 +164,11 @@ export class DatatransferFacade {
     }
 
     public showRetryButton(): boolean {
-        return false;
+        return this.store.failedCount > 0 && !this.uploader.isUploading();
+    }
+
+    public showRetryButtonByItem(item: IDatatransferItem): boolean {
+        return item.status === TransferStatus.Failed;
     }
 
     public showProgressbar(item: IDatatransferItem): boolean {
