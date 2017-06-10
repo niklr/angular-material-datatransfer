@@ -8,7 +8,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 import { PaginationComponent } from './components/pagination.component';
-import { ApiService, LoggerService, PaginationService } from './services';
+import { CsvExporter, JsonExporter } from './exporters';
+import { ApiService, LoggerService, PaginationService, ExportService } from './services';
 import { DatatransferStore } from './stores';
 import { DatatransferFacadeFactory } from './factories';
 import { DateUtil, DecimalByteUnitUtil, GuidUtil } from './utils';
@@ -32,11 +33,14 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     ApiService,
     LoggerService,
     PaginationService,
+    ExportService,
     DatatransferStore,
     DatatransferFacadeFactory,
     DateUtil,
     DecimalByteUnitUtil,
-    GuidUtil
+    GuidUtil,
+    CsvExporter,
+    JsonExporter
   ],
   bootstrap: [AppComponent]
 })

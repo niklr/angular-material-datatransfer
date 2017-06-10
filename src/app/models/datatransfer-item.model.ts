@@ -12,6 +12,8 @@ export interface IDatatransferItem {
   message?: string;
   isSelected?: boolean;
   externalItem?: any;
+  getStatusName(): string;
+  getTransferTypeName(): string;
 }
 
 export class DatatransferItem implements IDatatransferItem {

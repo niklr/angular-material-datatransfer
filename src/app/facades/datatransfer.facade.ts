@@ -2,7 +2,7 @@ import { Component, NgZone } from '@angular/core';
 import * as _ from 'underscore';
 
 import { IUploader } from '../uploaders';
-import { LoggerService, PaginationService } from '../services';
+import { LoggerService, PaginationService, ExportService } from '../services';
 import { DatatransferStore } from '../stores';
 import { IDatatransferItem, ISizeInformation, IProgressInformation } from '../models';
 import { DateUtil } from '../utils';
@@ -17,8 +17,8 @@ export class DatatransferFacade {
     // Interval in milliseconds to calculate bitrate:
     private bitrateInterval = 500;
 
-    constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferStore,
-        private dateUtil: DateUtil, private paginationService: PaginationService, private uploader: IUploader) {
+    constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferStore, private dateUtil: DateUtil,
+        private paginationService: PaginationService, private uploader: IUploader, private exportService: ExportService) {
         this.init();
     }
 
@@ -152,6 +152,10 @@ export class DatatransferFacade {
 
     public updateOverallUploadSize(size: number): void {
         this.uploadProgress.reset(size);
+    }
+
+    public export(exportType: string): void {
+        this.exportService.export(exportType);
     }
 
     public showStartButton(): boolean {
