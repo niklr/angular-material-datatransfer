@@ -174,6 +174,10 @@ export class DatatransferFacade {
         return this.store.failedCount > 0 && !this.uploader.isUploading();
     }
 
+    public showExportButton(): boolean {
+        return this.store.count > 0 && !this.uploader.isUploading();
+    }
+
     public showRetryButtonByItem(item: IDatatransferItem): boolean {
         return item.status === TransferStatus.Failed;
     }

@@ -21,7 +21,7 @@
         <span>JSON</span>
       </button>
     </md-menu>
-    <button md-raised-button [mdMenuTriggerFor]="exportMenu">
+    <button md-raised-button *ngIf="datatransferFacade.showExportButton()"  [mdMenuTriggerFor]="exportMenu">
       Export <i class="fa fa-caret-down" aria-hidden="true"></i>
     </button>
   </div>
