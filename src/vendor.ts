@@ -12,7 +12,6 @@ import '@angular/flex-layout';
 
 import 'rxjs';
 import 'hammerjs';
-import '@angularclass/hmr';
 import 'resumablejs';
 import 'underscore';
 
