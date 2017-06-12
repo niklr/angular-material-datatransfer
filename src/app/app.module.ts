@@ -7,9 +7,9 @@ import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
-import { PaginationComponent } from './components/pagination.component';
+import { DropzoneComponent, PaginationComponent } from './components';
 import { CsvExporter, JsonExporter } from './exporters';
-import { ApiService, LoggerService, PaginationService, ExportService } from './services';
+import { LoggerService, PaginationService, ExportService, DemoService } from './services';
 import { DatatransferStore } from './stores';
 import { DatatransferFacadeFactory } from './factories';
 import { DateUtil, DecimalByteUnitUtil, GuidUtil } from './utils';
@@ -27,12 +27,13 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
   ],
   declarations: [
     AppComponent,
+    DropzoneComponent,
     PaginationComponent
   ],
   providers: [
-    ApiService,
     LoggerService,
     PaginationService,
+    DemoService,
     ExportService,
     DatatransferStore,
     DatatransferFacadeFactory,

@@ -3,7 +3,7 @@ import { IDatatransferItem, DatatransferItem, SizeInformation, ProgressInformati
 import { TransferType, TransferStatus, DecimalByteUnit } from '../enums';
 
 @Injectable()
-export class ApiService {
+export class DemoService {
   title = 'angular-material-datatransfer';
 
   testItems: IDatatransferItem[] = [
@@ -56,5 +56,13 @@ export class ApiService {
       transferType: TransferType.Upload,
       status: TransferStatus.Queued,
     })
+  ];
+  testDownloadItems = [
+    {
+      filename: 'nmap-7.40-setup.exe'
+    },
+    {
+      filename: 'node-v6.10.3-x64.msi'
+    }
   ];
 }

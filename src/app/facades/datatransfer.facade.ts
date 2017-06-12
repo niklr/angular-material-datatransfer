@@ -158,6 +158,21 @@ export class DatatransferFacade {
         this.exportService.export(exportType);
     }
 
+    public getStatusClass(status: TransferStatus): string {
+        switch (status) {
+        case TransferStatus.Uploading:
+            return 'fa fa-arrow-circle-o-up';
+        case TransferStatus.Downloading:
+            return 'fa fa-arrow-circle-o-down';
+        case TransferStatus.Failed:
+            return 'fa fa-exclamation-circle';
+        case TransferStatus.Queued:
+            return 'fa fa-circle-o';
+        default:
+            return '';
+        }
+    }
+
     public showStartButton(): boolean {
         return this.store.count > 0 && !this.uploader.isUploading();
     }

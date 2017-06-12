@@ -1,10 +1,5 @@
 <div style="padding: 40px;">
-  <div class="dtm-dropzone" id="dropzoneElement">
-    <div class="dtm-dropzone-content">
-      <i class="fa fa-file-o fa-3x"></i><i class="fa fa-plus-circle"></i>
-      <p>Drop your files/folders here or click to upload.</p>
-    </div>
-  </div>
+  <amd-dropzone></amd-dropzone>
 </div>
 
 <div fxLayout="row" fxLayout.lt-sm="column" style="margin-bottom: 10px">
@@ -21,7 +16,7 @@
         <span>JSON</span>
       </button>
     </md-menu>
-    <button md-raised-button *ngIf="datatransferFacade.showExportButton()"  [mdMenuTriggerFor]="exportMenu">
+    <button md-raised-button *ngIf="datatransferFacade.showExportButton()" [mdMenuTriggerFor]="exportMenu">
       Export <i class="fa fa-caret-down" aria-hidden="true"></i>
     </button>
   </div>
@@ -95,7 +90,7 @@
       <div fxFlex class="dtm-container-item-entry-2">
         <div style="align-items: center;">
           <div fxFlex="20px">
-            <i class="fa-lg" [ngClass]="getStatusClass(item.status)" aria-hidden="true"></i>
+            <i class="fa-lg" [ngClass]="datatransferFacade.getStatusClass(item.status)" aria-hidden="true"></i>
           </div>
           <div fxFlex="100%">
             <div *ngIf="datatransferFacade.showProgressbar(item); else elseBlock">
@@ -147,5 +142,18 @@
 </div>
 
 <div style="font-size: 12px; margin-top: 20px; text-align: right;">
-  <pagination [paginationService]="paginationService"></pagination>
+  <amd-pagination [paginationService]="paginationService"></amd-pagination>
+</div>
+
+<div *ngIf="!!demoService.testDownloadItems && demoService.testDownloadItems.length > 0">
+  <p>
+    <md-divider class="mat-divider"></md-divider>
+  </p>
+  <button md-raised-button (click)="demoService.downloadAll()"><i class="fa fa-download" aria-hidden="true"></i> Download all</button>
+  <md-list>
+    <md-list-item *ngFor="let item of demoService.testDownloadItems">
+      <md-icon md-list-icon><i class="fa fa-file-o" aria-hidden="true"></i></md-icon>
+      <h4 md-line><a href="/files/{{item.filename}}" download="{{item.filename}}">{{item.filename}}</a></h4>
+    </md-list-item>
+  </md-list>
 </div>
