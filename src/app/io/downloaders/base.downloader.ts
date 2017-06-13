@@ -1,9 +1,7 @@
-import { Injectable, HostListener } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { IDatatransfer } from '..';
+import { IDatatransfer, BaseDatatransfer } from '..';
 import { LoggerService } from '../../services';
-import { IDatatransferItem, ISizeInformation } from '../../models';
-import { TransferStatus } from '../../enums';
 import { GuidUtil } from '../../utils';
 
 export interface IDownloader extends IDatatransfer {
@@ -11,54 +9,9 @@ export interface IDownloader extends IDatatransfer {
 }
 
 @Injectable()
-export abstract class BaseDownloader implements IDownloader {
-
-    private events = [];
+export abstract class BaseDownloader extends BaseDatatransfer {
 
     constructor(protected logger: LoggerService, protected guidUtil: GuidUtil) {
-
+        super(logger, guidUtil);
     }
-
-    protected generateUniqueIdentifier(): string {
-        return this.guidUtil.createGuid();
-    }
-
-    public on(event: string, callback: Function): void {
-        this.events.push(event.toLowerCase(), callback);
-    }
-
-    protected fire(...args: any[]): void {
-        let event = args[0].toLowerCase();
-        // Find event listeners, and support pseudo-event `catchAll`
-        for (let i = 0; i <= this.events.length; i += 2) {
-            if (this.events[i] === event) {
-                this.events[i + 1].apply(this, args.slice(1));
-            }
-            if (this.events[i] === 'catchall') {
-                this.events[i + 1].apply(null, args);
-            }
-        }
-    };
-
-    public abstract isWorking(): boolean;
-
-    public startAll(): void {
-
-    }
-
-    public pauseAll(): void {
-
-    }
-
-    public removeAll(): void {
-
-    }
-
-    public addItem(item: IDatatransferItem): void {
-        this.fire('itemAdded', item);
-    }
-
-    public abstract removeItem(item: IDatatransferItem): void;
-
-    public abstract retryItem(item: IDatatransferItem): void;
 }

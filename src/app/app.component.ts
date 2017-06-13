@@ -34,6 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
   };
 
   uploadProgress: IProgressInformation;
+  downloadProgress: IProgressInformation;
 
   r = undefined;
 
@@ -49,11 +50,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.datatransferFacade.assignUploadBrowse(dropzoneElement);
     this.datatransferFacade.assignUploadDrop(dropzoneElement);
     this.uploadProgress = this.datatransferStore.uploadProgress;
+    this.downloadProgress = this.datatransferStore.downloadProgress;
     this.paginationService.setRppOptions(this.options.pagination.rppOptions);
 
-    _.each(this.demoService.testItems, function (item: IDatatransferItem) {
-      this.datatransferFacade.addItem(item);
-    }.bind(this));
+    // _.each(this.demoService.testItems, function (item: IDatatransferItem) {
+    //   this.datatransferFacade.addItem(item);
+    // }.bind(this));
 
     // tslint:disable-next-line
     // https://stackoverflow.com/questions/36997625/angular-2-communication-of-typescript-functions-with-external-js-libraries/36997723#36997723

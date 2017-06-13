@@ -20,24 +20,15 @@
       Export <i class="fa fa-caret-down" aria-hidden="true"></i>
     </button>
   </div>
-  <div fxFlex="20px"></div>
-  <div fxFlex *ngIf="uploadProgress.percent > 0">
-    <div class="dtm-container-item-stats" style="margin-top: 10px;">
-      <div fxFlex="25%" fxFlex.lt-md="50%">
-        {{uploadProgress.displayBitrate}}
-      </div>
-      <div fxFlex="25%" fxHide.lt-md style="text-align: center">
-        {{uploadProgress.displayTimeLeft}}
-      </div>
-      <div fxFlex="25%" fxHide.lt-md style="text-align: center">
-        {{uploadProgress.percent}}%
-      </div>
-      <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
-        {{uploadProgress.loadedSizeInformation.displaySize}} / {{uploadProgress.totalSizeInformation.displaySize}} {{uploadProgress.totalSizeInformation.displayUnit}}
-      </div>
+  <div fxFlex="20px">
+  </div>
+  <div fxFlex>
+    <div *ngIf="uploadProgress.percent > 0">
+      <amd-progress [progressInformation]="uploadProgress"></amd-progress>
     </div>
-    <md-progress-bar [color]="color" [mode]="mode" [value]="uploadProgress.percent" [bufferValue]="bufferValue">
-    </md-progress-bar>
+    <div *ngIf="downloadProgress.percent > 0">
+      <amd-progress [progressInformation]="downloadProgress"></amd-progress>
+    </div>
   </div>
 </div>
 

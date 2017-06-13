@@ -7,7 +7,7 @@ import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
-import { DropzoneComponent, PaginationComponent } from './components';
+import { DropzoneComponent, PaginationComponent, ProgressComponent } from './components';
 import { CsvExporter, JsonExporter } from './io';
 import { LoggerService, PaginationService, ExportService, DemoService } from './services';
 import { DatatransferStore } from './stores';
@@ -26,7 +26,8 @@ import { DateUtil, DecimalByteUnitUtil, GuidUtil } from './utils';
   declarations: [
     AppComponent,
     DropzoneComponent,
-    PaginationComponent
+    PaginationComponent,
+    ProgressComponent
   ],
   providers: [
     LoggerService,

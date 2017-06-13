@@ -1,0 +1,16 @@
+<div style="font-size: 11px; margin-top: 10px;">
+    <div fxFlex="25%" fxFlex.lt-md="50%">
+        {{progressInformation.displayBitrate}}
+    </div>
+    <div fxFlex="25%" fxHide.lt-md style="text-align: center">
+        {{progressInformation.displayTimeLeft}}
+    </div>
+    <div fxFlex="25%" fxHide.lt-md style="text-align: center">
+        {{progressInformation.percent}}%
+    </div>
+    <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
+        {{progressInformation.loadedSizeInformation.displaySize}} / {{progressInformation.totalSizeInformation.displaySize}} {{progressInformation.totalSizeInformation.displayUnit}}
+    </div>
+</div>
+<md-progress-bar [color]="color" [mode]="mode" [value]="progressInformation.percent" [bufferValue]="bufferValue">
+</md-progress-bar>
