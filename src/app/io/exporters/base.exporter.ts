@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { LoggerService } from '../services';
-import { DatatransferStore } from '../stores';
-import { ExportType } from '../enums';
+import { LoggerService } from '../../services';
+import { DatatransferStore } from '../../stores';
+import { ExportType } from '../../enums';
 
 export interface IExporter {
     export(): void;

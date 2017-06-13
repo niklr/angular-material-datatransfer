@@ -1,21 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { LoggerService } from '../services';
-import { IDatatransferItem, ISizeInformation } from '../models';
-import { TransferStatus } from '../enums';
-import { GuidUtil } from '../utils';
+import { IDatatransfer } from '..';
+import { LoggerService } from '../../services';
+import { IDatatransferItem, ISizeInformation } from '../../models';
+import { TransferStatus } from '../../enums';
+import { GuidUtil } from '../../utils';
 
-export interface IUploader {
-    on(event: string, callback: Function): void;
+export interface IUploader extends IDatatransfer {
     assignBrowse(element): void;
     assignDrop(element): void;
-    isUploading(): boolean;
-    startAll(): void;
-    pauseAll(): void;
-    removeAll(): void;
-    addItem(item: IDatatransferItem): void;
-    removeItem(item: IDatatransferItem): void;
-    retryItem(item: IDatatransferItem): void;
 }
 
 @Injectable()
@@ -57,29 +50,29 @@ export abstract class BaseUploader implements IUploader {
     }
 
     protected updateOverallProgress(progress: number): void {
-        this.fire('overallUploadProgressUpdated', progress);
+        this.fire('overallProgressUpdated', progress);
     }
 
     protected updateOverallSize(size: number): void {
-        this.fire('overallUploadSizeUpdated', size);
+        this.fire('overallSizeUpdated', size);
     }
 
     public abstract assignBrowse(element): void;
 
     public abstract assignDrop(element): void;
 
-    public abstract isUploading(): boolean;
+    public abstract isWorking(): boolean;
 
     public startAll(): void {
-        this.fire('startAll');
+
     }
 
     public pauseAll(): void {
-        this.fire('pauseAll');
+
     }
 
     public removeAll(): void {
-        this.fire('removeAll');
+
     }
 
     public addItem(item: IDatatransferItem): void {

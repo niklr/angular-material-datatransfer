@@ -70,7 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
     console.log('testFn');
   }
 
-  @HostListener('window:amd-download-item', ['$event'])
+  @HostListener('window:amd.download-item', ['$event'])
   public test(event): void {
     console.log(event);
     console.log(event.detail);

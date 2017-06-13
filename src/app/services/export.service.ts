@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { ExportType } from '../enums';
-import { IExporter, CsvExporter, JsonExporter } from '../exporters';
+import { IExporter, CsvExporter, JsonExporter } from '../io';
 
 @Injectable()
 export class ExportService {

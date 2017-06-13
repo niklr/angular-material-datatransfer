@@ -20,7 +20,7 @@
       ref.zone.run(() => { ref.component.testFn(); });
     }
     function test2() {
-      var event = new CustomEvent('amd-download-item', { 'detail': 'download1234' });
+      var event = new CustomEvent('amd.download-item', { 'detail': { 'filename': 'test1234' } });
       window.dispatchEvent(event);
     }
   </script>

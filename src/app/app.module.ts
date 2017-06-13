@@ -8,7 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 import { DropzoneComponent, PaginationComponent } from './components';
-import { CsvExporter, JsonExporter } from './exporters';
+import { CsvExporter, JsonExporter } from './io';
 import { LoggerService, PaginationService, ExportService, DemoService } from './services';
 import { DatatransferStore } from './stores';
 import { DatatransferFacadeFactory } from './factories';

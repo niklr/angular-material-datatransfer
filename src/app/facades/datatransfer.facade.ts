@@ -1,7 +1,7 @@
 import { Component, NgZone } from '@angular/core';
 import * as _ from 'underscore';
 
-import { IUploader } from '../uploaders';
+import { IDatatransfer, IUploader, IDownloader } from '../io';
 import { LoggerService, PaginationService, ExportService } from '../services';
 import { DatatransferStore } from '../stores';
 import { IDatatransferItem, ISizeInformation, IProgressInformation } from '../models';
@@ -11,6 +11,7 @@ import { TransferStatus, TransferType } from '../enums';
 export class DatatransferFacade {
 
     private uploadProgress: IProgressInformation;
+    private downloadProgress: IProgressInformation;
 
     // Interval in milliseconds to calculate progress:
     private progressInterval = 100;
@@ -18,39 +19,39 @@ export class DatatransferFacade {
     private bitrateInterval = 500;
 
     constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferStore, private dateUtil: DateUtil,
-        private paginationService: PaginationService, private uploader: IUploader, private exportService: ExportService) {
-        this.init();
+        private paginationService: PaginationService, private exportService: ExportService,
+        private uploader: IUploader, private downloader: IDownloader) {
+        this.uploadProgress = this.store.uploadProgress;
+        this.downloadProgress = this.store.downloadProgress;
+        this.init(this.uploader, this.uploadProgress);
+        this.init(this.downloader, this.downloadProgress);
     }
 
-    public init(): void {
-        this.uploadProgress = this.store.uploadProgress;
-        this.uploader.on('itemAdded', function (item: IDatatransferItem) {
+    private init(datatransfer: IDatatransfer, progressInformation: IProgressInformation): void {
+        datatransfer.on('itemAdded', function (item: IDatatransferItem) {
             this.zone.run(() => {
                 this.addItem(item);
             });
         }.bind(this));
-        this.uploader.on('itemStatusChanged', function (id: string, status: TransferStatus, message?: string) {
+        datatransfer.on('itemStatusChanged', function (id: string, status: TransferStatus, message?: string) {
             this.zone.run(() => {
                 this.changeItemStatus(id, status, message);
             });
         }.bind(this));
-        this.uploader.on('itemProgressUpdated', function (id: string, progress: number) {
+        datatransfer.on('itemProgressUpdated', function (id: string, progress: number) {
             this.zone.run(() => {
                 this.updateItemProgress(id, progress);
             });
         }.bind(this));
-        this.uploader.on('overallUploadProgressUpdated', function (progress: number) {
+        datatransfer.on('overallProgressUpdated', function (progress: number) {
             this.zone.run(() => {
-                this.updateOverallUploadProgress(progress);
+                this.updateOverallProgress(progressInformation, progress);
             });
         }.bind(this));
-        this.uploader.on('overallUploadSizeUpdated', function (size: number) {
+        datatransfer.on('overallSizeUpdated', function (size: number) {
             this.zone.run(() => {
-                this.updateOverallUploadSize(size);
+                this.updateOverallSize(progressInformation, size);
             });
-        }.bind(this));
-        this.uploader.on('removeAll', function () {
-            this.store.clear();
         }.bind(this));
     }
 
@@ -62,7 +63,7 @@ export class DatatransferFacade {
         this.uploader.assignDrop(element);
     }
 
-    toggleVisible(checked: boolean): void {
+    public toggleVisible(checked: boolean): void {
         _.each(this.paginationService.paginatedItems, function (item) {
             item.isSelected = checked;
         });
@@ -74,10 +75,12 @@ export class DatatransferFacade {
 
     public pauseAll(): void {
         this.uploader.pauseAll();
+        this.downloader.pauseAll();
     }
 
     public removeAll(): void {
         this.uploader.removeAll();
+        this.downloader.removeAll();
         this.store.clear();
         this.uploadProgress.reset(0);
         this.paginationService.update(0);
@@ -103,8 +106,15 @@ export class DatatransferFacade {
 
     public removeItem(item: IDatatransferItem): void {
         if (!!item) {
-            if (item.transferType === TransferType.Upload) {
-                this.uploader.removeItem(item);
+            switch (item.transferType) {
+                case TransferType.Upload:
+                    this.uploader.removeItem(item);
+                    break;
+                case TransferType.Download:
+                    this.downloader.removeItem(item);
+                    break;
+                default:
+                    break;
             }
             this.store.removeById(item.id);
             this.paginationService.update(this.store.count);
@@ -113,8 +123,15 @@ export class DatatransferFacade {
 
     public retryItem(item: IDatatransferItem): void {
         if (!!item) {
-            if (item.transferType === TransferType.Upload) {
-                this.uploader.retryItem(item);
+            switch (item.transferType) {
+                case TransferType.Upload:
+                    this.uploader.retryItem(item);
+                    break;
+                case TransferType.Download:
+                    this.downloader.retryItem(item);
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -143,15 +160,15 @@ export class DatatransferFacade {
         return item;
     }
 
-    public updateOverallUploadProgress(progress: number): void {
+    public updateOverallProgress(progressInformation: IProgressInformation, progress: number): void {
         let now: number = this.dateUtil.now();
-        let loaded: number = this.uploadProgress.total * progress;
-        this.uploadProgress.updateProgress(now, loaded, this.progressInterval);
-        this.uploadProgress.updateBitrate(now, loaded, this.bitrateInterval);
+        let loaded: number = progressInformation.total * progress;
+        progressInformation.updateProgress(now, loaded, this.progressInterval);
+        progressInformation.updateBitrate(now, loaded, this.bitrateInterval);
     }
 
-    public updateOverallUploadSize(size: number): void {
-        this.uploadProgress.reset(size);
+    public updateOverallSize(progressInformation: IProgressInformation, size: number): void {
+        progressInformation.reset(size);
     }
 
     public export(exportType: string): void {
@@ -160,25 +177,25 @@ export class DatatransferFacade {
 
     public getStatusClass(status: TransferStatus): string {
         switch (status) {
-        case TransferStatus.Uploading:
-            return 'fa fa-arrow-circle-o-up';
-        case TransferStatus.Downloading:
-            return 'fa fa-arrow-circle-o-down';
-        case TransferStatus.Failed:
-            return 'fa fa-exclamation-circle';
-        case TransferStatus.Queued:
-            return 'fa fa-circle-o';
-        default:
-            return '';
+            case TransferStatus.Uploading:
+                return 'fa fa-arrow-circle-o-up';
+            case TransferStatus.Downloading:
+                return 'fa fa-arrow-circle-o-down';
+            case TransferStatus.Failed:
+                return 'fa fa-exclamation-circle';
+            case TransferStatus.Queued:
+                return 'fa fa-circle-o';
+            default:
+                return '';
         }
     }
 
     public showStartButton(): boolean {
-        return this.store.count > 0 && !this.uploader.isUploading();
+        return this.store.count > 0 && !this.uploader.isWorking();
     }
 
     public showPauseButton(): boolean {
-        return this.uploader.isUploading();
+        return this.uploader.isWorking() || this.downloader.isWorking();
     }
 
     public showRemoveButton(): boolean {
@@ -186,11 +203,11 @@ export class DatatransferFacade {
     }
 
     public showRetryButton(): boolean {
-        return this.store.failedCount > 0 && !this.uploader.isUploading();
+        return this.store.failedCount > 0 && !this.uploader.isWorking() && !this.downloader.isWorking();
     }
 
     public showExportButton(): boolean {
-        return this.store.count > 0 && !this.uploader.isUploading();
+        return this.store.count > 0 && !this.uploader.isWorking() && !this.downloader.isWorking();
     }
 
     public showRetryButtonByItem(item: IDatatransferItem): boolean {

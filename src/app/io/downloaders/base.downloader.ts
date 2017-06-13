@@ -1,19 +1,13 @@
 import { Injectable, HostListener } from '@angular/core';
 
-import { LoggerService } from '../services';
-import { IDatatransferItem, ISizeInformation } from '../models';
-import { TransferStatus } from '../enums';
-import { GuidUtil } from '../utils';
+import { IDatatransfer } from '..';
+import { LoggerService } from '../../services';
+import { IDatatransferItem, ISizeInformation } from '../../models';
+import { TransferStatus } from '../../enums';
+import { GuidUtil } from '../../utils';
 
-export interface IDownloader {
-    on(event: string, callback: Function): void;
-    isDownloading(): boolean;
-    startAll(): void;
-    pauseAll(): void;
-    removeAll(): void;
-    addItem(item: IDatatransferItem): void;
-    removeItem(item: IDatatransferItem): void;
-    retryItem(item: IDatatransferItem): void;
+export interface IDownloader extends IDatatransfer {
+
 }
 
 @Injectable()
@@ -46,7 +40,7 @@ export abstract class BaseDownloader implements IDownloader {
         }
     };
 
-    public abstract isDownloading(): boolean;
+    public abstract isWorking(): boolean;
 
     public startAll(): void {
 

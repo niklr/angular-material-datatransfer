@@ -12,6 +12,7 @@ export class DatatransferStore {
     public count = 0;
     public failedCount = 0;
     public uploadProgress: IProgressInformation = new ProgressInformation(0);
+    public downloadProgress: IProgressInformation = new ProgressInformation(0);
 
     constructor() {
 

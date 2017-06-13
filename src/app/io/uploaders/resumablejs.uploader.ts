@@ -3,10 +3,10 @@ import * as _ from 'underscore';
 import * as Resumable from 'resumablejs';
 
 import { BaseUploader } from './base.uploader';
-import { LoggerService } from '../services';
-import { IDatatransferItem, DatatransferItem, SizeInformation, ProgressInformation } from '../models';
-import { TransferType, TransferStatus, DecimalByteUnit } from '../enums';
-import { GuidUtil } from '../utils';
+import { LoggerService } from '../../services';
+import { IDatatransferItem, DatatransferItem, SizeInformation, ProgressInformation } from '../../models';
+import { TransferType, TransferStatus, DecimalByteUnit } from '../../enums';
+import { GuidUtil } from '../../utils';
 
 @Injectable()
 export class ResumableJsUploader extends BaseUploader {
@@ -81,7 +81,7 @@ export class ResumableJsUploader extends BaseUploader {
         this.r.assignDrop(element);
     }
 
-    public isUploading(): boolean {
+    public isWorking(): boolean {
         return this.r.isUploading();
     }
 
