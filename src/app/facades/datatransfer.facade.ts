@@ -149,7 +149,7 @@ export class DatatransferFacade {
     }
 
     public updateItemProgress(id: string, progress: number): IDatatransferItem {
-        let item: IDatatransferItem = this.changeItemStatus(id, TransferStatus.Uploading);
+        let item: IDatatransferItem = this.store.getById(id);
         if (!!item) {
             this.paginationService.setPageByItemId(id);
             let now: number = this.dateUtil.now();
@@ -195,11 +195,11 @@ export class DatatransferFacade {
     }
 
     public showStartButton(): boolean {
-        return this.store.count > 0 && !this.uploader.isWorking();
+        return this.store.count > 0 && !this.uploader.isWorking() && !this.downloader.isWorking();
     }
 
     public showPauseButton(): boolean {
-        return this.uploader.isWorking() || this.downloader.isWorking();
+        return this.uploader.isWorking();
     }
 
     public showRemoveButton(): boolean {

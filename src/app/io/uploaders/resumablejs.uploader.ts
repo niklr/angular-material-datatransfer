@@ -50,6 +50,7 @@ export class ResumableJsUploader extends BaseUploader {
         }.bind(this));
         this.r.on('fileProgress', function (file, message) {
             // this.logger.log('fileProgress', file.progress());
+            this.changeItemStatus(file.uniqueIdentifier, TransferStatus.Uploading);
             this.updateItemProgress(file.uniqueIdentifier, file.progress());
             this.updateOverallProgress(this.r.progress());
         }.bind(this));

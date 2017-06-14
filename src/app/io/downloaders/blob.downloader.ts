@@ -22,12 +22,14 @@ export class BlobDownloader extends BaseDownloader {
     }
 
     public isWorking(): boolean {
-        return !!_.find(this.files, function (item) { return item.status === TransferStatus.Downloading; });
+        return this.downloading.length > 0;
     }
 
     public startAll(): void {
         if (!this.isWorking()) {
-            this.downloadNext();
+            for (let index = 0; index < this.simultaneousDownloads; index++) {
+                this.downloadNext();
+            }
         }
     }
 
@@ -64,7 +66,14 @@ export class BlobDownloader extends BaseDownloader {
     }
 
     public retryItem(item: IDatatransferItem): void {
-
+        this.abortDownload(item);
+        this.removeItemFromArray(item, this.queue);
+        this.removeItemFromArray(item, this.downloading);
+        item.externalItem.progress = 0;
+        this.updateItemProgress(item.id, item.externalItem.progress);
+        this.changeItemStatus(item.id, TransferStatus.Queued);
+        this.queue.push(item);
+        this.downloadNext();
     }
 
     public download(filename: string, url: string, sizeInBytes: number): void {
@@ -87,7 +96,7 @@ export class BlobDownloader extends BaseDownloader {
         this.files.push(newItem);
         this.queue.push(newItem);
         this.initDownload(newItem);
-        this.startAll();
+        this.downloadNext();
     }
 
     private initDownload(item: IDatatransferItem): void {
@@ -117,6 +126,8 @@ export class BlobDownloader extends BaseDownloader {
             4	DONE	The operation is complete.
             */
             if (xhr.readyState === 4) {
+                item.externalItem.progress = 1;
+                this.updateItemProgress(item.id, item.externalItem.progress);
                 if (xhr.status === 200) {
                     this.changeItemStatus(item.id, TransferStatus.Finished);
                     saveAs(xhr.response, item.name);
@@ -135,6 +146,7 @@ export class BlobDownloader extends BaseDownloader {
         if (this.downloading.length < this.simultaneousDownloads) {
             let item = this.queue.shift();
             if (!!item && !!item.externalItem && !!item.externalItem.xhr) {
+                this.changeItemStatus(item.id, TransferStatus.Downloading);
                 this.downloading.push(item);
                 item.externalItem.xhr.send();
             }
