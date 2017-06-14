@@ -42,7 +42,8 @@
     "resumablejs": "23/resumable.js#4a8ceb8",
     "rxjs": "^5.4.0",
     "underscore": "^1.8.3",
-    "zone.js": "^0.8.10"
+    "zone.js": "^0.8.10",
+    "filesaver.js": "eligrey/FileSaver.js#5ed507e"
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.41",

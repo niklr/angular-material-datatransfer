@@ -11,7 +11,7 @@ export class DemoService {
       id: '1',
       name: 'DICOM_patientXY_1.dcm',
       path: '/mnt/sdcard/folder1/a/b/',
-      sizeInformation: new SizeInformation({decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 15}),
+      sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 15 }),
       progressInformation: new ProgressInformation(15 * 1000 * 1000),
       transferType: TransferType.Upload,
       status: TransferStatus.Uploading
@@ -20,7 +20,7 @@ export class DemoService {
       id: '2',
       name: 'DICOM_patientXY_2.dcm',
       path: '/mnt/sdcard/folder1/a/b/',
-      sizeInformation: new SizeInformation({decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 17}),
+      sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 17 }),
       transferType: TransferType.Upload,
       status: TransferStatus.Failed
     }),
@@ -28,7 +28,7 @@ export class DemoService {
       id: '3',
       name: 'DICOM_patientXY_3.dcm',
       path: '/mnt/sdcard/folder1/a/b/',
-      sizeInformation: new SizeInformation({decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 13}),
+      sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 13 }),
       transferType: TransferType.Upload,
       status: TransferStatus.Queued
     }),
@@ -36,7 +36,7 @@ export class DemoService {
       id: '4',
       name: 'DICOM_patientXY_4.dcm',
       path: '/mnt/sdcard/folder1/a/b/',
-      sizeInformation: new SizeInformation({decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 11}),
+      sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 11 }),
       transferType: TransferType.Upload,
       status: TransferStatus.Queued,
     }),
@@ -44,7 +44,7 @@ export class DemoService {
       id: '5',
       name: 'SMIR.Thorax.089Y.M.CT.7.000.dcm.zip',
       path: '/',
-      sizeInformation: new SizeInformation({decimalByteUnit: DecimalByteUnit.GB, decimalByteUnitSize: 2}),
+      sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.GB, decimalByteUnitSize: 2 }),
       transferType: TransferType.Download,
       status: TransferStatus.Queued
     }),
@@ -52,17 +52,27 @@ export class DemoService {
       id: '6',
       name: 'NIFTI_patientXY.nii',
       path: '/mnt/sdcard/folder2/d/',
-      sizeInformation: new SizeInformation({decimalByteUnit: DecimalByteUnit.GB, decimalByteUnitSize: 12}),
+      sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.GB, decimalByteUnitSize: 12 }),
       transferType: TransferType.Upload,
       status: TransferStatus.Queued,
     })
   ];
   testDownloadItems = [
     {
-      filename: 'nmap-7.40-setup.exe'
+      filename: 'nmap-7.40-setup.exe',
+      size: 26445000
     },
     {
-      filename: 'node-v6.10.3-x64.msi'
+      filename: 'node-v6.10.3-x64.msi',
+      size: 12456000
+    },
+    {
+      filename: 'ubuntu-14.04.5-server-i386.iso',
+      size: 609280000
+    },
+    {
+      filename: 'en_windows_10_n.iso',
+      size: 3716570000
     }
   ];
 }

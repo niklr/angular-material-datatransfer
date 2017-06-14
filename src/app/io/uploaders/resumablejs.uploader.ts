@@ -87,12 +87,10 @@ export class ResumableJsUploader extends BaseUploader {
 
     public startAll(): void {
         this.r.upload();
-        super.startAll();
     }
 
     public pauseAll(): void {
         this.r.pause();
-        super.pauseAll();
     }
 
     public removeAll(): void {
@@ -100,7 +98,6 @@ export class ResumableJsUploader extends BaseUploader {
         _.each(tempFiles, function (file) {
             this.r.removeFile(file);
         }.bind(this));
-        super.removeAll();
     }
 
     public removeItem(item: IDatatransferItem): void {

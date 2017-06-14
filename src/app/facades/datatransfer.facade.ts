@@ -171,6 +171,10 @@ export class DatatransferFacade {
         progressInformation.reset(size);
     }
 
+    public download(filename: string, url: string, sizeInBytes: number): void {
+        this.downloader.download(filename, url, sizeInBytes);
+    }
+
     public export(exportType: string): void {
         this.exportService.export(exportType);
     }
@@ -206,12 +210,12 @@ export class DatatransferFacade {
         return this.store.failedCount > 0 && !this.uploader.isWorking() && !this.downloader.isWorking();
     }
 
-    public showExportButton(): boolean {
-        return this.store.count > 0 && !this.uploader.isWorking() && !this.downloader.isWorking();
-    }
-
     public showRetryButtonByItem(item: IDatatransferItem): boolean {
         return item.status === TransferStatus.Failed;
+    }
+
+    public showExportButton(): boolean {
+        return this.store.count > 0 && !this.uploader.isWorking() && !this.downloader.isWorking();
     }
 
     public showProgressbar(item: IDatatransferItem): boolean {

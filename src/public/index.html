@@ -11,15 +11,9 @@
 
 <body>
   <angular-material-datatransfer>Loading...</angular-material-datatransfer>
-  <button onclick="test1()">Test1</button>
-  <button onclick="test2()">Test2</button>
+  <button onclick="test()">Test</button>
   <script>
-    function test1() {
-      var ref = window['angularMaterialDatatransfer'];
-      //ref.component.testFn();
-      ref.zone.run(() => { ref.component.testFn(); });
-    }
-    function test2() {
+    function test() {
       var event = new CustomEvent('amd.download-item', { 'detail': { 'filename': 'test1234' } });
       window.dispatchEvent(event);
     }

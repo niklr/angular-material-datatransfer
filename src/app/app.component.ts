@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, NgZone, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, NgZone, ChangeDetectorRef, HostListener } from '@angular/core';
 
 import { LoggerService, PaginationService, DemoService } from './services';
 import { DecimalByteUnitUtil } from './utils';
@@ -19,7 +19,7 @@ import '../style/angular-material-theme.scss';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
 
   datatransferFacade: DatatransferFacade;
   color = 'primary';
@@ -56,24 +56,16 @@ export class AppComponent implements OnInit, OnDestroy {
     // _.each(this.demoService.testItems, function (item: IDatatransferItem) {
     //   this.datatransferFacade.addItem(item);
     // }.bind(this));
-
-    // tslint:disable-next-line
-    // https://stackoverflow.com/questions/36997625/angular-2-communication-of-typescript-functions-with-external-js-libraries/36997723#36997723
-
-    // https://stackoverflow.com/questions/35296704/angular2-how-to-call-component-function-from-outside-the-app
-    window['angularMaterialDatatransfer'] = { component: this, zone: this.zone };
   }
 
-  ngOnDestroy() {
-    window['angularMaterialDatatransfer'] = null;
-  }
-
-  public testFn(): void {
-    console.log('testFn');
+  public downloadAll(): void {
+    _.each(this.demoService.testDownloadItems, function (item) {
+      this.datatransferFacade.download(item.filename, '/files/' + item.filename, item.size);
+    }.bind(this));
   }
 
   @HostListener('window:amd.download-item', ['$event'])
-  public test(event): void {
+  public downloadItem(event): void {
     console.log(event);
     console.log(event.detail);
   }

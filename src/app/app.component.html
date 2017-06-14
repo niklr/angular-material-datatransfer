@@ -140,11 +140,14 @@
   <p>
     <md-divider class="mat-divider"></md-divider>
   </p>
-  <button md-raised-button (click)="demoService.downloadAll()"><i class="fa fa-download" aria-hidden="true"></i> Download all</button>
+  <button md-raised-button (click)="downloadAll()"><i class="fa fa-download" aria-hidden="true"></i> Download all</button>
   <md-list>
     <md-list-item *ngFor="let item of demoService.testDownloadItems">
       <md-icon md-list-icon><i class="fa fa-file-o" aria-hidden="true"></i></md-icon>
-      <h4 md-line><a href="/files/{{item.filename}}" download="{{item.filename}}">{{item.filename}}</a></h4>
+      <h4 md-line><a href="/files/{{item.filename}}" download="{{item.filename}}">{{item.filename}}</a>
+        <button md-icon-button (click)="datatransferFacade.download(item.filename, '/files/' + item.filename, item.size)">
+          <i class="fa fa-download" aria-hidden="true"></i>
+        </button></h4>
     </md-list-item>
   </md-list>
 </div>

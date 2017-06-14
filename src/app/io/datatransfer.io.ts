@@ -64,17 +64,11 @@ export abstract class BaseDatatransfer implements IDatatransfer {
 
     public abstract isWorking(): boolean;
 
-    public startAll(): void {
+    public abstract startAll(): void;
 
-    }
+    public abstract pauseAll(): void;
 
-    public pauseAll(): void {
-
-    }
-
-    public removeAll(): void {
-
-    }
+    public abstract removeAll(): void;
 
     public addItem(item: IDatatransferItem): void {
         this.fire('itemAdded', item);

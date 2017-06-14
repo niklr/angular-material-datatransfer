@@ -14,6 +14,7 @@ import 'rxjs';
 import 'hammerjs';
 import 'resumablejs';
 import 'underscore';
+import 'file-saver';
 
 // Other vendors for example jQuery, Lodash or Bootstrap
 // You can import js, ts, css, sass, ...
