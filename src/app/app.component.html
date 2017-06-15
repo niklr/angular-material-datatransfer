@@ -1,4 +1,4 @@
-<div style="padding: 40px;">
+<div *ngIf="config.showUploadDropzone">
   <amd-dropzone></amd-dropzone>
 </div>
 
@@ -32,8 +32,8 @@
   </div>
 </div>
 
-<div class="dtm-container">
-  <div fxLayout="row" class="dtm-container-header">
+<div class="amd-container">
+  <div fxLayout="row" class="amd-container-header">
     <div fxFlex>
       <div style="align-items: center;">
         <div fxFlex="40px">
@@ -62,11 +62,11 @@
     </div>
   </div>
   <ng-template ngFor let-item [ngForOf]="paginationService.paginatedItems" let-i="index" [ngForTrackBy]="trackByFn">
-    <div *ngIf="datatransferFacade.showPath(paginationService.paginatedItems, i)" class="dtm-container-headline">
+    <div *ngIf="datatransferFacade.showPath(paginationService.paginatedItems, i)" class="amd-container-headline">
       <i class="fa fa-folder-o" aria-hidden="true"></i> {{item.path}}
     </div>
-    <div fxLayout="row" fxLayout.lt-sm="column" class="dtm-container-item" [ngClass]="{'selected': item.isSelected}">
-      <div fxFlex class="dtm-container-item-entry-1">
+    <div fxLayout="row" fxLayout.lt-sm="column" class="amd-container-item" [ngClass]="{'selected': item.isSelected}">
+      <div fxFlex class="amd-container-item-entry-1">
         <div style="align-items: center;">
           <div fxFlex="40px">
             <md-checkbox [(ngModel)]="item.isSelected"></md-checkbox>
@@ -78,14 +78,14 @@
           </div>
         </div>
       </div>
-      <div fxFlex class="dtm-container-item-entry-2">
+      <div fxFlex class="amd-container-item-entry-2">
         <div style="align-items: center;">
           <div fxFlex="20px">
             <i class="fa-lg" [ngClass]="datatransferFacade.getStatusClass(item.status)" aria-hidden="true"></i>
           </div>
           <div fxFlex="100%">
             <div *ngIf="datatransferFacade.showProgressbar(item); else elseBlock">
-              <div class="dtm-container-item-stats">
+              <div class="amd-container-item-stats">
                 <div fxFlex="25%" fxFlex.lt-md="50%">
                   {{item.progressInformation.displayBitrate}}
                 </div>
@@ -99,7 +99,7 @@
                   {{item.progressInformation.loadedSizeInformation.displaySize}} / {{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}}
                 </div>
               </div>
-              <md-progress-bar [color]="color" [mode]="mode" [value]="item.progressInformation.percent" [bufferValue]="bufferValue">
+              <md-progress-bar color="primary" mode="determinate" [value]="item.progressInformation.percent">
               </md-progress-bar>
             </div>
             <ng-template #elseBlock>

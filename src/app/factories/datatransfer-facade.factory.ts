@@ -1,9 +1,10 @@
 import { Injectable, NgZone } from '@angular/core';
-import { LoggerService, PaginationService, ExportService } from '../services';
 import { DatatransferFacade } from '../facades';
+import { ResumableJsUploader, BlobDownloader } from '../io';
+import { IAppConfig } from '../models';
+import { LoggerService, PaginationService, ExportService } from '../services';
 import { DatatransferStore } from '../stores';
 import { DateUtil, GuidUtil } from '../utils';
-import { ResumableJsUploader, BlobDownloader } from '../io';
 
 @Injectable()
 export class DatatransferFacadeFactory {
@@ -14,7 +15,7 @@ export class DatatransferFacadeFactory {
     }
 
     // TODO: pass arguments to define which uploader/downloader implementation should be used
-    public createDatatransferFacade(): DatatransferFacade {
+    public createDatatransferFacade(conifg: IAppConfig): DatatransferFacade {
         return new DatatransferFacade(this.logger, this.zone, this.store, this.dateUtil, this.paginationService, this.exportService,
             new ResumableJsUploader(this.logger, this.guidUtil), new BlobDownloader(this.logger, this.guidUtil));
     }

@@ -1,20 +1,21 @@
 @import 'src/style/angular-material-theme.scss';
 
-$dtm-dropzone-radius: 6px !default;
+$amd-dropzone-radius: 6px !default;
 
-.dtm-dropzone {
+.amd-dropzone {
     cursor: pointer;
 	border: 2px dashed;
-	border-radius: $dtm-dropzone-radius;
+	border-radius: $amd-dropzone-radius;
 	width: 100%;
 	height: 150px;
 	text-align: center;
 	display: table;
     color: mat-contrast($candy-app-primary, 50);
 	background-color: mat-color($candy-app-primary, 50);
+	margin-bottom: 40px;
 }
 
-.dtm-dropzone-content {
+.amd-dropzone-content {
 	vertical-align: middle;
 	display: table-cell;
 }

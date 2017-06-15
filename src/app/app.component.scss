@@ -1,44 +1,44 @@
 @import '~@angular/material/theming';
 @import 'src/style/angular-material-theme.scss';
 
-$dtm-container-radius: 2px !default;
+$amd-container-radius: 2px !default;
 
-$dtm-gray: lighten(#000, 90%);;
+$amd-gray: lighten(#000, 90%);;
 
-.dtm-container {
+.amd-container {
     @include mat-elevation-transition;
     display: block;
-    border-radius: $dtm-container-radius;
+    border-radius: $amd-container-radius;
 
     &:not([class*='mat-elevation-z']) {
         @include mat-elevation(2);
     }
 
-    > .dtm-container-headline:first-child  {
-        border-top-left-radius: $dtm-container-radius;
-        border-top-right-radius: $dtm-container-radius;
+    > .amd-container-headline:first-child  {
+        border-top-left-radius: $amd-container-radius;
+        border-top-right-radius: $amd-container-radius;
     }
 }
 
-.dtm-container-header {
+.amd-container-header {
     padding: 10px 20px 10px 10px;
     font-size: 13px;
     font-weight: bold;
 }
 
-.dtm-container-footer {
+.amd-container-footer {
     padding: 10px 20px 10px 10px;
     font-size: 12px;
 }
 
-.dtm-container-headline {
+.amd-container-headline {
     padding: 10px;
     font-size: 11px;
     color: mat-contrast($candy-app-primary, 600);
     background-color: mat-color($candy-app-primary, 600);
 }
 
-.dtm-container-item {
+.amd-container-item {
     //margin-bottom: 10px;
     padding: 0px 20px 0px 10px;
     font-size: 13px;
@@ -49,10 +49,10 @@ $dtm-gray: lighten(#000, 90%);;
     }
 }
 
-.dtm-container-item-entry-1 {
+.amd-container-item-entry-1 {
     padding: 10px 0px 10px 0px;
 }
 
-.dtm-container-item-stats {
+.amd-container-item-stats {
     font-size: 11px;
 }
