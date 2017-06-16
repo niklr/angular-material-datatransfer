@@ -24,15 +24,9 @@ export class ResumableJsUploader extends BaseUploader {
             return this.generateUniqueIdentifier();
         }
 
-        this.r = new Resumable({
-            target: this.config.uploadTarget,
-            query: this.config.uploadQuery,
-            maxChunkRetries: 2,
-            prioritizeFirstAndLastChunk: false,
-            simultaneousUploads: this.config.simultaneousUploads,
-            chunkSize: 1 * 1024 * 1024,
-            generateUniqueIdentifier: generateId.bind(this)
-        });
+        this.config.resumablejs.generateUniqueIdentifier = generateId.bind(this);
+
+        this.r = new Resumable(this.config.resumablejs);
 
         this.r.on('fileAdded', function (file, event) {
             let newItem = new DatatransferItem({

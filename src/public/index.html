@@ -23,12 +23,16 @@
     (function () {
       window.addEventListener('amd.init', function () {
         var config = {
-          showUploadDropzone: true,
-          paginationRppOptions: [5, 10, 25],
-          simultaneousUploads: 2,
+          core: {
+            showUploadDropzone: true,
+            paginationRppOptions: [5, 10, 25]
+          },
+          resumablejs: {
+            simultaneousUploads: 2
+          }
         };
-        var event1 = new CustomEvent('amd.set-config', { 'detail': config });
-        window.dispatchEvent(event1);
+        var event = new CustomEvent('amd.set-config', { 'detail': config });
+        window.dispatchEvent(event);
       });
     })();
   </script>

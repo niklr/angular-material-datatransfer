@@ -40,18 +40,18 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.config.showUploadDropzone) {
+    if (this.config.core.showUploadDropzone) {
       let dropzoneElement = document.getElementById('amd-dropzone-component');
       if (!!dropzoneElement) {
         this.datatransferFacade.assignUploadBrowse(dropzoneElement);
         this.datatransferFacade.assignUploadDrop(dropzoneElement);
       }
     } else {
-      if (typeof this.config.uploadBrowseElementId !== 'undefined') {
-        this.datatransferFacade.assignUploadBrowse(document.getElementById(this.config.uploadBrowseElementId));
+      if (typeof this.config.core.uploadBrowseElementId !== 'undefined') {
+        this.datatransferFacade.assignUploadBrowse(document.getElementById(this.config.core.uploadBrowseElementId));
       }
-      if (typeof this.config.uploadDropElementId !== 'undefined') {
-        this.datatransferFacade.assignUploadDrop(document.getElementById(this.config.uploadDropElementId));
+      if (typeof this.config.core.uploadDropElementId !== 'undefined') {
+        this.datatransferFacade.assignUploadDrop(document.getElementById(this.config.core.uploadDropElementId));
       }
     }
   }
@@ -66,17 +66,27 @@ export class AppComponent implements OnInit, AfterViewInit {
   public setConfig(event): void {
     if (!!event && !!event.detail) {
       let config: IAppConfig = event.detail;
-      Object.keys(config).forEach(propertyName => {
-        if (typeof config[propertyName] !== 'undefined') {
-          this.config[propertyName] = config[propertyName];
-        }
-      });
+
+      if (!!config.core) {
+        Object.keys(config.core).forEach(propertyName => {
+          if (typeof config.core[propertyName] !== 'undefined') {
+            this.config.core[propertyName] = config.core[propertyName];
+          }
+        });
+      }
+      if (!!config.resumablejs) {
+        Object.keys(config.resumablejs).forEach(propertyName => {
+          if (typeof config.resumablejs[propertyName] !== 'undefined') {
+            this.config.resumablejs[propertyName] = config.resumablejs[propertyName];
+          }
+        });
+      }
     }
 
     this.datatransferFacade = this.datatransferFacadeFactory.createDatatransferFacade(this.config);
     this.uploadProgress = this.datatransferStore.uploadProgress;
     this.downloadProgress = this.datatransferStore.downloadProgress;
-    this.paginationService.setRppOptions(this.config.paginationRppOptions);
+    this.paginationService.setRppOptions(this.config.core.paginationRppOptions);
   }
 
   @HostListener('window:amd.download-item', ['$event'])
