@@ -1,11 +1,19 @@
 export interface IAppConfig {
-    showUploadDropzone: boolean;
-    paginationRppOptions: number[];
+    uploadTarget: string;
+    uploadQuery: any;
     simultaneousUploads: number;
+    showUploadDropzone: boolean;
+    uploadBrowseElementId: string;
+    uploadDropElementId: string;
+    paginationRppOptions: number[];
 }
 
 export class AppConfig implements IAppConfig {
-    showUploadDropzone = true;
-    paginationRppOptions = [5, 10, 25];
+    uploadTarget = '/';
+    uploadQuery = {};
     simultaneousUploads = 2;
+    showUploadDropzone = true;
+    uploadBrowseElementId = undefined;
+    uploadDropElementId = undefined;
+    paginationRppOptions = [5, 10, 25];
 }

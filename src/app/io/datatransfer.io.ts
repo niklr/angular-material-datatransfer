@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { LoggerService } from '../services';
-import { IDatatransferItem } from '../models';
+import { IAppConfig, IDatatransferItem } from '../models';
 import { TransferStatus } from '../enums';
 import { GuidUtil } from '../utils';
 
@@ -21,7 +21,7 @@ export abstract class BaseDatatransfer implements IDatatransfer {
 
     private events = [];
 
-    constructor(protected logger: LoggerService, protected guidUtil: GuidUtil) {
+    constructor(protected logger: LoggerService, protected config: IAppConfig, protected guidUtil: GuidUtil) {
 
     }
 

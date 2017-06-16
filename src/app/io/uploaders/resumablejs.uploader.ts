@@ -4,7 +4,7 @@ import * as Resumable from 'resumablejs';
 
 import { BaseUploader } from './base.uploader';
 import { LoggerService } from '../../services';
-import { IDatatransferItem, DatatransferItem, SizeInformation, ProgressInformation } from '../../models';
+import { IAppConfig, IDatatransferItem, DatatransferItem, SizeInformation, ProgressInformation } from '../../models';
 import { TransferType, TransferStatus, DecimalByteUnit } from '../../enums';
 import { GuidUtil } from '../../utils';
 
@@ -13,8 +13,8 @@ export class ResumableJsUploader extends BaseUploader {
 
     private r = undefined;
 
-    constructor(protected logger: LoggerService, protected guidUtil: GuidUtil) {
-        super(logger, guidUtil);
+    constructor(protected logger: LoggerService, protected config: IAppConfig, protected guidUtil: GuidUtil) {
+        super(logger, config, guidUtil);
         this.initResumable();
     }
 
@@ -25,11 +25,11 @@ export class ResumableJsUploader extends BaseUploader {
         }
 
         this.r = new Resumable({
-            target: '/echo/json/',
-            query: {},
+            target: this.config.uploadTarget,
+            query: this.config.uploadQuery,
             maxChunkRetries: 2,
             prioritizeFirstAndLastChunk: false,
-            simultaneousUploads: 2,
+            simultaneousUploads: this.config.simultaneousUploads,
             chunkSize: 1 * 1024 * 1024,
             generateUniqueIdentifier: generateId.bind(this)
         });

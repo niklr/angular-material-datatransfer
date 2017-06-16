@@ -15,8 +15,8 @@ export class DatatransferFacadeFactory {
     }
 
     // TODO: pass arguments to define which uploader/downloader implementation should be used
-    public createDatatransferFacade(conifg: IAppConfig): DatatransferFacade {
+    public createDatatransferFacade(config: IAppConfig): DatatransferFacade {
         return new DatatransferFacade(this.logger, this.zone, this.store, this.dateUtil, this.paginationService, this.exportService,
-            new ResumableJsUploader(this.logger, this.guidUtil), new BlobDownloader(this.logger, this.guidUtil));
+            new ResumableJsUploader(this.logger, config, this.guidUtil), new BlobDownloader(this.logger, config, this.guidUtil));
     }
 }

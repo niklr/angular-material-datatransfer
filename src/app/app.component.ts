@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit, HostListener } from '@angular/core';
 
 import { LoggerService, PaginationService, DemoService } from './services';
 import { DecimalByteUnitUtil } from './utils';
@@ -19,25 +19,41 @@ import '../style/angular-material-theme.scss';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
 
   config: IAppConfig;
   datatransferFacade: DatatransferFacade;
   uploadProgress: IProgressInformation;
   downloadProgress: IProgressInformation;
 
-  constructor(private zone: NgZone, private cdr: ChangeDetectorRef, private logger: LoggerService,
+  constructor(private logger: LoggerService,
     private datatransferFacadeFactory: DatatransferFacadeFactory, private datatransferStore: DatatransferStore,
     private paginationService: PaginationService, private demoService: DemoService) {
-      this.config = new AppConfig();
+    this.config = new AppConfig();
   }
 
   ngOnInit() {
     window.dispatchEvent(new Event('amd.init'));
-
     // _.each(this.demoService.testItems, function (item: IDatatransferItem) {
     //   this.datatransferFacade.addItem(item);
     // }.bind(this));
+  }
+
+  ngAfterViewInit() {
+    if (this.config.showUploadDropzone) {
+      let dropzoneElement = document.getElementById('amd-dropzone-component');
+      if (!!dropzoneElement) {
+        this.datatransferFacade.assignUploadBrowse(dropzoneElement);
+        this.datatransferFacade.assignUploadDrop(dropzoneElement);
+      }
+    } else {
+      if (typeof this.config.uploadBrowseElementId !== 'undefined') {
+        this.datatransferFacade.assignUploadBrowse(document.getElementById(this.config.uploadBrowseElementId));
+      }
+      if (typeof this.config.uploadDropElementId !== 'undefined') {
+        this.datatransferFacade.assignUploadDrop(document.getElementById(this.config.uploadDropElementId));
+      }
+    }
   }
 
   public downloadAll(): void {
@@ -46,48 +62,26 @@ export class AppComponent implements OnInit {
     }.bind(this));
   }
 
-  public isUndefined(value) {
-    return (typeof value === 'undefined' || value === null);
-  }
-
   @HostListener('window:amd.set-config', ['$event'])
   public setConfig(event): void {
     if (!!event && !!event.detail) {
       let config: IAppConfig = event.detail;
-      if (!this.isUndefined(config.showUploadDropzone)) {
-        this.config.showUploadDropzone = config.showUploadDropzone;
-      }
-      if (!!config.paginationRppOptions) {
-        this.config.paginationRppOptions = config.paginationRppOptions;
-      }
+      Object.keys(config).forEach(propertyName => {
+        if (typeof config[propertyName] !== 'undefined') {
+          this.config[propertyName] = config[propertyName];
+        }
+      });
     }
 
     this.datatransferFacade = this.datatransferFacadeFactory.createDatatransferFacade(this.config);
     this.uploadProgress = this.datatransferStore.uploadProgress;
     this.downloadProgress = this.datatransferStore.downloadProgress;
     this.paginationService.setRppOptions(this.config.paginationRppOptions);
-
-    if (this.config.showUploadDropzone) {
-      let dropzoneElement = document.getElementById('amd-dropzone-component');
-      if (!!dropzoneElement) {
-        this.datatransferFacade.assignUploadBrowse(dropzoneElement);
-        this.datatransferFacade.assignUploadDrop(dropzoneElement);
-      }
-    }
   }
 
   @HostListener('window:amd.download-item', ['$event'])
   public downloadItem(event): void {
     console.log(event);
     console.log(event.detail);
-  }
-
-  @HostListener('window:amd.assign-elements', ['$event'])
-  public assignElements(event): void {
-    if (!!event && !!event.detail) {
-      if (!!event.detail.uploadBrowseElementId) {
-        this.datatransferFacade.assignUploadBrowse(document.getElementById(event.detail.uploadBrowseElementId));
-      }
-    }
   }
 }

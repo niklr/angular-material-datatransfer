@@ -25,12 +25,10 @@
         var config = {
           showUploadDropzone: true,
           paginationRppOptions: [5, 10, 25],
-          simultaneousUploads: 2
+          simultaneousUploads: 2,
         };
         var event1 = new CustomEvent('amd.set-config', { 'detail': config });
         window.dispatchEvent(event1);
-        var event2 = new CustomEvent('amd.assign-elements', { 'detail': { 'uploadBrowseElementId': 'testButton' } });
-        window.dispatchEvent(event2);
       });
     })();
   </script>
