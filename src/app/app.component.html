@@ -21,7 +21,7 @@
       Export <md-icon>expand_more</md-icon>
     </button>
     </div>
-    <div fxFlex="40px">
+    <div fxFlex="70px" fxFlex.lt-sm="0px">
     </div>
     <div fxFlex>
       <div *ngIf="uploadProgress.percent > 0">
@@ -34,32 +34,26 @@
   </div>
 
   <div class="amd-container">
-    <div fxLayout="row" class="amd-container-header">
-      <div fxFlex>
-        <div style="align-items: center;">
-          <div fxFlex="40px">
-            <md-checkbox (change)="datatransferFacade.toggleVisible($event.checked)"></md-checkbox>
-          </div>
-          <div fxFlex="50%" fxFlex.lt-sm="100%">
-            Filename
-          </div>
-          <div fxFlex="40px">
-          </div>
-          <div fxFlex="50%" fxHide.lt-sm>
-            Progress
-          </div>
-          <div fxFlex="20px">
-            <md-menu #batchItemMenu="mdMenu">
-              <button md-menu-item (click)="datatransferFacade.removeSelected()">
-                <md-icon>close</md-icon>
-                <span>Remove</span>
-              </button>
-            </md-menu>
-            <button md-icon-button [mdMenuTriggerFor]="batchItemMenu">
-              <md-icon>more_vert</md-icon>
-            </button>
-          </div>
-        </div>
+    <div fxLayout="row" class="amd-container-header" style="align-items: center;">
+      <div fxFlex="40px">
+        <md-checkbox (change)="datatransferFacade.toggleVisible($event.checked)"></md-checkbox>
+      </div>
+      <div fxFlex="50%" fxFlex.lt-sm="100%">
+        Filename
+      </div>
+      <div fxFlex="50%" style="padding-left: 40px;" fxHide.lt-sm>
+        Progress
+      </div>
+      <div fxFlex="20px">
+        <md-menu #batchItemMenu="mdMenu">
+          <button md-menu-item (click)="datatransferFacade.removeSelected()">
+            <md-icon>close</md-icon>
+            <span>Remove</span>
+          </button>
+        </md-menu>
+        <button md-icon-button [mdMenuTriggerFor]="batchItemMenu">
+          <md-icon>more_vert</md-icon>
+        </button>
       </div>
     </div>
     <ng-template ngFor let-item [ngForOf]="paginationService.paginatedItems" let-i="index" [ngForTrackBy]="trackByFn">
@@ -144,21 +138,5 @@
 
   <div style="font-size: 12px; margin-top: 20px; text-align: right;">
     <amd-pagination [paginationService]="paginationService"></amd-pagination>
-  </div>
-
-  <div *ngIf="!!demoService.testDownloadItems && demoService.testDownloadItems.length > 0">
-    <p>
-      <md-divider class="mat-divider"></md-divider>
-    </p>
-    <button md-raised-button (click)="downloadAll()"><md-icon>file_download</md-icon> Download all</button>
-    <md-list>
-      <md-list-item *ngFor="let item of demoService.testDownloadItems">
-        <md-icon md-list-icon><i class="fa fa-file-o" aria-hidden="true"></i></md-icon>
-        <h4 md-line><a href="/files/{{item.filename}}" download="{{item.filename}}">{{item.filename}}</a>
-          <button md-icon-button (click)="datatransferFacade.download(item.filename, '/files/' + item.filename, item.size)">
-          <i class="fa fa-download" aria-hidden="true"></i>
-        </button></h4>
-      </md-list-item>
-    </md-list>
   </div>
 </div>

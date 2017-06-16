@@ -189,6 +189,8 @@ export class DatatransferFacade {
                 return 'error_outline';
             case TransferStatus.Queued:
                 return 'query_builder';
+            case TransferStatus.Finished:
+                return 'done_all';
             default:
                 return '';
         }

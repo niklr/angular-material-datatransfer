@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <title>angular-material-datatransfer</title>
   <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
-  <!-- Latest compiled and minified CSS -->
-  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+  <!-- Bootstrap CSS included for demonstration purposes only -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
   <base href="/">
 </head>
@@ -14,17 +14,64 @@
 <body>
   <div style="padding: 40px;">
     <angular-material-datatransfer>Loading...</angular-material-datatransfer>
-    <button class="btn btn-default" onclick="downloadAll()" id="testButton">Download all</button>
-    <ul>
-      <li>...</li>
-    </ul>
+    <p>
+      <div class="page-header">
+        <h3>Sample files <small>For download demonstration purposes only</small></h3>
+      </div>
+      <button class="btn btn-default" onclick="downloadAll()">Download all</button>
+      <p>
+        <ul id="sampleDownloadFileList">
+        </ul>
+      </p>
+    </p>
   </div>
 
   <script>
-    function downloadAll() {
-      var event = new CustomEvent('amd.download-item', { 'detail': { 'filename': 'test1234' } });
-      window.dispatchEvent(event);
+    var sampleDownloadFiles = [
+      {
+        filename: 'nmap-7.40-setup.exe',
+        size: 26445000
+      },
+      {
+        filename: 'node-v6.10.3-x64.msi',
+        size: 12456000
+      },
+      {
+        filename: 'ubuntu-14.04.5-server-i386.iso',
+        size: 609280000
+      },
+      {
+        filename: 'en_windows_10_n.iso',
+        size: 3716570000
+      }
+    ];
+
+    function fillDownloadItemList() {
+      sampleDownloadFiles.forEach(function (element) {
+        var node = document.createElement('li');
+        var link = document.createElement('a');
+        link.setAttribute('href', 'javascript:void(0);');
+        link.setAttribute('onclick', 'downloadItem(\'' + element.filename + '\', ' + element.size + ')');
+        link.innerHTML = element.filename;
+        node.appendChild(link);
+        document.getElementById('sampleDownloadFileList').appendChild(node);
+      }, this);
     }
+    fillDownloadItemList();
+
+    function downloadAll() {
+      sampleDownloadFiles.forEach(function (element) {
+        this.downloadItem(element.filename, element.size);
+      }, this);
+      return false;
+    }
+
+    function downloadItem(filename, size) {
+      var event = new CustomEvent('amd.download-item', { 'detail': { 'filename': filename, 'size': size } });
+      window.dispatchEvent(event);
+      return false;
+    }
+
     (function () {
       window.addEventListener('amd.init', function () {
         var config = {

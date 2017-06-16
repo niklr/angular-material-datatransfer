@@ -56,12 +56,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public downloadAll(): void {
-    _.each(this.demoService.testDownloadItems, function (item) {
-      this.datatransferFacade.download(item.filename, '/files/' + item.filename, item.size);
-    }.bind(this));
-  }
-
   @HostListener('window:amd.set-config', ['$event'])
   public setConfig(event): void {
     if (!!event && !!event.detail) {
@@ -91,7 +85,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:amd.download-item', ['$event'])
   public downloadItem(event): void {
-    console.log(event);
-    console.log(event.detail);
+    if (!!event && !!event.detail) {
+      let item = event.detail;
+      this.datatransferFacade.download(item.filename, '/files/' + item.filename, item.size);
+    }
   }
 }

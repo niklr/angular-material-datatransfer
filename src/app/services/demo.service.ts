@@ -57,22 +57,4 @@ export class DemoService {
       status: TransferStatus.Queued,
     })
   ];
-  testDownloadItems = [
-    {
-      filename: 'nmap-7.40-setup.exe',
-      size: 26445000
-    },
-    {
-      filename: 'node-v6.10.3-x64.msi',
-      size: 12456000
-    },
-    {
-      filename: 'ubuntu-14.04.5-server-i386.iso',
-      size: 609280000
-    },
-    {
-      filename: 'en_windows_10_n.iso',
-      size: 3716570000
-    }
-  ];
 }
