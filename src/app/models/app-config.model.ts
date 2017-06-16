@@ -13,6 +13,8 @@ export class CoreAppConfig {
     uploadBrowseElementId = undefined;
     uploadDropElementId = undefined;
     paginationRppOptions = [5, 10, 25];
+    simultaneousDownloads = 2;
+    downloadMethod = 'GET';
 }
 
 export class ResumableJsAppConfig {

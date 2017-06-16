@@ -182,13 +182,13 @@ export class DatatransferFacade {
     public getStatusClass(status: TransferStatus): string {
         switch (status) {
             case TransferStatus.Uploading:
-                return 'fa fa-arrow-circle-o-up';
+                return 'arrow_upward';
             case TransferStatus.Downloading:
-                return 'fa fa-arrow-circle-o-down';
+                return 'arrow_downward';
             case TransferStatus.Failed:
-                return 'fa fa-exclamation-circle';
+                return 'error_outline';
             case TransferStatus.Queued:
-                return 'fa fa-circle-o';
+                return 'query_builder';
             default:
                 return '';
         }

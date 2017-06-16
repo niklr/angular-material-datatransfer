@@ -5,6 +5,16 @@ $amd-container-radius: 2px !default;
 
 $amd-gray: lighten(#000, 90%);;
 
+.angular-material-datatransfer {
+  font-family: Roboto, sans-serif;
+}
+
+.truncate-text {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .amd-container {
     @include mat-elevation-transition;
     display: block;
@@ -33,7 +43,7 @@ $amd-gray: lighten(#000, 90%);;
 
 .amd-container-headline {
     padding: 10px;
-    font-size: 11px;
+    font-size: 13px;
     color: mat-contrast($candy-app-primary, 600);
     background-color: mat-color($candy-app-primary, 600);
 }

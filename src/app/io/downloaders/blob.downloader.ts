@@ -11,7 +11,6 @@ import { GuidUtil } from '../../utils';
 @Injectable()
 export class BlobDownloader extends BaseDownloader {
 
-    private simultaneousDownloads = 2;
     private throttleProgressCallbacks = 0.1;
     private files: IDatatransferItem[] = [];
     private queue: IDatatransferItem[] = [];
@@ -27,7 +26,7 @@ export class BlobDownloader extends BaseDownloader {
 
     public startAll(): void {
         if (!this.isWorking()) {
-            for (let index = 0; index < this.simultaneousDownloads; index++) {
+            for (let index = 0; index < this.config.core.simultaneousDownloads; index++) {
                 this.downloadNext();
             }
         }
@@ -103,7 +102,7 @@ export class BlobDownloader extends BaseDownloader {
         let xhr = new XMLHttpRequest();
         item.externalItem.xhr = xhr;
 
-        xhr.open('GET', item.externalItem.url);
+        xhr.open(this.config.core.downloadMethod, item.externalItem.url);
         xhr.responseType = 'blob';
         xhr.onloadstart = function (e) {
             this.changeItemStatus(item.id, TransferStatus.Downloading);
@@ -143,7 +142,7 @@ export class BlobDownloader extends BaseDownloader {
     private downloadNext(): void {
         this.updateOverallSize(this.getSize());
         this.updateOverallProgress(this.getProgress());
-        if (this.downloading.length < this.simultaneousDownloads) {
+        if (this.downloading.length < this.config.core.simultaneousDownloads) {
             let item = this.queue.shift();
             if (!!item && !!item.externalItem && !!item.externalItem.xhr) {
                 this.changeItemStatus(item.id, TransferStatus.Downloading);

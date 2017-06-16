@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <title>angular-material-datatransfer</title>
   <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+  <!-- Latest compiled and minified CSS -->
+  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
 
   <base href="/">
 </head>
@@ -12,11 +14,14 @@
 <body>
   <div style="padding: 40px;">
     <angular-material-datatransfer>Loading...</angular-material-datatransfer>
-    <button onclick="test()" id="testButton">Test</button>
+    <button class="btn btn-default" onclick="downloadAll()" id="testButton">Download all</button>
+    <ul>
+      <li>...</li>
+    </ul>
   </div>
 
   <script>
-    function test() {
+    function downloadAll() {
       var event = new CustomEvent('amd.download-item', { 'detail': { 'filename': 'test1234' } });
       window.dispatchEvent(event);
     }

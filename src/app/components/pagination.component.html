@@ -9,5 +9,5 @@
     </md-option>
 </md-select>
 <span>{{min()}} - {{max()}} of {{paginationService.pagination.total}}</span>
-<button md-icon-button md-button (click)="movePrevious()" [disabled]="!hasPrevious()"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
-<button md-icon-button md-button (click)="moveNext()" [disabled]="!hasNext()"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+<button md-icon-button md-button (click)="movePrevious()" [disabled]="!hasPrevious()"><md-icon>navigate_before</md-icon></button>
+<button md-icon-button md-button (click)="moveNext()" [disabled]="!hasNext()"><md-icon>navigate_next</md-icon></button>

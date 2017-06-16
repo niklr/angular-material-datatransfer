@@ -1,153 +1,164 @@
-<div *ngIf="config.core.showUploadDropzone">
-  <amd-dropzone></amd-dropzone>
-</div>
+<div class="angular-material-datatransfer">
+  <div *ngIf="config.core.showUploadDropzone">
+    <amd-dropzone></amd-dropzone>
+  </div>
 
-<div fxLayout="row" fxLayout.lt-sm="column" style="margin-bottom: 10px">
-  <div fxFlex>
-    <button md-raised-button *ngIf="datatransferFacade.showStartButton()" (click)="datatransferFacade.startAll()"><i class="fa fa-play" aria-hidden="true"></i> Start</button>
-    <button md-raised-button *ngIf="datatransferFacade.showPauseButton()" (click)="datatransferFacade.pauseAll()"><i class="fa fa-pause" aria-hidden="true"></i> Pause</button>
-    <button md-raised-button *ngIf="datatransferFacade.showRemoveButton()" (click)="datatransferFacade.removeAll()"><i class="fa fa-times" aria-hidden="true"></i> Remove all</button>
-    <button md-raised-button *ngIf="datatransferFacade.showRetryButton()" (click)="datatransferFacade.retryAll()"><i class="fa fa-repeat" aria-hidden="true"></i> Retry ({{datatransferStore.failedCount}})</button>
-    <md-menu #exportMenu="mdMenu">
-      <button md-menu-item (click)="datatransferFacade.export('CSV')">
+  <div fxLayout="row" fxLayout.lt-sm="column" style="margin-bottom: 10px">
+    <div fxFlex>
+      <button md-raised-button *ngIf="datatransferFacade.showStartButton()" (click)="datatransferFacade.startAll()"><md-icon>play_arrow</md-icon> Start</button>
+      <button md-raised-button *ngIf="datatransferFacade.showPauseButton()" (click)="datatransferFacade.pauseAll()"><md-icon>pause</md-icon> Pause</button>
+      <button md-raised-button *ngIf="datatransferFacade.showRemoveButton()" (click)="datatransferFacade.removeAll()"><md-icon>close</md-icon> Remove all</button>
+      <button md-raised-button *ngIf="datatransferFacade.showRetryButton()" (click)="datatransferFacade.retryAll()"><md-icon>refresh</md-icon> Retry ({{datatransferStore.failedCount}})</button>
+      <md-menu #exportMenu="mdMenu">
+        <button md-menu-item (click)="datatransferFacade.export('CSV')">
         <span>CSV</span>
       </button>
-      <button md-menu-item (click)="datatransferFacade.export('JSON')">
+        <button md-menu-item (click)="datatransferFacade.export('JSON')">
         <span>JSON</span>
       </button>
-    </md-menu>
-    <button md-raised-button *ngIf="datatransferFacade.showExportButton()" [mdMenuTriggerFor]="exportMenu">
-      Export <i class="fa fa-caret-down" aria-hidden="true"></i>
+      </md-menu>
+      <button md-raised-button *ngIf="datatransferFacade.showExportButton()" [mdMenuTriggerFor]="exportMenu">
+      Export <md-icon>expand_more</md-icon>
     </button>
-  </div>
-  <div fxFlex="20px">
-  </div>
-  <div fxFlex>
-    <div *ngIf="uploadProgress.percent > 0">
-      <amd-progress [progressInformation]="uploadProgress"></amd-progress>
     </div>
-    <div *ngIf="downloadProgress.percent > 0">
-      <amd-progress [progressInformation]="downloadProgress"></amd-progress>
+    <div fxFlex="40px">
     </div>
-  </div>
-</div>
-
-<div class="amd-container">
-  <div fxLayout="row" class="amd-container-header">
     <div fxFlex>
-      <div style="align-items: center;">
-        <div fxFlex="40px">
-          <md-checkbox (change)="datatransferFacade.toggleVisible($event.checked)"></md-checkbox>
-        </div>
-        <div fxFlex="50%" fxFlex.lt-sm="100%">
-          Filename
-        </div>
-        <div fxFlex="20px">
-        </div>
-        <div fxFlex="50%" fxHide.lt-sm>
-          Progress
-        </div>
-        <div fxFlex="20px">
-          <md-menu #batchItemMenu="mdMenu">
-            <button md-menu-item (click)="datatransferFacade.removeSelected()">
-              <i class="fa fa-times" aria-hidden="true"></i>
-              <span>Remove</span>
-            </button>
-          </md-menu>
-          <button md-icon-button [mdMenuTriggerFor]="batchItemMenu">
-            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-          </button>
-        </div>
+      <div *ngIf="uploadProgress.percent > 0">
+        <amd-progress [progressInformation]="uploadProgress"></amd-progress>
+      </div>
+      <div *ngIf="downloadProgress.percent > 0">
+        <amd-progress [progressInformation]="downloadProgress"></amd-progress>
       </div>
     </div>
   </div>
-  <ng-template ngFor let-item [ngForOf]="paginationService.paginatedItems" let-i="index" [ngForTrackBy]="trackByFn">
-    <div *ngIf="datatransferFacade.showPath(paginationService.paginatedItems, i)" class="amd-container-headline">
-      <i class="fa fa-folder-o" aria-hidden="true"></i> {{item.path}}
-    </div>
-    <div fxLayout="row" fxLayout.lt-sm="column" class="amd-container-item" [ngClass]="{'selected': item.isSelected}">
-      <div fxFlex class="amd-container-item-entry-1">
+
+  <div class="amd-container">
+    <div fxLayout="row" class="amd-container-header">
+      <div fxFlex>
         <div style="align-items: center;">
           <div fxFlex="40px">
-            <md-checkbox [(ngModel)]="item.isSelected"></md-checkbox>
+            <md-checkbox (change)="datatransferFacade.toggleVisible($event.checked)"></md-checkbox>
           </div>
-          <div fxFlex="100%" class="truncate-text">
-            <div mdTooltip="{{item.name}}" mdTooltipPosition="above">
-              <span>{{item.name}}</span>
-            </div>
+          <div fxFlex="50%" fxFlex.lt-sm="100%">
+            Filename
           </div>
-        </div>
-      </div>
-      <div fxFlex class="amd-container-item-entry-2">
-        <div style="align-items: center;">
-          <div fxFlex="20px">
-            <i class="fa-lg" [ngClass]="datatransferFacade.getStatusClass(item.status)" aria-hidden="true"></i>
+          <div fxFlex="40px">
           </div>
-          <div fxFlex="100%">
-            <div *ngIf="datatransferFacade.showProgressbar(item); else elseBlock">
-              <div class="amd-container-item-stats">
-                <div fxFlex="25%" fxFlex.lt-md="50%">
-                  {{item.progressInformation.displayBitrate}}
-                </div>
-                <div fxFlex="25%" fxHide.lt-md style="text-align: center">
-                  {{item.progressInformation.displayTimeLeft}}
-                </div>
-                <div fxFlex="25%" fxHide.lt-md style="text-align: center">
-                  {{item.progressInformation.percent}}%
-                </div>
-                <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
-                  {{item.progressInformation.loadedSizeInformation.displaySize}} / {{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}}
-                </div>
-              </div>
-              <md-progress-bar color="primary" mode="determinate" [value]="item.progressInformation.percent">
-              </md-progress-bar>
-            </div>
-            <ng-template #elseBlock>
-              {{item.getStatusName()}} ({{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}})
-              <div *ngIf="!!item.message">
-                <div mdTooltip="{{item.message}}" mdTooltipPosition="above">
-                  <span><small>{{item.message}}</small></span>
-                </div>
-              </div>
-            </ng-template>
+          <div fxFlex="50%" fxHide.lt-sm>
+            Progress
           </div>
           <div fxFlex="20px">
-            <md-menu #itemMenu="mdMenu">
-              <button md-menu-item (click)="datatransferFacade.retryItem(item)" *ngIf="datatransferFacade.showRetryButtonByItem(item)">
-                <i class="fa fa-repeat" aria-hidden="true"></i>
-                <span>Retry</span>
-              </button>
-              <button md-menu-item (click)="datatransferFacade.removeItem(item)">
-                <i class="fa fa-times" aria-hidden="true"></i>
+            <md-menu #batchItemMenu="mdMenu">
+              <button md-menu-item (click)="datatransferFacade.removeSelected()">
+                <md-icon>close</md-icon>
                 <span>Remove</span>
               </button>
             </md-menu>
-            <button md-icon-button [mdMenuTriggerFor]="itemMenu">
-              <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+            <button md-icon-button [mdMenuTriggerFor]="batchItemMenu">
+              <md-icon>more_vert</md-icon>
             </button>
           </div>
         </div>
       </div>
     </div>
-  </ng-template>
-</div>
+    <ng-template ngFor let-item [ngForOf]="paginationService.paginatedItems" let-i="index" [ngForTrackBy]="trackByFn">
+      <div *ngIf="datatransferFacade.showPath(paginationService.paginatedItems, i)" class="amd-container-headline">
+        <div fxLayout="row" style="align-items: center;">
+          <div fxFlex="40px">
+            <md-icon>folder_open</md-icon>
+          </div>
+          <div fxFlex>
+            <div class="truncate-text">
+              {{item.path}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayout.lt-sm="column" class="amd-container-item" [ngClass]="{'selected': item.isSelected}">
+        <div fxFlex class="amd-container-item-entry-1">
+          <div style="align-items: center;">
+            <div fxFlex="40px">
+              <md-checkbox [(ngModel)]="item.isSelected"></md-checkbox>
+            </div>
+            <div fxFlex="100%" class="truncate-text">
+              <div mdTooltip="{{item.name}}" mdTooltipPosition="above">
+                <span>{{item.name}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxFlex class="amd-container-item-entry-2">
+          <div style="align-items: center;">
+            <div fxFlex="40px">
+              <md-icon>{{datatransferFacade.getStatusClass(item.status)}}</md-icon>
+            </div>
+            <div fxFlex="100%">
+              <div *ngIf="datatransferFacade.showProgressbar(item); else elseBlock">
+                <div class="amd-container-item-stats">
+                  <div fxFlex="25%" fxFlex.lt-md="50%">
+                    {{item.progressInformation.displayBitrate}}
+                  </div>
+                  <div fxFlex="25%" fxHide.lt-md style="text-align: center">
+                    {{item.progressInformation.displayTimeLeft}}
+                  </div>
+                  <div fxFlex="25%" fxHide.lt-md style="text-align: center">
+                    {{item.progressInformation.percent}}%
+                  </div>
+                  <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
+                    {{item.progressInformation.loadedSizeInformation.displaySize}} / {{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}}
+                  </div>
+                </div>
+                <md-progress-bar color="primary" mode="determinate" [value]="item.progressInformation.percent">
+                </md-progress-bar>
+              </div>
+              <ng-template #elseBlock>
+                {{item.getStatusName()}} ({{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}})
+                <div *ngIf="!!item.message">
+                  <div mdTooltip="{{item.message}}" mdTooltipPosition="above">
+                    <span><small>{{item.message}}</small></span>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+            <div fxFlex="20px">
+              <md-menu #itemMenu="mdMenu">
+                <button md-menu-item (click)="datatransferFacade.retryItem(item)" *ngIf="datatransferFacade.showRetryButtonByItem(item)">
+                  <md-icon>refresh</md-icon>
+                  <span>Retry</span>
+                </button>
+                <button md-menu-item (click)="datatransferFacade.removeItem(item)">
+                  <md-icon>close</md-icon>
+                  <span>Remove</span>
+                </button>
+              </md-menu>
+              <button md-icon-button [mdMenuTriggerFor]="itemMenu">
+                <md-icon>more_vert</md-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
 
-<div style="font-size: 12px; margin-top: 20px; text-align: right;">
-  <amd-pagination [paginationService]="paginationService"></amd-pagination>
-</div>
+  <div style="font-size: 12px; margin-top: 20px; text-align: right;">
+    <amd-pagination [paginationService]="paginationService"></amd-pagination>
+  </div>
 
-<div *ngIf="!!demoService.testDownloadItems && demoService.testDownloadItems.length > 0">
-  <p>
-    <md-divider class="mat-divider"></md-divider>
-  </p>
-  <button md-raised-button (click)="downloadAll()"><i class="fa fa-download" aria-hidden="true"></i> Download all</button>
-  <md-list>
-    <md-list-item *ngFor="let item of demoService.testDownloadItems">
-      <md-icon md-list-icon><i class="fa fa-file-o" aria-hidden="true"></i></md-icon>
-      <h4 md-line><a href="/files/{{item.filename}}" download="{{item.filename}}">{{item.filename}}</a>
-        <button md-icon-button (click)="datatransferFacade.download(item.filename, '/files/' + item.filename, item.size)">
+  <div *ngIf="!!demoService.testDownloadItems && demoService.testDownloadItems.length > 0">
+    <p>
+      <md-divider class="mat-divider"></md-divider>
+    </p>
+    <button md-raised-button (click)="downloadAll()"><md-icon>file_download</md-icon> Download all</button>
+    <md-list>
+      <md-list-item *ngFor="let item of demoService.testDownloadItems">
+        <md-icon md-list-icon><i class="fa fa-file-o" aria-hidden="true"></i></md-icon>
+        <h4 md-line><a href="/files/{{item.filename}}" download="{{item.filename}}">{{item.filename}}</a>
+          <button md-icon-button (click)="datatransferFacade.download(item.filename, '/files/' + item.filename, item.size)">
           <i class="fa fa-download" aria-hidden="true"></i>
         </button></h4>
-    </md-list-item>
-  </md-list>
+      </md-list-item>
+    </md-list>
+  </div>
 </div>

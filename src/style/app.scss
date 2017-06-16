@@ -1,17 +1,4 @@
 // styles in src/style directory are applied to the whole page
-$fa-font-path: "../../node_modules/font-awesome/fonts";
-@import "../../node_modules/font-awesome/scss/font-awesome.scss";
-
-body {
-  font-family: Roboto, sans-serif;
-}
-
-a {
-    color: #03A9F4;
-}
-
-.truncate-text {
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis;
+.angular-material-datatransfer {
+    @import "../../node_modules/material-design-icons/iconfont/material-icons.css";
 }
