@@ -87,7 +87,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public downloadItem(event): void {
     if (!!event && !!event.detail) {
       let item = event.detail;
-      this.datatransferFacade.download(item.filename, '/files/' + item.filename, item.size);
+      this.datatransferFacade.download(item.filename, item.url, item.size);
     }
   }
 }

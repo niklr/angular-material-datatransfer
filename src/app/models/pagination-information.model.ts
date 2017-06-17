@@ -17,5 +17,6 @@ export class PaginationInformation implements IPaginationInformation {
         this.pages = [];
         this.page = 1;
         this.rpp = 5;
+        this.total = 0;
     }
 }

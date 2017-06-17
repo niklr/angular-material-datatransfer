@@ -45,7 +45,7 @@ export class ProgressInformation implements IProgressInformation {
         this.progressTimestamp = this.dateUtil.now();
         this.bitrateTimestamp = this.dateUtil.now();
         this.loaded = 0;
-        this.bitrate = 0;
+        this.bitrate = 1;
         this.percent = 0;
         this.total = total;
         this.displayBitrate = undefined;

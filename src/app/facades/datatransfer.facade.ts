@@ -154,8 +154,8 @@ export class DatatransferFacade {
             this.paginationService.setPageByItemId(id);
             let now: number = this.dateUtil.now();
             let loaded: number = item.progressInformation.total * progress;
-            item.progressInformation.updateProgress(now, loaded, this.progressInterval);
             item.progressInformation.updateBitrate(now, loaded, this.bitrateInterval);
+            item.progressInformation.updateProgress(now, loaded, this.progressInterval);
         }
         return item;
     }
@@ -163,8 +163,8 @@ export class DatatransferFacade {
     public updateOverallProgress(progressInformation: IProgressInformation, progress: number): void {
         let now: number = this.dateUtil.now();
         let loaded: number = progressInformation.total * progress;
-        progressInformation.updateProgress(now, loaded, this.progressInterval);
         progressInformation.updateBitrate(now, loaded, this.bitrateInterval);
+        progressInformation.updateProgress(now, loaded, this.progressInterval);
     }
 
     public updateOverallSize(progressInformation: IProgressInformation, size: number): void {

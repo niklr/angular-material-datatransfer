@@ -56,3 +56,5 @@ __build__/**
 
 # Test Files #
 /src/public/files
+/demo/upload
+/demo/download

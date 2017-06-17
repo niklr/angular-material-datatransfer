@@ -29,19 +29,27 @@
   <script>
     var sampleDownloadFiles = [
       {
-        filename: 'nmap-7.40-setup.exe',
+        id: 1,
+        filename: 'sample_file_1.tmp',
+        url: '/files/sample_file_1.tmp',
         size: 26445000
       },
       {
-        filename: 'node-v6.10.3-x64.msi',
+        id: 2,
+        filename: 'sample_file_2.tmp',
+        url: '/files/sample_file_2.tmp',
         size: 12456000
       },
       {
-        filename: 'ubuntu-14.04.5-server-i386.iso',
+        id: 3,
+        filename: 'sample_file_3.tmp',
+        url: '/files/sample_file_3.tmp',
         size: 609280000
       },
       {
-        filename: 'en_windows_10_n.iso',
+        id: 4,
+        filename: 'sample_file_4.tmp',
+        url: '/files/sample_file_4.tmp',
         size: 3716570000
       }
     ];
@@ -51,25 +59,37 @@
         var node = document.createElement('li');
         var link = document.createElement('a');
         link.setAttribute('href', 'javascript:void(0);');
-        link.setAttribute('onclick', 'downloadItem(\'' + element.filename + '\', ' + element.size + ')');
+        link.setAttribute('onclick', 'downloadItem(' + element.id + ')');
         link.innerHTML = element.filename;
         node.appendChild(link);
         document.getElementById('sampleDownloadFileList').appendChild(node);
-      }, this);
+      });
     }
     fillDownloadItemList();
 
     function downloadAll() {
       sampleDownloadFiles.forEach(function (element) {
-        this.downloadItem(element.filename, element.size);
+        this.downloadItem(element.id);
       }, this);
       return false;
     }
 
-    function downloadItem(filename, size) {
-      var event = new CustomEvent('amd.download-item', { 'detail': { 'filename': filename, 'size': size } });
-      window.dispatchEvent(event);
+    function downloadItem(id) {
+      var sample = getSampleById(id);
+      if (!!sample) {
+        var event = new CustomEvent('amd.download-item', { 'detail': { 'filename': sample.filename, 'url': sample.url, 'size': sample.size } });
+        window.dispatchEvent(event);
+      }
       return false;
+    }
+
+    function getSampleById(id) {
+      for (var x = 0; x < sampleDownloadFiles.length; x++) {
+        var sample = sampleDownloadFiles[x];
+        if (sample.id === id) {
+          return sample;
+        }
+      }
     }
 
     (function () {
