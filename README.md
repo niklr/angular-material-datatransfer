@@ -2,7 +2,11 @@ angular-material-datatransfer
 =========
 
 ## Upload
-![Upload](demo/images/amd_upload.gif)
+<kbd>
+  <img src="/demo/images/amd_upload.gif">
+</kbd>
 
 ## Download
-![Download](demo/images/amd_download.gif)
+<kbd>
+  <img src="demo/images/amd_download.gif">
+</kbd>
