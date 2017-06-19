@@ -3,7 +3,7 @@ angular-material-datatransfer
 
 ## Upload
 <kbd>
-  <img src="/demo/images/amd_upload.gif">
+  <img src="demo/images/amd_upload.gif">
 </kbd>
 
 ## Download
