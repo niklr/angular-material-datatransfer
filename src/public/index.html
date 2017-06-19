@@ -44,26 +44,29 @@
         id: 3,
         filename: 'sample_file_3.tmp',
         url: '/files/sample_file_3.tmp',
-        size: 609280000
+        size: 140977000
       },
       {
         id: 4,
         filename: 'sample_file_4.tmp',
         url: '/files/sample_file_4.tmp',
-        size: 3716570000
+        size: 248741000
       }
     ];
 
     function fillDownloadItemList() {
-      sampleDownloadFiles.forEach(function (element) {
-        var node = document.createElement('li');
-        var link = document.createElement('a');
-        link.setAttribute('href', 'javascript:void(0);');
-        link.setAttribute('onclick', 'downloadItem(' + element.id + ')');
-        link.innerHTML = element.filename;
-        node.appendChild(link);
-        document.getElementById('sampleDownloadFileList').appendChild(node);
-      });
+      var listElement = document.getElementById('sampleDownloadFileList')
+      if (!!listElement) {
+        sampleDownloadFiles.forEach(function (element) {
+          var node = document.createElement('li');
+          var link = document.createElement('a');
+          link.setAttribute('href', 'javascript:void(0);');
+          link.setAttribute('onclick', 'downloadItem(' + element.id + ')');
+          link.innerHTML = element.filename;
+          node.appendChild(link);
+          listElement.appendChild(node);
+        });
+      }
     }
     fillDownloadItemList();
 
