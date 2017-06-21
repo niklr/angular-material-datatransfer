@@ -39,22 +39,23 @@ export class ResumableJsUploader extends BaseUploader {
                 status: TransferStatus.Queued,
                 externalItem: file
             });
+            file.internalItem = newItem;
 
             this.addItem(newItem);
         }.bind(this));
         this.r.on('fileProgress', function (file, message) {
             // this.logger.log('fileProgress', file.progress());
-            this.changeItemStatus(file.uniqueIdentifier, TransferStatus.Uploading);
-            this.updateItemProgress(file.uniqueIdentifier, file.progress());
+            this.changeItemStatus(file.internalItem, TransferStatus.Uploading);
+            this.updateItemProgress(file.internalItem, file.progress());
             this.updateOverallProgress(this.r.progress());
         }.bind(this));
         this.r.on('fileSuccess', function (file, message) {
             // this.logger.log('fileSuccess', file);
-            this.changeItemStatus(file.uniqueIdentifier, TransferStatus.Finished, message);
+            this.changeItemStatus(file.internalItem, TransferStatus.Finished, message);
         }.bind(this));
         this.r.on('fileError', function (file, message) {
             this.logger.log('fileError', file, message);
-            this.changeItemStatus(file.uniqueIdentifier, TransferStatus.Failed, message);
+            this.changeItemStatus(file.internalItem, TransferStatus.Failed, message);
         }.bind(this));
         this.r.on('uploadStart', function () {
             this.updateOverallProgress(this.r.progress());

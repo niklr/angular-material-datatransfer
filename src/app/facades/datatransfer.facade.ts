@@ -33,14 +33,14 @@ export class DatatransferFacade {
                 this.addItem(item);
             });
         }.bind(this));
-        datatransfer.on('itemStatusChanged', function (id: string, status: TransferStatus, message?: string) {
+        datatransfer.on('itemStatusChanged', function (item: IDatatransferItem, status: TransferStatus, message?: string) {
             this.zone.run(() => {
-                this.changeItemStatus(id, status, message);
+                this.changeItemStatus(item, status, message);
             });
         }.bind(this));
-        datatransfer.on('itemProgressUpdated', function (id: string, progress: number) {
+        datatransfer.on('itemProgressUpdated', function (item: IDatatransferItem, progress: number) {
             this.zone.run(() => {
-                this.updateItemProgress(id, progress);
+                this.updateItemProgress(item, progress);
             });
         }.bind(this));
         datatransfer.on('overallProgressUpdated', function (progress: number) {
@@ -136,28 +136,24 @@ export class DatatransferFacade {
         }
     }
 
-    public changeItemStatus(id: string, status: TransferStatus, message?: string): IDatatransferItem {
-        let item: IDatatransferItem = this.store.getById(id);
-        if (!!item) {
+    public changeItemStatus(item: IDatatransferItem, status: TransferStatus, message?: string): void {
+        if (!!item && !!status) {
             item.status = status;
             if (!!message) {
                 item.message = message.startsWith('<!doctype html>') ? undefined : message;
             }
             this.store.updateFailedCount();
         }
-        return item;
     }
 
-    public updateItemProgress(id: string, progress: number): IDatatransferItem {
-        let item: IDatatransferItem = this.store.getById(id);
+    public updateItemProgress(item: IDatatransferItem, progress: number): void {
         if (!!item) {
-            this.paginationService.setPageByItemId(id);
+            this.paginationService.setPageByItemId(item.id);
             let now: number = this.dateUtil.now();
             let loaded: number = item.progressInformation.total * progress;
             item.progressInformation.updateBitrate(now, loaded, this.bitrateInterval);
             item.progressInformation.updateProgress(now, loaded, this.progressInterval);
         }
-        return item;
     }
 
     public updateOverallProgress(progressInformation: IProgressInformation, progress: number): void {

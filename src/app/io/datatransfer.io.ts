@@ -46,12 +46,12 @@ export abstract class BaseDatatransfer implements IDatatransfer {
         }
     };
 
-    protected changeItemStatus(id: string, status: TransferStatus, message?: string) {
-        this.fire('itemStatusChanged', id, status, message);
+    protected changeItemStatus(item: IDatatransferItem, status: TransferStatus, message?: string) {
+        this.fire('itemStatusChanged', item, status, message);
     }
 
-    protected updateItemProgress(id: string, progress: number): void {
-        this.fire('itemProgressUpdated', id, progress);
+    protected updateItemProgress(item: IDatatransferItem, progress: number): void {
+        this.fire('itemProgressUpdated', item, progress);
     }
 
     protected updateOverallProgress(progress: number): void {

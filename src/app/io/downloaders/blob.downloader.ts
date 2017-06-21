@@ -69,9 +69,10 @@ export class BlobDownloader extends BaseDownloader {
         this.removeItemFromArray(item, this.queue);
         this.removeItemFromArray(item, this.downloading);
         item.externalItem.progress = 0;
-        this.updateItemProgress(item.id, item.externalItem.progress);
-        this.changeItemStatus(item.id, TransferStatus.Queued);
+        this.updateItemProgress(item, item.externalItem.progress);
+        this.changeItemStatus(item, TransferStatus.Queued);
         this.queue.push(item);
+        this.initDownload(item);
         this.downloadNext();
     }
 
@@ -105,12 +106,12 @@ export class BlobDownloader extends BaseDownloader {
         xhr.open(this.config.core.downloadMethod, item.externalItem.url);
         xhr.responseType = 'blob';
         xhr.onloadstart = function (e) {
-            this.changeItemStatus(item.id, TransferStatus.Downloading);
+            this.changeItemStatus(item, TransferStatus.Downloading);
         }.bind(this);
         xhr.onprogress = function (e) {
             if (new Date().getTime() - item.externalItem.lastProgressCallback.getTime() > this.throttleProgressCallbacks * 1000) {
                 item.externalItem.progress = e.loaded / e.total;
-                this.updateItemProgress(item.id, item.externalItem.progress);
+                this.updateItemProgress(item, item.externalItem.progress);
                 this.updateOverallProgress(this.getProgress());
                 item.externalItem.lastProgressCallback = new Date();
             }
@@ -126,12 +127,12 @@ export class BlobDownloader extends BaseDownloader {
             */
             if (xhr.readyState === 4) {
                 item.externalItem.progress = 1;
-                this.updateItemProgress(item.id, item.externalItem.progress);
+                this.updateItemProgress(item, item.externalItem.progress);
                 if (xhr.status === 200) {
-                    this.changeItemStatus(item.id, TransferStatus.Finished);
+                    this.changeItemStatus(item, TransferStatus.Finished);
                     saveAs(xhr.response, item.name);
                 } else if (xhr.status !== 0) { // don't change status for aborted items
-                    this.changeItemStatus(item.id, TransferStatus.Failed);
+                    this.changeItemStatus(item, TransferStatus.Failed);
                 }
                 this.removeItemFromArray(item, this.downloading);
                 this.downloadNext();
@@ -145,7 +146,7 @@ export class BlobDownloader extends BaseDownloader {
         if (this.downloading.length < this.config.core.simultaneousDownloads) {
             let item = this.queue.shift();
             if (!!item && !!item.externalItem && !!item.externalItem.xhr) {
-                this.changeItemStatus(item.id, TransferStatus.Downloading);
+                this.changeItemStatus(item, TransferStatus.Downloading);
                 this.downloading.push(item);
                 item.externalItem.xhr.send();
             }
