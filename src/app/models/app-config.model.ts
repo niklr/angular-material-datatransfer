@@ -39,7 +39,7 @@ export class ResumableJsAppConfig {
     uploadMethod = 'POST';
     testMethod = 'GET';
     prioritizeFirstAndLastChunk: false;
-    target = '/';
+    target = 'https://httpbin.org';
     testTarget = null;
     parameterNamespace = '';
     testChunks = true;
@@ -47,7 +47,7 @@ export class ResumableJsAppConfig {
     getTarget = null;
     maxChunkRetries = 100;
     chunkRetryInterval = undefined;
-    permanentErrors = [400, 404, 415, 500, 501];
+    permanentErrors = [400, 404, 405, 415, 501];
     maxFiles = undefined;
     withCredentials = false;
     xhrTimeout = 0;

@@ -140,7 +140,7 @@ export class DatatransferFacade {
         if (!!item && !!status) {
             item.status = status;
             if (!!message) {
-                item.message = message.startsWith('<!doctype html>') ? undefined : message;
+                item.message = message.toLowerCase().startsWith('<!doctype html>') ? undefined : message;
             }
             this.store.updateFailedCount();
         }
