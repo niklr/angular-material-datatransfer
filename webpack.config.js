@@ -47,9 +47,10 @@ module.exports = function makeWebpackConfig() {
      * Reference: http://webpack.github.io/docs/configuration.html#entry
      */
     config.entry = isTest ? {} : {
-      'polyfills': './src/polyfills.ts',
-      'vendor': './src/vendor.ts',
-      'app': './src/main.ts' // our angular app
+      // 'polyfills': './src/polyfills.ts',
+      // 'vendor': './src/vendor.ts',
+      // 'app': './src/main.ts'
+      'app': ['./src/polyfills.ts', './src/vendor.ts', './src/main.ts']
     };
   }
 
@@ -211,9 +212,9 @@ module.exports = function makeWebpackConfig() {
       // Generate common chunks if necessary
       // Reference: https://webpack.github.io/docs/code-splitting.html
       // Reference: https://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
-      new CommonsChunkPlugin({
-        name: ['vendor', 'polyfills']
-      }),
+      // new CommonsChunkPlugin({
+      //   name: ['vendor', 'polyfills']
+      // }),
 
       // Inject script and link tags into html files
       // Reference: https://github.com/ampedandwired/html-webpack-plugin
