@@ -16,7 +16,7 @@ FileSaver.js implements the `saveAs()` FileSaver interface in browsers that do n
 
 ## Upload
 <kbd>
-  <img src="demo/images/amd_upload.gif">
+  <img src="demo/images/amd_upload_v1.gif">
 </kbd>
 
 ## Download
