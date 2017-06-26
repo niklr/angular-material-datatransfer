@@ -70,6 +70,11 @@ export class DatatransferFacade {
     }
 
     public startAll(): void {
+        _.each(this.store.getItems(), function (item: IDatatransferItem) {
+            if (item.transferType === TransferType.Upload && item.status === TransferStatus.Added) {
+                this.changeItemStatus(item, TransferStatus.Queued);
+            }
+        }.bind(this));
         this.uploader.startAll();
     }
 
@@ -177,6 +182,8 @@ export class DatatransferFacade {
 
     public getStatusClass(status: TransferStatus): string {
         switch (status) {
+            case TransferStatus.Added:
+                return 'add_circle_outline';
             case TransferStatus.Uploading:
                 return 'arrow_upward';
             case TransferStatus.Downloading:

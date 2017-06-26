@@ -36,7 +36,7 @@ export class ResumableJsUploader extends BaseUploader {
                 sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.Byte, decimalByteUnitSize: file.size }),
                 progressInformation: new ProgressInformation(file.size),
                 transferType: TransferType.Upload,
-                status: TransferStatus.Queued,
+                status: TransferStatus.Added,
                 externalItem: file
             });
             file.internalItem = newItem;
