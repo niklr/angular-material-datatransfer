@@ -7,7 +7,7 @@ describe('ProgressInformation', () => {
     it('should update the bitrate', () => {
         let progressInformation = new ProgressInformation(2000);
         expect(progressInformation.percent).toBe(0);
-        expect(progressInformation.bitrate).toBe(1);
+        expect(progressInformation.bitrate).toBe(0);
         expect(progressInformation.displayBitrate).toBeUndefined();
         expect(progressInformation.totalSizeInformation.displaySize).toBe(2);
         expect(progressInformation.totalSizeInformation.displayUnit).toBe('KB');
@@ -23,7 +23,7 @@ describe('ProgressInformation', () => {
     it('should update the progress', () => {
         let progressInformation = new ProgressInformation(2000);
         expect(progressInformation.percent).toBe(0);
-        expect(progressInformation.bitrate).toBe(1);
+        expect(progressInformation.bitrate).toBe(0);
         expect(progressInformation.displayBitrate).toBeUndefined();
         expect(progressInformation.loadedSizeInformation.displaySize).toBe(0);
         expect(progressInformation.loadedSizeInformation.displayUnit).toBe('Byte');

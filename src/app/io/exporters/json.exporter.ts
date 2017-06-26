@@ -20,6 +20,7 @@ export class JsonExporter extends BaseExporter {
         _.each(items, function (item: IDatatransferItem, index: number) {
             content.push({
                 name: item.name,
+                path: item.path,
                 status: item.getStatusName(),
                 size: item.sizeInformation.displaySize + ' ' + item.sizeInformation.displayUnit,
                 message: item.message

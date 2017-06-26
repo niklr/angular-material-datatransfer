@@ -15,10 +15,10 @@ export class CsvExporter extends BaseExporter {
     }
 
     public export(): void {
-        let csvContent = 'name,status,size,message\n';
+        let csvContent = 'name,path,status,size,message\n';
         let items = this.store.getItems();
         _.each(items, function (item: IDatatransferItem, index: number) {
-            let itemString = item.name + ',' + item.getStatusName() + ',' + item.sizeInformation.displaySize + ' ' +
+            let itemString = item.name + ',' + item.path + ',' + item.getStatusName() + ',' + item.sizeInformation.displaySize + ' ' +
                 item.sizeInformation.displayUnit + ',' + item.message;
 
             csvContent += index < items.length ? itemString + '\n' : itemString;

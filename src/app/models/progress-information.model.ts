@@ -45,7 +45,7 @@ export class ProgressInformation implements IProgressInformation {
         this.progressTimestamp = this.dateUtil.now();
         this.bitrateTimestamp = this.dateUtil.now();
         this.loaded = 0;
-        this.bitrate = 1;
+        this.bitrate = 0;
         this.percent = 0;
         this.total = total;
         this.displayBitrate = undefined;
@@ -62,7 +62,11 @@ export class ProgressInformation implements IProgressInformation {
             this.loaded = loaded;
             this.loadedSizeInformation.updateDecimal(DecimalByteUnit.Byte, this.loaded);
             this.progressTimestamp = now;
-            this.displayTimeLeft = this.dateUtil.format((this.total - this.loaded) * 8 / this.bitrate);
+            if (this.bitrate > 0) {
+                this.displayTimeLeft = this.dateUtil.format((this.total - this.loaded) * 8 / this.bitrate);
+            } else {
+                this.displayTimeLeft = this.dateUtil.format(0);
+            }
         }
     }
 
@@ -70,6 +74,9 @@ export class ProgressInformation implements IProgressInformation {
         let timeDiff = now - this.bitrateTimestamp;
         if (!this.bitrate || timeDiff > interval) {
             this.bitrate = (loaded - this.loaded) * (1000 / timeDiff) * 8;
+            if (this.bitrate === Number.POSITIVE_INFINITY || this.bitrate === Number.NEGATIVE_INFINITY) {
+                this.bitrate = 0;
+            }
             this.bitrateSizeInformation.updateDecimal(DecimalByteUnit.Byte, this.bitrate / 8);
             this.displayBitrate = this.bitrateSizeInformation.displaySize + ' ' + this.bitrateSizeInformation.displayUnit + '/s';
             this.bitrateTimestamp = now;
