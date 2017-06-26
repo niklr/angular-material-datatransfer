@@ -23,3 +23,13 @@ FileSaver.js implements the `saveAs()` FileSaver interface in browsers that do n
 <kbd>
   <img src="demo/images/amd_download_v1.gif">
 </kbd>
+
+## Responsive
+<kbd>
+  <img src="demo/images/amd_responsive.gif">
+</kbd>
+
+## Customizable
+<kbd>
+  <img src="demo/images/amd_theme.gif">
+</kbd>
