@@ -50,7 +50,7 @@ module.exports = function makeWebpackConfig() {
       // 'polyfills': './src/polyfills.ts',
       // 'vendor': './src/vendor.ts',
       // 'app': './src/main.ts'
-      'app': ['./src/polyfills.ts', './src/vendor.ts', './src/main.ts']
+      'angular-material-datatransfer': ['./src/polyfills.ts', './src/vendor.ts', './src/main.ts']
     };
   }
 
