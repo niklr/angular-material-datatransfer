@@ -82,13 +82,23 @@ Table of Content:
 ```
 
 ## Handling download <a name="handling_download"></a>
+The download of a file can be triggered by dispatching a custom event called 'amd.download-item' on the window object. Data can be passed as detail object with the following properties.
+* `filename` The name of the file to be downloaded.
+* `url` The URL of the file to be downloaded.
+* `size` The size in bytes of the file to be downloaded. 
+
 ```js
-var event = new CustomEvent('amd.download-item', { 'detail': { 'filename': filename, 'url': url, 'size': size } });
+var eventDetail = { 
+  'filename': filename, 
+  'url': url, 
+  'size': size 
+};
+var event = new CustomEvent('amd.download-item', { 'detail': eventDetail });
 window.dispatchEvent(event);
 ```
 
 ## Configuration <a name="configuration"></a>
-The configuration differentiates between "core" and "resumablejs".
+The configuration differentiates between "core" and "resumablejs". Both are described below.
 
 ```js
 var config = {
@@ -110,7 +120,7 @@ var config = {
 * `downloadMethod` HTTP method to use when downloading from the server (`GET`, `POST`, `PUT`, `PATCH`). (Default: `GET`)
 
 ### Resumablejs configuration
-* `target` The target URL for the multipart POST request. This can be a `string` or a `function` that allows you you to construct and return a value, based on supplied `params`. (Default: `/`)
+* `target` The target URL for the multipart POST request. This can be a `string` or a `function` that allows you you to construct and return a value, based on supplied `params`. (Default: `https://httpbin.org`)
 * `testTarget` The target URL for the GET request to the server for each chunk to see if it already exists. This can be a `string` or a `function` that allows you you to construct and return a value, based on supplied `params`. (Default: `null`)
 * `chunkSize` The size in bytes of each uploaded chunk of data. The last uploaded chunk will be at least this size and up to two the size, see [Issue #51](https://github.com/23/resumable.js/issues/51) for details and reasons. (Default: `1*1024*1024`)
 * `forceChunkSize` Force all chunks to be less or equal than chunkSize. Otherwise, the last chunk will be greater than or equal to `chunkSize`. (Default: `false`)
