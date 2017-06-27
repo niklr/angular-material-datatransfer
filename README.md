@@ -64,8 +64,7 @@ Table of Content:
       window.addEventListener('amd.init', function () {
         var config = {
           core: {
-            showUploadDropzone: true,
-            paginationRppOptions: [5, 10, 25]
+            showUploadDropzone: false
           },
           resumablejs: {
             simultaneousUploads: 2
@@ -82,7 +81,7 @@ Table of Content:
 ```
 
 ## Handling download <a name="handling_download"></a>
-The download of a file can be triggered by dispatching a custom event called 'amd.download-item' on the window object. Data can be passed as detail object with the following properties.
+The download of a file can be triggered by dispatching a custom event called `amd.download-item` on the window object. Data can be passed as detail object with the following properties.
 * `filename` The name of the file to be downloaded.
 * `url` The URL of the file to be downloaded.
 * `size` The size in bytes of the file to be downloaded. 
@@ -98,17 +97,21 @@ window.dispatchEvent(event);
 ```
 
 ## Configuration <a name="configuration"></a>
-In order to configure angular-material-datatransfer, an event listener needs to be added on the window object listening to events of type 'amd.init'. Once angular-material-datatransfer is initiating, this event will be fired enabling you to pass the configuration by dispatching a custom event called 'amd.set-config' on the window object. The configuration differentiates between "core" and "resumablejs". Both are described below. 
+In order to configure angular-material-datatransfer, an event listener needs to be added on the window object listening to events of type `amd.init`. Once angular-material-datatransfer is initiating, this event will be fired enabling you to pass the configuration by dispatching a custom event called `amd.set-config` on the window object. The configuration differentiates between "core" and "resumablejs". Both are described below. 
 
 ```js
-var config = {
-  core: {
-    ...
-  },
-  resumablejs: {
-    ...
-  }
-};
+window.addEventListener('amd.init', function () {
+  var config = {
+    core: {
+      ...
+    },
+    resumablejs: {
+      ...
+    }
+  };
+  var event = new CustomEvent('amd.set-config', { 'detail': config });
+  window.dispatchEvent(event);
+});
 ```
 
 ### Core configuration
