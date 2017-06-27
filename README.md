@@ -82,7 +82,10 @@ Table of Content:
 ```
 
 ## Handling download <a name="handling_download"></a>
-TODO
+```js
+var event = new CustomEvent('amd.download-item', { 'detail': { 'filename': filename, 'url': url, 'size': size } });
+window.dispatchEvent(event);
+```
 
 ## Configuration <a name="configuration"></a>
 The configuration differentiates between "core" and "resumablejs".
@@ -99,9 +102,9 @@ var config = {
 ```
 
 ### Core configuration
-* `showUploadDropzone` Indicates if the built-in dropzone element used to drop folders/files to be uploaded should be shown. (Default: `'true'`)
-* `uploadBrowseElementId` The identifier of the element used to add files to be uploaded. (Default: `undefined`)
-* `uploadDropElementId` The identifier of the element used to drop folders/files to be uploaded. (Default: `undefined`)
+* `showUploadDropzone` Indicates if the built-in dropzone element enabling the user to drop folders/files to be uploaded should be shown. (Default: `'true'`)
+* `uploadBrowseElementId` The identifier of the element enabling the user to add files to be uploaded. (Default: `undefined`)
+* `uploadDropElementId` The identifier of the element enabling the user to drop folders/files to be uploaded. (Default: `undefined`)
 * `paginationRppOptions` The pagination options containing the numbers defining how many results should be shown per page. (Default: `[5, 10, 25]`)
 * `simultaneousDownloads` Number of simultaneous downloads. (Default: `2`)
 * `downloadMethod` HTTP method to use when downloading from the server (`GET`, `POST`, `PUT`, `PATCH`). (Default: `GET`)
