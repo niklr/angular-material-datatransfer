@@ -1,6 +1,7 @@
 // Helper: root() is defined at the bottom
 var path = require('path');
 var webpack = require('webpack');
+var package = require('./package.json');
 
 // Webpack Plugins
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
@@ -8,6 +9,9 @@ var autoprefixer = require('autoprefixer');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+
+// Banner
+var banner = package.name + ' - ' + package.version;
 
 /**
  * Env
@@ -166,6 +170,9 @@ module.exports = function makeWebpackConfig() {
         ENV: JSON.stringify(ENV)
       }
     }),
+
+    // Define banner
+    new webpack.BannerPlugin(banner),
 
     // Workaround needed for angular 2 angular/angular#11580
     new webpack.ContextReplacementPlugin(

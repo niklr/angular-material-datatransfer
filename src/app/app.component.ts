@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, HostListener } from '@angular/core';
+import { Component, Inject, OnInit, AfterViewInit, HostListener } from '@angular/core';
 
 import { LoggerService, PaginationService, DemoService } from './services';
 import { DecimalByteUnitUtil } from './utils';
@@ -17,7 +17,7 @@ import '../style/angular-material-theme.scss';
   // tslint:disable-next-line:component-selector
   selector: 'angular-material-datatransfer',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
@@ -26,14 +26,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   uploadProgress: IProgressInformation;
   downloadProgress: IProgressInformation;
 
-  constructor(private logger: LoggerService,
+  constructor( @Inject('ConfigCustomEvent') private configCustomEvent: any, private logger: LoggerService,
     private datatransferFacadeFactory: DatatransferFacadeFactory, private datatransferStore: DatatransferStore,
     private paginationService: PaginationService, private demoService: DemoService) {
     this.config = new AppConfig();
+    this.setConfig(configCustomEvent);
   }
 
   ngOnInit() {
-    window.dispatchEvent(new Event('amd.init'));
+    document.dispatchEvent(new Event('amd.init'));
     // _.each(this.demoService.testItems, function (item: IDatatransferItem) {
     //   this.datatransferFacade.addItem(item);
     // }.bind(this));
@@ -56,7 +57,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
   }
 
-  @HostListener('window:amd.set-config', ['$event'])
+  @HostListener('document:amd.set-config', ['$event'])
   public setConfig(event): void {
     if (!!event && !!event.detail) {
       let config: IAppConfig = event.detail;
@@ -83,7 +84,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.paginationService.setRppOptions(this.config.core.paginationRppOptions);
   }
 
-  @HostListener('window:amd.download-item', ['$event'])
+  @HostListener('document:amd.download-item', ['$event'])
   public downloadItem(event): void {
     if (!!event && !!event.detail) {
       let item = event.detail;

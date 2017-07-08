@@ -7,12 +7,10 @@ if (process.env.ENV === 'build') {
   enableProdMode();
 }
 
-export function main() {
-  return platformBrowserDynamic().bootstrapModule(AppModule);
+export function main(event) {
+  return platformBrowserDynamic([{provide: 'ConfigCustomEvent', useValue: event }]).bootstrapModule(AppModule);
 }
 
-if (document.readyState === 'complete') {
-  main();
-} else {
-  document.addEventListener('DOMContentLoaded', main);
-}
+document.addEventListener('amd.create', function(event) {
+  main(event);
+});

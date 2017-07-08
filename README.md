@@ -54,6 +54,7 @@ Table of Content:
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="css/angular-material-datatransfer.css">
 </head>
 
 <body>
@@ -63,7 +64,6 @@ Table of Content:
 
   <script type="text/javascript">
     (function () {
-      window.addEventListener('amd.init', function () {
         var config = {
           core: {
             showUploadDropzone: false
@@ -72,9 +72,8 @@ Table of Content:
             simultaneousUploads: 2
           }
         };
-        var event = new CustomEvent('amd.set-config', { 'detail': config });
-        window.dispatchEvent(event);
-      });
+        var event = new CustomEvent('amd.create', { 'detail': config });
+        document.dispatchEvent(event);
     })();
   </script>
 
@@ -83,7 +82,7 @@ Table of Content:
 ```
 
 ## Handling download <a name="handling_download"></a>
-The download of a file can be triggered by dispatching a custom event called `amd.download-item` on the window object. Data can be passed as detail object with the following properties.
+The download of a file can be triggered by dispatching a custom event called `amd.download-item` on the document object. Data can be passed as detail object with the following properties.
 * `filename` The name of the file to be downloaded.
 * `url` The URL of the file to be downloaded.
 * `size` The size in bytes of the file to be downloaded. 
@@ -95,25 +94,23 @@ var eventDetail = {
   'size': size 
 };
 var event = new CustomEvent('amd.download-item', { 'detail': eventDetail });
-window.dispatchEvent(event);
+document.dispatchEvent(event);
 ```
 
 ## Configuration <a name="configuration"></a>
-In order to configure angular-material-datatransfer, an event listener needs to be added on the window object listening to events of type `amd.init`. Once angular-material-datatransfer is initiating, this event will be fired enabling you to pass the configuration by dispatching a custom event called `amd.set-config` on the window object. The configuration differentiates between `core` and `resumablejs`. Both are described below. 
+In order to initialize and configure angular-material-datatransfer, a custom event called `amd.create` can be dispatched on the document object. The configuration differentiates between `core` and `resumablejs`. Both are described below. 
 
 ```js
-window.addEventListener('amd.init', function () {
-  var config = {
-    core: {
-      ...
-    },
-    resumablejs: {
-      ...
-    }
-  };
-  var event = new CustomEvent('amd.set-config', { 'detail': config });
-  window.dispatchEvent(event);
-});
+var config = {
+  core: {
+    ...
+  },
+  resumablejs: {
+    ...
+  }
+};
+var event = new CustomEvent('amd.create', { 'detail': config });
+document.dispatchEvent(event);
 ```
 
 ### Core configuration
