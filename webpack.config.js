@@ -54,6 +54,7 @@ module.exports = function makeWebpackConfig() {
       // 'polyfills': './src/polyfills.ts',
       // 'vendor': './src/vendor.ts',
       // 'app': './src/main.ts'
+      'angular-material': './src/angular-material.scss',
       'angular-material-datatransfer': ['./src/polyfills.ts', './src/vendor.ts', './src/main.ts']
     };
   }
@@ -128,7 +129,7 @@ module.exports = function makeWebpackConfig() {
         loader: isTest ? 'null-loader' : ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'postcss-loader', 'sass-loader']})
       },
       // all css required in src/app files will be merged in js files
-      {test: /\.(scss|sass)$/, exclude: root('src', 'style'), loader: 'raw-loader!postcss-loader!sass-loader'},
+      {test: /\.(scss|sass)$/, exclude: [root('src', 'style'), root('src', 'angular-material.scss')], loader: 'raw-loader!postcss-loader!sass-loader'},
 
       // support for .html as raw text
       // todo: change the loader to something that adds a hash to images
@@ -233,7 +234,7 @@ module.exports = function makeWebpackConfig() {
       // Extract css files
       // Reference: https://github.com/webpack/extract-text-webpack-plugin
       // Disabled when in test mode or not in build mode
-      new ExtractTextPlugin({filename: 'css/[name].[hash].css', disable: !isProd})
+      new ExtractTextPlugin({filename: 'css/[name].[hash].css', disable: isTest})
     );
   }
 
