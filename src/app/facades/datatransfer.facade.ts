@@ -220,7 +220,7 @@ export class DatatransferFacade {
     }
 
     public showExportButton(): boolean {
-        return this.store.count > 0 && !this.uploader.isWorking() && !this.downloader.isWorking();
+        return this.store.count > 0;
     }
 
     public showProgressbar(item: IDatatransferItem): boolean {
