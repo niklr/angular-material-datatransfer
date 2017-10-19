@@ -143,17 +143,19 @@ export class DatatransferFacade {
 
     public changeItemStatus(item: IDatatransferItem, status: TransferStatus, message?: string): void {
         if (!!item && !!status) {
-            item.status = status;
-            if (!!message) {
-                item.message = message.toLowerCase().startsWith('<!doctype html') ? undefined : message;
+            if (item.status !== status) {
+                this.paginationService.setPageByItemId(item.id);
+                item.status = status;
+                if (!!message) {
+                    item.message = message.toLowerCase().startsWith('<!doctype html') ? undefined : message;
+                }
+                this.store.updateFailedCount();
             }
-            this.store.updateFailedCount();
         }
     }
 
     public updateItemProgress(item: IDatatransferItem, progress: number): void {
         if (!!item) {
-            this.paginationService.setPageByItemId(item.id);
             let now: number = this.dateUtil.now();
             let loaded: number = item.progressInformation.total * progress;
             item.progressInformation.updateBitrate(now, loaded, this.bitrateInterval);
