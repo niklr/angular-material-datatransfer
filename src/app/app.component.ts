@@ -44,6 +44,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (this.config.core.showUploadDropzone) {
       let dropzoneElement = document.getElementById('amd-dropzone-component');
       if (!!dropzoneElement) {
+        // TODO: replace dropzone click behaviour #5
         this.datatransferFacade.assignUploadBrowse(dropzoneElement);
         this.datatransferFacade.assignUploadDrop(dropzoneElement);
       }
