@@ -1,13 +1,21 @@
-<md-select placeholder="Page" [(ngModel)]="paginationService.pagination.page" (change)="onPageChange()" aria-label="Page">
-    <md-option *ngFor="let p of paginationService.pagination.pages" [value]="p">
-        {{ p }}
-    </md-option>
-</md-select>
-<md-select placeholder="Rows per page" [(ngModel)]="paginationService.pagination.rpp" (change)="onRppChange()" aria-label="Rows per page">
-    <md-option *ngFor="let o of paginationService.pagination.rppOptions" [value]="o">
-        {{ o }}
-    </md-option>
-</md-select>
+<mat-form-field>
+    <mat-select placeholder="Page" [(ngModel)]="paginationService.pagination.page" (change)="onPageChange()" aria-label="Page">
+        <mat-option *ngFor="let p of paginationService.pagination.pages" [value]="p">
+            {{ p }}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+<mat-form-field>
+    <mat-select placeholder="Rows per page" [(ngModel)]="paginationService.pagination.rpp" (change)="onRppChange()" aria-label="Rows per page">
+        <mat-option *ngFor="let o of paginationService.pagination.rppOptions" [value]="o">
+            {{ o }}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
 <span>{{min()}} - {{max()}} of {{paginationService.pagination.total}}</span>
-<button md-icon-button md-button (click)="movePrevious()" [disabled]="!hasPrevious()"><md-icon>navigate_before</md-icon></button>
-<button md-icon-button md-button (click)="moveNext()" [disabled]="!hasNext()"><md-icon>navigate_next</md-icon></button>
+<button mat-icon-button mat-button (click)="movePrevious()" [disabled]="!hasPrevious()">
+    <mat-icon>navigate_before</mat-icon>
+</button>
+<button mat-icon-button mat-button (click)="moveNext()" [disabled]="!hasNext()">
+    <mat-icon>navigate_next</mat-icon>
+</button>

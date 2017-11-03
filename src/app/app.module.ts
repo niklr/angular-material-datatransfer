@@ -3,7 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import { MaterialModule } from '@angular/material';
+import {
+  MatButtonModule,
+  MatCheckboxModule,
+  MatIconModule,
+  MatMenuModule,
+  MatOptionModule,
+  MatProgressBarModule,
+  MatSelectModule,
+  MatTooltipModule
+} from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
@@ -20,7 +29,14 @@ import { DateUtil, DecimalByteUnitUtil, GuidUtil } from './utils';
     BrowserAnimationsModule,
     HttpModule,
     FormsModule,
-    MaterialModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatMenuModule,
+    MatOptionModule,
+    MatProgressBarModule,
+    MatSelectModule,
+    MatTooltipModule,
     FlexLayoutModule
   ],
   declarations: [

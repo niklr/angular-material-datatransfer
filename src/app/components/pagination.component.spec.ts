@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { MaterialModule } from '@angular/material';
+import { MatSelectModule, MatOptionModule, MatIconModule, MatButtonModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from './pagination.component';
 import { LoggerService, PaginationService } from '../services';
@@ -12,7 +12,7 @@ describe('PaginationComponent', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                MaterialModule, FormsModule
+                MatSelectModule, MatOptionModule, MatIconModule, MatButtonModule, FormsModule
             ],
             declarations: [
                 PaginationComponent

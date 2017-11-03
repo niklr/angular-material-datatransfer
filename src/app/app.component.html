@@ -5,20 +5,20 @@
 
   <div fxLayout="row" fxLayout.lt-sm="column" style="margin-bottom: 10px">
     <div fxFlex>
-      <button md-raised-button *ngIf="datatransferFacade.showStartButton()" (click)="datatransferFacade.startAll()"><md-icon>play_arrow</md-icon> Start</button>
-      <button md-raised-button *ngIf="datatransferFacade.showPauseButton()" (click)="datatransferFacade.pauseAll()"><md-icon>pause</md-icon> Pause</button>
-      <button md-raised-button *ngIf="datatransferFacade.showRemoveButton()" (click)="datatransferFacade.removeAll()"><md-icon>close</md-icon> Remove all</button>
-      <button md-raised-button *ngIf="datatransferFacade.showRetryButton()" (click)="datatransferFacade.retryAll()"><md-icon>refresh</md-icon> Retry ({{datatransferStore.failedCount}})</button>
-      <md-menu #exportMenu="mdMenu">
-        <button md-menu-item (click)="datatransferFacade.export('CSV')">
+      <button mat-raised-button *ngIf="datatransferFacade.showStartButton()" (click)="datatransferFacade.startAll()"><mat-icon>play_arrow</mat-icon> Start</button>
+      <button mat-raised-button *ngIf="datatransferFacade.showPauseButton()" (click)="datatransferFacade.pauseAll()"><mat-icon>pause</mat-icon> Pause</button>
+      <button mat-raised-button *ngIf="datatransferFacade.showRemoveButton()" (click)="datatransferFacade.removeAll()"><mat-icon>close</mat-icon> Remove all</button>
+      <button mat-raised-button *ngIf="datatransferFacade.showRetryButton()" (click)="datatransferFacade.retryAll()"><mat-icon>refresh</mat-icon> Retry ({{datatransferStore.failedCount}})</button>
+      <mat-menu #exportMenu="matMenu">
+        <button mat-menu-item (click)="datatransferFacade.export('CSV')">
         <span>CSV</span>
       </button>
-        <button md-menu-item (click)="datatransferFacade.export('JSON')">
+        <button mat-menu-item (click)="datatransferFacade.export('JSON')">
         <span>JSON</span>
       </button>
-      </md-menu>
-      <button md-raised-button *ngIf="datatransferFacade.showExportButton()" [mdMenuTriggerFor]="exportMenu">
-      Export <md-icon>expand_more</md-icon>
+      </mat-menu>
+      <button mat-raised-button *ngIf="datatransferFacade.showExportButton()" [matMenuTriggerFor]="exportMenu">
+      Export <mat-icon>expand_more</mat-icon>
     </button>
     </div>
     <div fxFlex="70px" fxFlex.lt-sm="0px">
@@ -36,7 +36,7 @@
   <div class="amd-container">
     <div fxLayout="row" class="amd-container-header" style="align-items: center;">
       <div fxFlex="40px">
-        <md-checkbox (change)="datatransferFacade.toggleVisible($event.checked)"></md-checkbox>
+        <mat-checkbox (change)="datatransferFacade.toggleVisible($event.checked)"></mat-checkbox>
       </div>
       <div fxFlex="50%" fxFlex.lt-sm="100%">
         Filename
@@ -45,14 +45,14 @@
         Progress
       </div>
       <div fxFlex="20px">
-        <md-menu #batchItemMenu="mdMenu">
-          <button md-menu-item (click)="datatransferFacade.removeSelected()">
-            <md-icon>close</md-icon>
+        <mat-menu #batchItemMenu="matMenu">
+          <button mat-menu-item (click)="datatransferFacade.removeSelected()">
+            <mat-icon>close</mat-icon>
             <span>Remove</span>
           </button>
-        </md-menu>
-        <button md-icon-button [mdMenuTriggerFor]="batchItemMenu">
-          <md-icon>more_vert</md-icon>
+        </mat-menu>
+        <button mat-icon-button [matMenuTriggerFor]="batchItemMenu">
+          <mat-icon>more_vert</mat-icon>
         </button>
       </div>
     </div>
@@ -60,7 +60,7 @@
       <div *ngIf="datatransferFacade.showPath(paginationService.paginatedItems, i)" class="amd-container-headline">
         <div fxLayout="row" style="align-items: center;">
           <div fxFlex="40px">
-            <md-icon>folder_open</md-icon>
+            <mat-icon>folder_open</mat-icon>
           </div>
           <div fxFlex>
             <div class="truncate-text">
@@ -73,10 +73,10 @@
         <div fxFlex class="amd-container-item-entry-1">
           <div style="align-items: center;">
             <div fxFlex="40px">
-              <md-checkbox [(ngModel)]="item.isSelected"></md-checkbox>
+              <mat-checkbox [(ngModel)]="item.isSelected"></mat-checkbox>
             </div>
             <div fxFlex="100%" class="truncate-text">
-              <div mdTooltip="{{item.name}}" mdTooltipPosition="above">
+              <div matTooltip="{{item.name}}" matTooltipPosition="above">
                 <span>{{item.name}}</span>
               </div>
             </div>
@@ -85,7 +85,7 @@
         <div fxFlex class="amd-container-item-entry-2">
           <div style="align-items: center;">
             <div fxFlex="40px">
-              <md-icon>{{datatransferFacade.getStatusClass(item.status)}}</md-icon>
+              <mat-icon>{{datatransferFacade.getStatusClass(item.status)}}</mat-icon>
             </div>
             <div fxFlex="100%">
               <div *ngIf="datatransferFacade.showProgressbar(item); else elseBlock">
@@ -103,31 +103,31 @@
                     {{item.progressInformation.loadedSizeInformation.displaySize}} / {{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}}
                   </div>
                 </div>
-                <md-progress-bar color="primary" mode="determinate" [value]="item.progressInformation.percent">
-                </md-progress-bar>
+                <mat-progress-bar color="primary" mode="determinate" [value]="item.progressInformation.percent">
+                </mat-progress-bar>
               </div>
               <ng-template #elseBlock>
                 {{item.getStatusName()}} ({{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}})
                 <div *ngIf="!!item.message">
-                  <div mdTooltip="{{item.message}}" mdTooltipPosition="above">
+                  <div matTooltip="{{item.message}}" matTooltipPosition="above">
                     <span><small>{{item.message}}</small></span>
                   </div>
                 </div>
               </ng-template>
             </div>
             <div fxFlex="20px">
-              <md-menu #itemMenu="mdMenu">
-                <button md-menu-item (click)="datatransferFacade.retryItem(item)" *ngIf="datatransferFacade.showRetryButtonByItem(item)">
-                  <md-icon>refresh</md-icon>
+              <mat-menu #itemMenu="matMenu">
+                <button mat-menu-item (click)="datatransferFacade.retryItem(item)" *ngIf="datatransferFacade.showRetryButtonByItem(item)">
+                  <mat-icon>refresh</mat-icon>
                   <span>Retry</span>
                 </button>
-                <button md-menu-item (click)="datatransferFacade.removeItem(item)">
-                  <md-icon>close</md-icon>
+                <button mat-menu-item (click)="datatransferFacade.removeItem(item)">
+                  <mat-icon>close</mat-icon>
                   <span>Remove</span>
                 </button>
-              </md-menu>
-              <button md-icon-button [mdMenuTriggerFor]="itemMenu">
-                <md-icon>more_vert</md-icon>
+              </mat-menu>
+              <button mat-icon-button [matMenuTriggerFor]="itemMenu">
+                <mat-icon>more_vert</mat-icon>
               </button>
             </div>
           </div>
