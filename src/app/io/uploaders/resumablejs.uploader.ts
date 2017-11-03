@@ -74,7 +74,15 @@ export class ResumableJsUploader extends BaseUploader {
     }
 
     public assignDrop(element): void {
-        this.r.assignDrop(element);
+        // this.r.assignDrop(element);
+        if (typeof (element.length) === 'undefined') {
+            element = [element];
+        }
+        this.each(element, function (e) {
+            e.addEventListener('dragover', this.preventDefault, false);
+            e.addEventListener('dragenter', this.preventDefault, false);
+            e.addEventListener('drop', this.onDrop.bind(this), false);
+        }.bind(this));
     }
 
     public isWorking(): boolean {
