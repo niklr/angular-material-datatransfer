@@ -6,7 +6,7 @@ import { LoggerService } from '../../services';
 import { GuidUtil } from '../../utils';
 
 export interface IUploader extends IDatatransfer {
-    assignBrowse(element): void;
+    assignBrowse(element, isDirectory): void;
     assignDrop(element): void;
 }
 
@@ -26,9 +26,20 @@ export abstract class BaseUploader extends BaseDatatransfer {
         super(logger, config, guidUtil);
     }
 
-    public abstract assignBrowse(element): void;
+    protected abstract addFiles(files, event): void;
 
-    public abstract assignDrop(element): void;
+    public abstract assignBrowse(element, isDirectory): void;
+
+    public assignDrop(element): void {
+        if (typeof (element.length) === 'undefined') {
+            element = [element];
+        }
+        this.each(element, function (e) {
+            e.addEventListener('dragover', this.preventDefault, false);
+            e.addEventListener('dragenter', this.preventDefault, false);
+            e.addEventListener('drop', this.onDrop.bind(this), false);
+        }.bind(this));
+    }
 
     protected each(o, callback): void {
         if (typeof (o.length) !== 'undefined') {
@@ -145,7 +156,7 @@ export abstract class BaseUploader extends BaseDatatransfer {
             function () {
                 if (files.length) {
                     // at least one file found
-                    this.r.addFiles(files, event);
+                    this.addFiles(files, event);
                 }
             }.bind(this)
         );

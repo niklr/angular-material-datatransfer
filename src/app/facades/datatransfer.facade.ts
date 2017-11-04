@@ -1,10 +1,12 @@
 import { Component, NgZone } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import * as _ from 'underscore';
 
 import { IDatatransfer, IUploader, IDownloader } from '../io';
 import { LoggerService, PaginationService, ExportService } from '../services';
 import { DatatransferStore } from '../stores';
 import { IDatatransferItem, ISizeInformation, IProgressInformation } from '../models';
+import { BrowseDialogComponent } from '../components';
 import { DateUtil } from '../utils';
 import { TransferStatus, TransferType } from '../enums';
 
@@ -20,7 +22,7 @@ export class DatatransferFacade {
 
     constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferStore, private dateUtil: DateUtil,
         private paginationService: PaginationService, private exportService: ExportService,
-        private uploader: IUploader, private downloader: IDownloader) {
+        private uploader: IUploader, private downloader: IDownloader, private dialog: MatDialog) {
         this.uploadProgress = this.store.uploadProgress;
         this.downloadProgress = this.store.downloadProgress;
         this.init(this.uploader, this.uploadProgress);
@@ -53,14 +55,27 @@ export class DatatransferFacade {
                 this.updateOverallSize(progressInformation, size);
             });
         }.bind(this));
+        // this.assignUploadBrowse(document.getElementById('amd-browse-folder'), true);
     }
 
-    public assignUploadBrowse(element): void {
-        this.uploader.assignBrowse(element);
+    public assignUploadBrowse(element, isDirectory = false): void {
+        this.uploader.assignBrowse(element, isDirectory);
     }
 
     public assignUploadDrop(element): void {
         this.uploader.assignDrop(element);
+    }
+
+    public openBrowseDialog(): void {
+        let dialogRef = this.dialog.open(BrowseDialogComponent, {
+            data: {
+                datatransferFacade: this
+            }
+        });
+    }
+
+    public test(): void {
+        console.log('test');
     }
 
     public toggleVisible(checked: boolean): void {

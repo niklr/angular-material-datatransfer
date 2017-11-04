@@ -44,13 +44,13 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (this.config.core.showUploadDropzone) {
       let dropzoneElement = document.getElementById('amd-dropzone-component');
       if (!!dropzoneElement) {
-        // TODO: replace dropzone click behaviour #5
-        this.datatransferFacade.assignUploadBrowse(dropzoneElement);
+        dropzoneElement.addEventListener('click', this.datatransferFacade.openBrowseDialog.bind(this.datatransferFacade), false);
         this.datatransferFacade.assignUploadDrop(dropzoneElement);
       }
     } else {
       if (typeof this.config.core.uploadBrowseElementId !== 'undefined') {
-        this.datatransferFacade.assignUploadBrowse(document.getElementById(this.config.core.uploadBrowseElementId));
+        document.getElementById(this.config.core.uploadBrowseElementId)
+          .addEventListener('click', this.datatransferFacade.openBrowseDialog.bind(this.datatransferFacade), false);
       }
       if (typeof this.config.core.uploadDropElementId !== 'undefined') {
         this.datatransferFacade.assignUploadDrop(document.getElementById(this.config.core.uploadDropElementId));
