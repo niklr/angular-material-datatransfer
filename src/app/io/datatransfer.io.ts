@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { LoggerService } from '../services';
 import { IAppConfig, IDatatransferItem } from '../models';
-import { TransferStatus } from '../enums';
+import { TransferStatus, TransferType } from '../enums';
 import { GuidUtil } from '../utils';
 
 export interface IDatatransfer {
@@ -54,8 +54,8 @@ export abstract class BaseDatatransfer implements IDatatransfer {
         this.fire('itemProgressUpdated', item, progress);
     }
 
-    protected updateOverallProgress(progress: number): void {
-        this.fire('overallProgressUpdated', progress);
+    protected updateOverallProgress(transferType: TransferType, progress: number): void {
+        this.fire('overallProgressUpdated', transferType, progress);
     }
 
     protected updateOverallSize(size: number): void {

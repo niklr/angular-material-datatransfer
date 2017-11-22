@@ -12,5 +12,5 @@
         {{progressInformation.loadedSizeInformation.displaySize}} / {{progressInformation.totalSizeInformation.displaySize}} {{progressInformation.totalSizeInformation.displayUnit}}
     </div>
 </div>
-<mat-progress-bar [color]="color" [mode]="mode" [value]="progressInformation.percent" [bufferValue]="bufferValue">
+<mat-progress-bar *ngIf="progressInformation.total > 0" [color]="color" [mode]="mode" [value]="progressInformation.percent" [bufferValue]="bufferValue">
 </mat-progress-bar>

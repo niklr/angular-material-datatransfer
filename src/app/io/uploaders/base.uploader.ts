@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
+import * as _ from 'underscore';
 
 import { IDatatransfer, BaseDatatransfer } from '..';
 import { IAppConfig } from '../../models';
 import { LoggerService } from '../../services';
+import { TransferType } from '../../enums';
 import { GuidUtil } from '../../utils';
 
 export interface IUploader extends IDatatransfer {
@@ -12,6 +14,8 @@ export interface IUploader extends IDatatransfer {
 
 @Injectable()
 export abstract class BaseUploader extends BaseDatatransfer {
+
+    protected transferType = TransferType.Upload;
 
     protected preventDefault = function (e) {
         e.preventDefault();
@@ -76,8 +80,9 @@ export abstract class BaseUploader extends BaseDatatransfer {
             // process all conversion callbacks, finally invoke own one
             this.processCallbacks(
                 entries.map(function (entry) {
+                    let that = this as BaseUploader;
                     // bind all properties except for callback
-                    return this.processItem.bind(this, entry, path, items);
+                    return that.processItem.bind(this, entry, path, items);
                 }.bind(this)),
                 cb
             );
@@ -138,7 +143,8 @@ export abstract class BaseUploader extends BaseDatatransfer {
         }
         // invoke current function, pass the next part as continuation
         items[0](function () {
-            this.processCallbacks(items.slice(1), cb);
+            let that = this as BaseUploader;
+            that.processCallbacks(items.slice(1), cb);
         }.bind(this));
     }
 
@@ -150,13 +156,17 @@ export abstract class BaseUploader extends BaseDatatransfer {
         let files = [];
         this.processCallbacks(
             Array.prototype.map.call(items, function (item) {
+                let that = this as BaseUploader;
                 // bind all properties except for callback
-                return this.processItem.bind(this, item, '', files);
+                return that.processItem.bind(this, item, '', files);
             }.bind(this)),
             function () {
+                let that = this as BaseUploader;
                 if (files.length) {
                     // at least one file found
-                    this.addFiles(files, event);
+                    // sort by path https://github.com/hughsk/path-sort
+                    // files = _.sortBy(files, 'relativePath');
+                    that.addFiles(files, event);
                 }
             }.bind(this)
         );

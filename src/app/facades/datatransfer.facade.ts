@@ -31,28 +31,33 @@ export class DatatransferFacade {
 
     private init(datatransfer: IDatatransfer, progressInformation: IProgressInformation): void {
         datatransfer.on('itemAdded', function (item: IDatatransferItem) {
-            this.zone.run(() => {
-                this.addItem(item);
+            let that = this as DatatransferFacade;
+            that.zone.run(() => {
+                that.addItem(item);
             });
         }.bind(this));
         datatransfer.on('itemStatusChanged', function (item: IDatatransferItem, status: TransferStatus, message?: string) {
-            this.zone.run(() => {
-                this.changeItemStatus(item, status, message);
+            let that = this as DatatransferFacade;
+            that.zone.run(() => {
+                that.changeItemStatus(item, status, message);
             });
         }.bind(this));
         datatransfer.on('itemProgressUpdated', function (item: IDatatransferItem, progress: number) {
-            this.zone.run(() => {
-                this.updateItemProgress(item, progress);
+            let that = this as DatatransferFacade;
+            that.zone.run(() => {
+                that.updateItemProgress(item, progress);
             });
         }.bind(this));
-        datatransfer.on('overallProgressUpdated', function (progress: number) {
-            this.zone.run(() => {
-                this.updateOverallProgress(progressInformation, progress);
+        datatransfer.on('overallProgressUpdated', function (transferType: TransferType, progress: number) {
+            let that = this as DatatransferFacade;
+            that.zone.run(() => {
+                that.updateOverallProgress(progressInformation, transferType, progress);
             });
         }.bind(this));
         datatransfer.on('overallSizeUpdated', function (size: number) {
-            this.zone.run(() => {
-                this.updateOverallSize(progressInformation, size);
+            let that = this as DatatransferFacade;
+            that.zone.run(() => {
+                that.updateOverallSize(progressInformation, size);
             });
         }.bind(this));
         // this.assignUploadBrowse(document.getElementById('amd-browse-folder'), true);
@@ -74,10 +79,6 @@ export class DatatransferFacade {
         });
     }
 
-    public test(): void {
-        console.log('test');
-    }
-
     public toggleVisible(checked: boolean): void {
         _.each(this.paginationService.paginatedItems, function (item) {
             item.isSelected = checked;
@@ -86,8 +87,9 @@ export class DatatransferFacade {
 
     public startAll(): void {
         _.each(this.store.getItems(), function (item: IDatatransferItem) {
+            let that = this as DatatransferFacade;
             if (item.transferType === TransferType.Upload && item.status === TransferStatus.Added) {
-                this.changeItemStatus(item, TransferStatus.Queued);
+                that.changeItemStatus(item, TransferStatus.Queued);
             }
         }.bind(this));
         this.uploader.startAll();
@@ -108,14 +110,16 @@ export class DatatransferFacade {
 
     public retryAll(): void {
         _.each(this.store.getByStatus(TransferStatus.Failed), function (item) {
-            this.retryItem(item);
+            let that = this as DatatransferFacade;
+            that.retryItem(item);
         }.bind(this));
     }
 
     public removeSelected(): void {
         let temp = this.store.getSelected().slice();
         _.each(temp, function (item) {
-            this.removeItem(item);
+            let that = this as DatatransferFacade;
+            that.removeItem(item);
         }.bind(this));
     }
 
@@ -178,11 +182,15 @@ export class DatatransferFacade {
         }
     }
 
-    public updateOverallProgress(progressInformation: IProgressInformation, progress: number): void {
+    public updateOverallProgress(progressInformation: IProgressInformation, transferType: TransferType, progress: number): void {
         let now: number = this.dateUtil.now();
         let loaded: number = progressInformation.total * progress;
+        // this.logger.log('total: ' + progressInformation.total + ' progress: ' + progress + ' loaded: ' + loaded);
         progressInformation.updateBitrate(now, loaded, this.bitrateInterval);
         progressInformation.updateProgress(now, loaded, this.progressInterval);
+        if (progressInformation.total > 0 && loaded >= progressInformation.total) {
+            // TODO: fire complete event
+        }
     }
 
     public updateOverallSize(progressInformation: IProgressInformation, size: number): void {

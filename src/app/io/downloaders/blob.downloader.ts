@@ -38,13 +38,14 @@ export class BlobDownloader extends BaseDownloader {
 
     public removeAll(): void {
         _.each(this.files, function (item) {
-            this.abortDownload(item);
+            let that = this as BlobDownloader;
+            that.abortDownload(item);
         }.bind(this));
         this.files.length = 0;
         this.queue.length = 0;
         this.downloading.length = 0;
         this.updateOverallSize(this.getSize());
-        this.updateOverallProgress(this.getProgress());
+        this.updateOverallProgress(this.transferType, this.getProgress());
     }
 
     public removeItem(item: IDatatransferItem): void {
@@ -106,13 +107,15 @@ export class BlobDownloader extends BaseDownloader {
         xhr.open(this.config.core.downloadMethod, item.externalItem.url);
         xhr.responseType = 'blob';
         xhr.onloadstart = function (e) {
-            this.changeItemStatus(item, TransferStatus.Downloading);
+            let that = this as BlobDownloader;
+            that.changeItemStatus(item, TransferStatus.Downloading);
         }.bind(this);
         xhr.onprogress = function (e) {
-            if (new Date().getTime() - item.externalItem.lastProgressCallback.getTime() > this.throttleProgressCallbacks * 1000) {
+            let that = this as BlobDownloader;
+            if (new Date().getTime() - item.externalItem.lastProgressCallback.getTime() > that.throttleProgressCallbacks * 1000) {
                 item.externalItem.progress = e.loaded / e.total;
-                this.updateItemProgress(item, item.externalItem.progress);
-                this.updateOverallProgress(this.getProgress());
+                that.updateItemProgress(item, item.externalItem.progress);
+                that.updateOverallProgress(that.transferType, that.getProgress());
                 item.externalItem.lastProgressCallback = new Date();
             }
         }.bind(this);
@@ -125,24 +128,25 @@ export class BlobDownloader extends BaseDownloader {
             3	LOADING	Downloading; responseText holds partial data.
             4	DONE	The operation is complete.
             */
+            let that = this as BlobDownloader;
             if (xhr.readyState === 4) {
                 item.externalItem.progress = 1;
-                this.updateItemProgress(item, item.externalItem.progress);
+                that.updateItemProgress(item, item.externalItem.progress);
                 if (xhr.status === 200) {
-                    this.changeItemStatus(item, TransferStatus.Finished);
+                    that.changeItemStatus(item, TransferStatus.Finished);
                     saveAs(xhr.response, item.name);
                 } else if (xhr.status !== 0) { // don't change status for aborted items
-                    this.changeItemStatus(item, TransferStatus.Failed);
+                    that.changeItemStatus(item, TransferStatus.Failed);
                 }
-                this.removeItemFromArray(item, this.downloading);
-                this.downloadNext();
+                that.removeItemFromArray(item, that.downloading);
+                that.downloadNext();
             }
         }.bind(this);
     }
 
     private downloadNext(): void {
         this.updateOverallSize(this.getSize());
-        this.updateOverallProgress(this.getProgress());
+        this.updateOverallProgress(this.transferType, this.getProgress());
         if (this.downloading.length < this.config.core.simultaneousDownloads) {
             let item = this.queue.shift();
             if (!!item && !!item.externalItem && !!item.externalItem.xhr) {

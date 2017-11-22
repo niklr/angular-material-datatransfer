@@ -11,7 +11,7 @@ import { GuidUtil } from '../../utils';
 @Injectable()
 export class ResumableJsUploader extends BaseUploader {
 
-    private r = undefined;
+    private r: Resumable = undefined;
 
     constructor(protected logger: LoggerService, protected config: IAppConfig, protected guidUtil: GuidUtil) {
         super(logger, config, guidUtil);
@@ -29,6 +29,7 @@ export class ResumableJsUploader extends BaseUploader {
         this.r = new Resumable(this.config.resumablejs);
 
         this.r.on('fileAdded', function (file, event) {
+            let that = this as ResumableJsUploader;
             let newItem = new DatatransferItem({
                 id: file.uniqueIdentifier,
                 name: file.fileName,
@@ -41,31 +42,36 @@ export class ResumableJsUploader extends BaseUploader {
             });
             file.internalItem = newItem;
 
-            this.addItem(newItem);
+            that.addItem(newItem);
         }.bind(this));
         this.r.on('fileProgress', function (file, message) {
-            // this.logger.log('fileProgress', file.progress());
-            this.changeItemStatus(file.internalItem, TransferStatus.Uploading);
-            this.updateItemProgress(file.internalItem, file.progress());
-            this.updateOverallProgress(this.r.progress());
+            let that = this as ResumableJsUploader;
+            // that.logger.log('fileProgress', file.progress());
+            that.changeItemStatus(file.internalItem, TransferStatus.Uploading);
+            that.updateItemProgress(file.internalItem, file.progress());
+            that.updateOverallProgress(that.transferType, that.r.progress());
         }.bind(this));
         this.r.on('fileSuccess', function (file, message) {
-            // this.logger.log('fileSuccess', file);
-            this.changeItemStatus(file.internalItem, TransferStatus.Finished, message);
+            let that = this as ResumableJsUploader;
+            // that.logger.log('fileSuccess', file);
+            that.changeItemStatus(file.internalItem, TransferStatus.Finished, message);
         }.bind(this));
         this.r.on('fileError', function (file, message) {
-            this.logger.log('fileError', file, message);
-            this.changeItemStatus(file.internalItem, TransferStatus.Failed, message);
+            let that = this as ResumableJsUploader;
+            that.logger.log('fileError', file, message);
+            that.changeItemStatus(file.internalItem, TransferStatus.Failed, message);
         }.bind(this));
         this.r.on('uploadStart', function () {
-            this.updateOverallProgress(this.r.progress());
-            this.updateOverallSize(this.r.getSize());
+            let that = this as ResumableJsUploader;
+            that.updateOverallProgress(that.transferType, that.r.progress());
+            that.updateOverallSize(that.r.getSize());
         }.bind(this));
         this.r.on('chunkingComplete', function () {
             // this.logger.log('chunkingComplete');
         }.bind(this));
         this.r.on('complete', function () {
-            this.updateOverallProgress(this.r.progress());
+            let that = this as ResumableJsUploader;
+            that.updateOverallProgress(that.transferType, that.r.progress());
         }.bind(this));
     }
 
@@ -92,7 +98,8 @@ export class ResumableJsUploader extends BaseUploader {
     public removeAll(): void {
         let tempFiles = this.r.files.slice();
         _.each(tempFiles, function (file) {
-            this.r.removeFile(file);
+            let that = this as ResumableJsUploader;
+            that.r.removeFile(file);
         }.bind(this));
     }
 
