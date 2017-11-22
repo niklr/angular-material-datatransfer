@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 import * as _ from 'underscore';
 
 import { IDatatransfer, BaseDatatransfer } from '..';
-import { IAppConfig } from '../../models';
+import { IAppConfig, IDatatransferItem } from '../../models';
 import { LoggerService } from '../../services';
 import { TransferType } from '../../enums';
 import { GuidUtil } from '../../utils';
+import { Exception } from 'handlebars';
 
 export interface IUploader extends IDatatransfer {
     assignBrowse(element, isDirectory): void;
     assignDrop(element): void;
+    editFilename(item: IDatatransferItem, name: string): void;
 }
 
 @Injectable()
@@ -43,6 +45,15 @@ export abstract class BaseUploader extends BaseDatatransfer {
             e.addEventListener('dragenter', this.preventDefault, false);
             e.addEventListener('drop', this.onDrop.bind(this), false);
         }.bind(this));
+    }
+
+    public editFilename(item: IDatatransferItem, name: string): void {
+        if (!item) {
+            throw 'Cannot edit the filename.';
+        }
+        if (!name) {
+            throw 'Empty filename is not allowed.';
+        }
     }
 
     protected each(o, callback): void {

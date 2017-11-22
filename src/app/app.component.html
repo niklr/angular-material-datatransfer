@@ -5,21 +5,26 @@
 
   <div fxLayout="row" fxLayout.lt-sm="column" style="margin-bottom: 10px">
     <div fxFlex>
-      <button mat-raised-button *ngIf="datatransferFacade.showStartButton()" (click)="datatransferFacade.startAll()"><mat-icon>play_arrow</mat-icon> Start</button>
-      <button mat-raised-button *ngIf="datatransferFacade.showPauseButton()" (click)="datatransferFacade.pauseAll()"><mat-icon>pause</mat-icon> Pause</button>
-      <button mat-raised-button *ngIf="datatransferFacade.showRemoveButton()" (click)="datatransferFacade.removeAll()"><mat-icon>close</mat-icon> Remove all</button>
-      <button mat-raised-button *ngIf="datatransferFacade.showRetryButton()" (click)="datatransferFacade.retryAll()"><mat-icon>refresh</mat-icon> Retry ({{datatransferStore.failedCount}})</button>
+      <button mat-raised-button *ngIf="datatransferFacade.showStartButton()" (click)="datatransferFacade.startAll()">
+        <mat-icon>play_arrow</mat-icon> Start</button>
+      <button mat-raised-button *ngIf="datatransferFacade.showPauseButton()" (click)="datatransferFacade.pauseAll()">
+        <mat-icon>pause</mat-icon> Pause</button>
+      <button mat-raised-button *ngIf="datatransferFacade.showRemoveButton()" (click)="datatransferFacade.removeAll()">
+        <mat-icon>close</mat-icon> Remove all</button>
+      <button mat-raised-button *ngIf="datatransferFacade.showRetryButton()" (click)="datatransferFacade.retryAll()">
+        <mat-icon>refresh</mat-icon> Retry ({{datatransferStore.failedCount}})</button>
       <mat-menu #exportMenu="matMenu">
         <button mat-menu-item (click)="datatransferFacade.export('CSV')">
-        <span>CSV</span>
-      </button>
+          <span>CSV</span>
+        </button>
         <button mat-menu-item (click)="datatransferFacade.export('JSON')">
-        <span>JSON</span>
-      </button>
+          <span>JSON</span>
+        </button>
       </mat-menu>
       <button mat-raised-button *ngIf="datatransferFacade.showExportButton()" [matMenuTriggerFor]="exportMenu">
-      Export <mat-icon>expand_more</mat-icon>
-    </button>
+        Export
+        <mat-icon>expand_more</mat-icon>
+      </button>
     </div>
     <div fxFlex="70px" fxFlex.lt-sm="0px">
     </div>
@@ -71,19 +76,22 @@
       </div>
       <div fxLayout="row" fxLayout.lt-sm="column" class="amd-container-item" [ngClass]="{'selected': item.isSelected}">
         <div fxFlex class="amd-container-item-entry-1">
-          <div style="align-items: center;">
+          <div style="align-items: center; height: 40px;">
             <div fxFlex="40px">
               <mat-checkbox [(ngModel)]="item.isSelected"></mat-checkbox>
             </div>
-            <div fxFlex="100%" class="truncate-text">
+            <div fxFlex="100%" >
               <div matTooltip="{{item.name}}" matTooltipPosition="above">
                 <span>{{item.name}}</span>
+                <button mat-icon-button (click)="datatransferFacade.openEditFilenameDialog(item)">
+                    <mat-icon aria-label="Edit filename">edit</mat-icon>
+                  </button>
               </div>
             </div>
           </div>
         </div>
         <div fxFlex class="amd-container-item-entry-2">
-          <div style="align-items: center;">
+          <div style="align-items: center; height: 40px;">
             <div fxFlex="40px">
               <mat-icon>{{datatransferFacade.getStatusClass(item.status)}}</mat-icon>
             </div>
@@ -110,7 +118,9 @@
                 {{item.getStatusName()}} ({{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}})
                 <div *ngIf="!!item.message">
                   <div matTooltip="{{item.message}}" matTooltipPosition="above">
-                    <span><small>{{item.message}}</small></span>
+                    <span>
+                      <small>{{item.message}}</small>
+                    </span>
                   </div>
                 </div>
               </ng-template>

@@ -7,7 +7,9 @@ import {
   MatButtonModule,
   MatCheckboxModule,
   MatDialogModule,
+  MatFormFieldModule,
   MatIconModule,
+  MatInputModule,
   MatMenuModule,
   MatOptionModule,
   MatProgressBarModule,
@@ -17,7 +19,7 @@ import {
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
-import { BrowseDialogComponent, DropzoneComponent, PaginationComponent, ProgressComponent } from './components';
+import { BrowseDialogComponent, DropzoneComponent, EditDialogComponent, PaginationComponent, ProgressComponent } from './components';
 import { CsvExporter, JsonExporter } from './io';
 import { LoggerService, PaginationService, ExportService, DemoService } from './services';
 import { DatatransferStore } from './stores';
@@ -33,7 +35,9 @@ import { DateUtil, DecimalByteUnitUtil, GuidUtil } from './utils';
     MatButtonModule,
     MatCheckboxModule,
     MatDialogModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatMenuModule,
     MatOptionModule,
     MatProgressBarModule,
@@ -45,11 +49,13 @@ import { DateUtil, DecimalByteUnitUtil, GuidUtil } from './utils';
     AppComponent,
     BrowseDialogComponent,
     DropzoneComponent,
+    EditDialogComponent,
     PaginationComponent,
     ProgressComponent
   ],
   entryComponents: [
-    BrowseDialogComponent
+    BrowseDialogComponent,
+    EditDialogComponent
   ],
   providers: [
     LoggerService,

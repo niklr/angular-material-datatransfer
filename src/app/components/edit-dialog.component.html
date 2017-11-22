@@ -1,0 +1,16 @@
+<div *ngIf="item">
+    <mat-dialog-content>
+        <p>Enter a new filename:</p>
+        <mat-form-field>
+            <!-- <input matInput [ngModel]="itemName" (input)="datatransferFacade.editFilename(item, $event.target.value)"> -->
+            <input matInput [ngModel]="itemName" (input)="itemName = $event.target.value; errorMessage = undefined;">
+            <mat-error *ngIf="errorMessage">
+                {{errorMessage}}
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-raised-button (click)="editFilename()">Ok</button>
+        <button mat-raised-button (click)="close()">Cancel</button>
+    </mat-dialog-actions>
+</div>

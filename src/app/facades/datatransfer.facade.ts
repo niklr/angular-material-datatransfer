@@ -6,7 +6,7 @@ import { IDatatransfer, IUploader, IDownloader } from '../io';
 import { LoggerService, PaginationService, ExportService } from '../services';
 import { DatatransferStore } from '../stores';
 import { IDatatransferItem, ISizeInformation, IProgressInformation } from '../models';
-import { BrowseDialogComponent } from '../components';
+import { BrowseDialogComponent, EditDialogComponent } from '../components';
 import { DateUtil } from '../utils';
 import { TransferStatus, TransferType } from '../enums';
 
@@ -75,6 +75,15 @@ export class DatatransferFacade {
         let dialogRef = this.dialog.open(BrowseDialogComponent, {
             data: {
                 datatransferFacade: this
+            }
+        });
+    }
+
+    public openEditFilenameDialog(item: IDatatransferItem): void {
+        let dialogRef = this.dialog.open(EditDialogComponent, {
+            data: {
+                datatransferFacade: this,
+                item: item
             }
         });
     }
@@ -269,5 +278,15 @@ export class DatatransferFacade {
             return items[index - 1].path !== currentPath;
         }
         return true;
+    }
+
+    public editFilename(item: IDatatransferItem, name: string): void {
+        switch (item.transferType) {
+            case TransferType.Upload:
+                this.uploader.editFilename(item, name);
+                break;
+            default:
+                break;
+        }
     }
 }
