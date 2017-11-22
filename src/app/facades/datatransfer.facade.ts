@@ -189,7 +189,16 @@ export class DatatransferFacade {
         progressInformation.updateBitrate(now, loaded, this.bitrateInterval);
         progressInformation.updateProgress(now, loaded, this.progressInterval);
         if (progressInformation.total > 0 && loaded >= progressInformation.total) {
-            // TODO: fire complete event
+            switch (transferType) {
+                case TransferType.Upload:
+                    document.dispatchEvent(new CustomEvent('github:niklr/angular-material-datatransfer.upload-completed'));
+                    break;
+                case TransferType.Download:
+                    document.dispatchEvent(new CustomEvent('github:niklr/angular-material-datatransfer.download-completed'));
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

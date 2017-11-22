@@ -67,11 +67,12 @@ export class ResumableJsUploader extends BaseUploader {
             that.updateOverallSize(that.r.getSize());
         }.bind(this));
         this.r.on('chunkingComplete', function () {
-            // this.logger.log('chunkingComplete');
+            let that = this as ResumableJsUploader;
+            // that.logger.log('chunkingComplete');
         }.bind(this));
         this.r.on('complete', function () {
             let that = this as ResumableJsUploader;
-            that.updateOverallProgress(that.transferType, that.r.progress());
+            // that.logger.log('complete');
         }.bind(this));
     }
 

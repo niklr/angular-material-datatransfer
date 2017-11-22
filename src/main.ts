@@ -11,6 +11,6 @@ export function main(event) {
   return platformBrowserDynamic([{provide: 'ConfigCustomEvent', useValue: event }]).bootstrapModule(AppModule);
 }
 
-document.addEventListener('amd.create', function(event) {
+document.addEventListener('github:niklr/angular-material-datatransfer.create', function(event) {
   main(event);
 });

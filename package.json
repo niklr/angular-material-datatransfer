@@ -1,6 +1,6 @@
 {
   "name": "angular-material-datatransfer",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf node_modules doc dist && npm cache clean",

@@ -34,7 +34,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    document.dispatchEvent(new Event('amd.init'));
+    document.dispatchEvent(new Event('github:niklr/angular-material-datatransfer.init'));
     // _.each(this.demoService.testItems, function (item: IDatatransferItem) {
     //   this.datatransferFacade.addItem(item);
     // }.bind(this));
@@ -58,7 +58,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
   }
 
-  @HostListener('document:amd.set-config', ['$event'])
   public setConfig(event): void {
     if (!!event && !!event.detail) {
       let config: IAppConfig = event.detail;
@@ -85,7 +84,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.paginationService.setRppOptions(this.config.core.paginationRppOptions);
   }
 
-  @HostListener('document:amd.download-item', ['$event'])
+  @HostListener('document:github:niklr/angular-material-datatransfer.download-item', ['$event'])
   public downloadItem(event): void {
     if (!!event && !!event.detail) {
       let item = event.detail;

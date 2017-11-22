@@ -17,6 +17,7 @@ FileSaver.js implements the `saveAs()` FileSaver interface in browsers that do n
 Table of Content:
 * [Basic setup](#basic_setup)
 * [Handling download](#handling_download)
+* [Events](#events)
 * [Configuration](#configuration)
 * [Server-side setup](#server_setup)
 
@@ -73,7 +74,7 @@ Table of Content:
             simultaneousUploads: 2
           }
         };
-        var event = new CustomEvent('amd.create', { 'detail': config });
+        var event = new CustomEvent('github:niklr/angular-material-datatransfer.create', { 'detail': config });
         document.dispatchEvent(event);
     })();
   </script>
@@ -83,7 +84,7 @@ Table of Content:
 ```
 
 ## Handling download <a name="handling_download"></a>
-The download of a file can be triggered by dispatching a custom event called `amd.download-item` on the document object. Data can be passed as detail object with the following properties.
+The download of a file can be triggered by dispatching a custom event called `github:niklr/angular-material-datatransfer.download-item` on the document object. Data can be passed as detail object with the following properties.
 * `filename` The name of the file to be downloaded.
 * `url` The URL of the file to be downloaded.
 * `size` The size in bytes of the file to be downloaded. 
@@ -94,12 +95,22 @@ var eventDetail = {
   'url': url, 
   'size': size 
 };
-var event = new CustomEvent('amd.download-item', { 'detail': eventDetail });
+var event = new CustomEvent('github:niklr/angular-material-datatransfer.download-item', { 'detail': eventDetail });
 document.dispatchEvent(event);
 ```
 
+## Events <a name="events"></a>
+After initialization, interaction with angular-material-datatransfer is done by listening to events:
+
+```js
+document.addEventListener('github:niklr/angular-material-datatransfer.upload-completed', function (e) { ... });
+```
+
+* `github:niklr/angular-material-datatransfer.upload-completed` Indicates that the overall upload has been completed.
+* `github:niklr/angular-material-datatransfer.download-completed` Indicates that the overall download has been completed.
+
 ## Configuration <a name="configuration"></a>
-In order to initialize and configure angular-material-datatransfer, a custom event called `amd.create` can be dispatched on the document object. The configuration differentiates between `core` and `resumablejs`. Both are described below. 
+In order to initialize and configure angular-material-datatransfer, a custom event called `github:niklr/angular-material-datatransfer.create` can be dispatched on the document object. The configuration differentiates between `core` and `resumablejs`. Both are described below. 
 
 ```js
 var config = {
@@ -110,7 +121,7 @@ var config = {
     ...
   }
 };
-var event = new CustomEvent('amd.create', { 'detail': config });
+var event = new CustomEvent('github:niklr/angular-material-datatransfer.create', { 'detail': config });
 document.dispatchEvent(event);
 ```
 

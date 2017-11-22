@@ -80,7 +80,8 @@
     function downloadItem(id) {
       var sample = getSampleById(id);
       if (!!sample) {
-        var event = new CustomEvent('amd.download-item', { 'detail': { 'filename': sample.filename, 'url': sample.url, 'size': sample.size } });
+        var eventDetail = { 'filename': sample.filename, 'url': sample.url, 'size': sample.size };
+        var event = new CustomEvent('github:niklr/angular-material-datatransfer.download-item', { 'detail': eventDetail });
         document.dispatchEvent(event);
       }
       return false;
@@ -105,7 +106,7 @@
           simultaneousUploads: 2
         }
       };
-      var event = new CustomEvent('amd.create', { 'detail': config });
+      var event = new CustomEvent('github:niklr/angular-material-datatransfer.create', { 'detail': config });
       document.dispatchEvent(event);      
     }, 1000);
   </script>
