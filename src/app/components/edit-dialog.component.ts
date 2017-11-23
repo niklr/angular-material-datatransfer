@@ -1,4 +1,5 @@
 import { Component, Inject, AfterViewInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DatatransferFacade } from '../facades';
 import { IDatatransferItem } from '../models/index';
@@ -15,6 +16,7 @@ export class EditDialogComponent implements AfterViewInit {
     item: IDatatransferItem;
     itemName: string;
     errorMessage: string;
+    editFilenameFormControl: FormControl;
 
     constructor(
         public dialogRef: MatDialogRef<EditDialogComponent>,
@@ -22,6 +24,9 @@ export class EditDialogComponent implements AfterViewInit {
         this.datatransferFacade = <DatatransferFacade>this.data.datatransferFacade;
         this.item = <IDatatransferItem>this.data.item;
         this.itemName = this.item.name;
+
+        this.editFilenameFormControl = new FormControl('', []);
+
     }
 
     ngAfterViewInit() {

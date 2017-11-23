@@ -97,7 +97,7 @@ export class DatatransferFacade {
     public startAll(): void {
         _.each(this.store.getItems(), function (item: IDatatransferItem) {
             let that = this as DatatransferFacade;
-            if (item.transferType === TransferType.Upload && item.status === TransferStatus.Added) {
+            if (item.transferType === TransferType.Upload && item.status === TransferStatus.Ready) {
                 that.changeItemStatus(item, TransferStatus.Queued);
             }
         }.bind(this));
@@ -225,7 +225,7 @@ export class DatatransferFacade {
 
     public getStatusClass(status: TransferStatus): string {
         switch (status) {
-            case TransferStatus.Added:
+            case TransferStatus.Ready:
                 return 'add_circle_outline';
             case TransferStatus.Uploading:
                 return 'arrow_upward';
@@ -278,6 +278,22 @@ export class DatatransferFacade {
             return items[index - 1].path !== currentPath;
         }
         return true;
+    }
+
+    public showEditFilenameDialog(item: IDatatransferItem): boolean {
+        let result = false;
+        if (item) {
+            switch (item.transferType) {
+                case TransferType.Upload:
+                    if (item.status === TransferStatus.Ready) {
+                        result = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        return result;
     }
 
     public editFilename(item: IDatatransferItem, name: string): void {

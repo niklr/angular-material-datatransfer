@@ -1,5 +1,5 @@
 export enum TransferStatus {
-    Added,
+    Ready,
     Queued,
     Uploading,
     Downloading,

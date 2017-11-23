@@ -47,7 +47,7 @@ $amd-gray: lighten(#000, 90%);;
     background-color: mat-color($candy-app-primary, 600);
 }
 
-.amd-container-item {
+.amd-container-row {
     //margin-bottom: 10px;
     padding: 0px 20px 0px 10px;
     font-size: 13px;
@@ -58,16 +58,16 @@ $amd-gray: lighten(#000, 90%);;
     }
 }
 
-.amd-container-item-entry-1 {
+.amd-container-row-item {
     padding: 10px 0px 10px 0px;
     height: 60px;
 }
 
-.amd-container-item-entry-2 {
-    padding: 10px 0px 10px 0px;
-    height: 60px;
+.amd-container-row-item-entry {
+    align-items: center; 
+    height: 40px;
 }
 
-.amd-container-item-stats {
+.amd-container-row-item-entry-stats {
     font-size: 11px;
 }

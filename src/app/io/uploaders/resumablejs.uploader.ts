@@ -37,7 +37,7 @@ export class ResumableJsUploader extends BaseUploader {
                 sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.Byte, decimalByteUnitSize: file.size }),
                 progressInformation: new ProgressInformation(file.size),
                 transferType: TransferType.Upload,
-                status: TransferStatus.Added,
+                status: TransferStatus.Ready,
                 externalItem: file
             });
             file.internalItem = newItem;
@@ -58,7 +58,7 @@ export class ResumableJsUploader extends BaseUploader {
         }.bind(this));
         this.r.on('fileError', function (file, message) {
             let that = this as ResumableJsUploader;
-            that.logger.log('fileError', file, message);
+            // that.logger.log('fileError', file, message);
             that.changeItemStatus(file.internalItem, TransferStatus.Failed, message);
         }.bind(this));
         this.r.on('uploadStart', function () {

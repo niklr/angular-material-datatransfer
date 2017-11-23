@@ -74,30 +74,30 @@
           </div>
         </div>
       </div>
-      <div fxLayout="row" fxLayout.lt-sm="column" class="amd-container-item" [ngClass]="{'selected': item.isSelected}">
-        <div fxFlex class="amd-container-item-entry-1">
-          <div style="align-items: center; height: 40px;">
+      <div fxLayout="row" fxLayout.lt-sm="column" class="amd-container-row" [ngClass]="{'selected': item.isSelected}">
+        <div fxFlex class="amd-container-row-item">
+          <div class="amd-container-row-item-entry">
             <div fxFlex="40px">
               <mat-checkbox [(ngModel)]="item.isSelected"></mat-checkbox>
             </div>
             <div fxFlex="100%" >
               <div matTooltip="{{item.name}}" matTooltipPosition="above">
                 <span>{{item.name}}</span>
-                <button mat-icon-button (click)="datatransferFacade.openEditFilenameDialog(item)">
+                <button mat-icon-button (click)="datatransferFacade.openEditFilenameDialog(item)" *ngIf="datatransferFacade.showEditFilenameDialog(item)">
                     <mat-icon aria-label="Edit filename">edit</mat-icon>
                   </button>
               </div>
             </div>
           </div>
         </div>
-        <div fxFlex class="amd-container-item-entry-2">
-          <div style="align-items: center; height: 40px;">
+        <div fxFlex class="amd-container-row-item">
+          <div class="amd-container-row-item-entry">
             <div fxFlex="40px">
               <mat-icon>{{datatransferFacade.getStatusClass(item.status)}}</mat-icon>
             </div>
             <div fxFlex="100%">
               <div *ngIf="datatransferFacade.showProgressbar(item); else elseBlock">
-                <div class="amd-container-item-stats">
+                <div class="amd-container-row-item-entry-stats">
                   <div fxFlex="25%" fxFlex.lt-md="50%">
                     {{item.progressInformation.displayBitrate}}
                   </div>
