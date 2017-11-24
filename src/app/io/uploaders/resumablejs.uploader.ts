@@ -84,6 +84,17 @@ export class ResumableJsUploader extends BaseUploader {
         this.r.assignBrowse(element, isDirectory);
     }
 
+    public editPath(oldPath: string, newPath: string): void {
+        super.editPath(oldPath, newPath);
+        _.each(this.r.files, function (file) {
+            let internalItem = file.internalItem as IDatatransferItem;
+            if (internalItem.status === TransferStatus.Ready && internalItem.path === oldPath) {
+                file.relativePath = newPath + file.fileName;
+                internalItem.path = newPath;
+            }
+        }.bind(this));
+    }
+
     public editFilename(item: IDatatransferItem, name: string): void {
         super.editFilename(item, name);
         item.externalItem.fileName = name;

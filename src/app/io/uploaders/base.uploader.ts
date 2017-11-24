@@ -11,6 +11,7 @@ import { Exception } from 'handlebars';
 export interface IUploader extends IDatatransfer {
     assignBrowse(element, isDirectory): void;
     assignDrop(element): void;
+    editPath(oldPath: string, newPath: string): void;
     editFilename(item: IDatatransferItem, name: string): void;
 }
 
@@ -45,6 +46,10 @@ export abstract class BaseUploader extends BaseDatatransfer {
             e.addEventListener('dragenter', this.preventDefault, false);
             e.addEventListener('drop', this.onDrop.bind(this), false);
         }.bind(this));
+    }
+
+    public editPath(oldPath: string, newPath: string): void {
+        // TODO: don't allow special characters
     }
 
     public editFilename(item: IDatatransferItem, name: string): void {

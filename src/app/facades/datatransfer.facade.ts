@@ -79,10 +79,21 @@ export class DatatransferFacade {
         });
     }
 
+    public openEditPathDialog(item: IDatatransferItem): void {
+        let dialogRef = this.dialog.open(EditDialogComponent, {
+            data: {
+                datatransferFacade: this,
+                mode: 'edit-path',
+                item: item
+            }
+        });
+    }
+
     public openEditFilenameDialog(item: IDatatransferItem): void {
         let dialogRef = this.dialog.open(EditDialogComponent, {
             data: {
                 datatransferFacade: this,
+                mode: 'edit-filename',
                 item: item
             }
         });
@@ -280,7 +291,7 @@ export class DatatransferFacade {
         return true;
     }
 
-    public showEditFilenameDialog(item: IDatatransferItem): boolean {
+    public showEditDialog(item: IDatatransferItem): boolean {
         let result = false;
         if (item) {
             switch (item.transferType) {
@@ -294,6 +305,26 @@ export class DatatransferFacade {
             }
         }
         return result;
+    }
+
+    public editPath(item: IDatatransferItem, oldPath: string, newPath: string): void {
+        switch (item.transferType) {
+            case TransferType.Upload:
+                // replace all \ with /
+                let cleanedPath = newPath.replace(/\\/g, '/');
+                // replace repeated / with one
+                cleanedPath = cleanedPath.replace(/\/+/g, '/');
+                if (cleanedPath.startsWith('/')) {
+                    cleanedPath = cleanedPath.slice(1);
+                }
+                if (cleanedPath && !cleanedPath.endsWith('/')) {
+                    cleanedPath += '/';
+                }
+                this.uploader.editPath(oldPath, cleanedPath);
+                break;
+            default:
+                break;
+        }
     }
 
     public editFilename(item: IDatatransferItem, name: string): void {

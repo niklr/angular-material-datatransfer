@@ -1,10 +1,26 @@
-<div *ngIf="item">
+<div *ngIf="mode === 'edit-path'">
+    <mat-dialog-content>
+        <p>Enter a new path:</p>
+        <form>
+            <mat-form-field>
+                <input matInput autocomplete="off" tabindex="1" [ngModel]="itemPath" (input)="itemPath = $event.target.value; errorMessage = undefined;" [formControl]="editFormControl">
+            </mat-form-field>
+            <mat-error *ngIf="errorMessage">
+                {{errorMessage}}
+            </mat-error>
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-raised-button (click)="editPath()" tabindex="2">Ok</button>
+        <button mat-raised-button (click)="close()" tabindex="-1">Cancel</button>
+    </mat-dialog-actions>
+</div>
+<div *ngIf="mode === 'edit-filename'">
     <mat-dialog-content>
         <p>Enter a new filename:</p>
         <form>
             <mat-form-field>
-                <!-- <input matInput [ngModel]="itemName" (input)="datatransferFacade.editFilename(item, $event.target.value)"> -->
-                <input matInput autocomplete="off" tabindex="1" [ngModel]="itemName" (input)="itemName = $event.target.value; errorMessage = undefined;" [formControl]="editFilenameFormControl">
+                <input matInput autocomplete="off" tabindex="1" [ngModel]="itemName" (input)="itemName = $event.target.value; errorMessage = undefined;" [formControl]="editFormControl">
             </mat-form-field>
             <mat-error *ngIf="errorMessage">
                 {{errorMessage}}

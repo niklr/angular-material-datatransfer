@@ -13,19 +13,23 @@ import { IDatatransferItem } from '../models/index';
 export class EditDialogComponent implements AfterViewInit {
 
     datatransferFacade: DatatransferFacade;
+    mode: string;
     item: IDatatransferItem;
+    itemPath: string;
     itemName: string;
     errorMessage: string;
-    editFilenameFormControl: FormControl;
+    editFormControl: FormControl;
 
     constructor(
         public dialogRef: MatDialogRef<EditDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.datatransferFacade = <DatatransferFacade>this.data.datatransferFacade;
+        this.mode = this.data.mode;
         this.item = <IDatatransferItem>this.data.item;
+        this.itemPath = this.item.path;
         this.itemName = this.item.name;
 
-        this.editFilenameFormControl = new FormControl('', []);
+        this.editFormControl = new FormControl('', []);
 
     }
 
@@ -39,6 +43,15 @@ export class EditDialogComponent implements AfterViewInit {
 
     onNoClick(): void {
         this.close();
+    }
+
+    editPath(): void {
+        try {
+            this.datatransferFacade.editPath(this.item, this.item.path, this.itemPath);
+            this.close();
+        } catch (error) {
+            this.errorMessage = error;
+        }
     }
 
     editFilename(): void {

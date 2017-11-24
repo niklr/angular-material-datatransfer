@@ -68,9 +68,10 @@
             <mat-icon>folder_open</mat-icon>
           </div>
           <div fxFlex>
-            <div class="truncate-text">
-              {{item.path}}
-            </div>
+            <span><b>{{item.displayPath}}</b></span>
+            <button mat-icon-button (click)="datatransferFacade.openEditPathDialog(item)" *ngIf="datatransferFacade.showEditDialog(item)">
+                <mat-icon aria-label="Edit path">edit</mat-icon>
+              </button>
           </div>
         </div>
       </div>
@@ -80,10 +81,10 @@
             <div fxFlex="40px">
               <mat-checkbox [(ngModel)]="item.isSelected"></mat-checkbox>
             </div>
-            <div fxFlex="100%" >
+            <div fxFlex="100%">
               <div matTooltip="{{item.name}}" matTooltipPosition="above">
                 <span>{{item.name}}</span>
-                <button mat-icon-button (click)="datatransferFacade.openEditFilenameDialog(item)" *ngIf="datatransferFacade.showEditFilenameDialog(item)">
+                <button mat-icon-button (click)="datatransferFacade.openEditFilenameDialog(item)" *ngIf="datatransferFacade.showEditDialog(item)">
                     <mat-icon aria-label="Edit filename">edit</mat-icon>
                   </button>
               </div>
