@@ -18,6 +18,8 @@ export interface IUploader extends IDatatransfer {
 @Injectable()
 export abstract class BaseUploader extends BaseDatatransfer {
 
+    private filenameRegExp = new RegExp('[\/\\\\*?"<>:|]');
+    private pathRegExp = new RegExp('[*?"<>:|]');
     protected transferType = TransferType.Upload;
 
     protected preventDefault = function (e) {
@@ -49,7 +51,9 @@ export abstract class BaseUploader extends BaseDatatransfer {
     }
 
     public editPath(oldPath: string, newPath: string): void {
-        // TODO: don't allow special characters
+        if (this.pathRegExp.test(newPath)) {
+            throw 'A path cannot contain any of the following characters: * ? " < > : |';
+        }
     }
 
     public editFilename(item: IDatatransferItem, name: string): void {
@@ -58,6 +62,9 @@ export abstract class BaseUploader extends BaseDatatransfer {
         }
         if (!name) {
             throw 'Empty filename is not allowed.';
+        }
+        if (this.filenameRegExp.test(name)) {
+            throw 'A filename cannot contain any of the following characters: \\ / * ? " < > : |';
         }
     }
 
