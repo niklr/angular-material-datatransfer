@@ -103,7 +103,11 @@
           paginationRppOptions: [5, 10, 25]
         },
         resumablejs: {
-          simultaneousUploads: 2
+          simultaneousUploads: 2,
+          preprocess: function(chunk) {
+            // do something with the chunk
+            chunk.preprocessFinished();
+          }
         }
       };
       var event = new CustomEvent('github:niklr/angular-material-datatransfer.create', { 'detail': config });

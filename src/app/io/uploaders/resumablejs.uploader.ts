@@ -12,6 +12,7 @@ import { GuidUtil } from '../../utils';
 export class ResumableJsUploader extends BaseUploader {
 
     private r: Resumable = undefined;
+    private preprocessFn = undefined;
 
     constructor(protected logger: LoggerService, protected config: IAppConfig, protected guidUtil: GuidUtil) {
         super(logger, config, guidUtil);
@@ -21,10 +22,25 @@ export class ResumableJsUploader extends BaseUploader {
     private initResumable(): void {
 
         function generateId(file, event) {
-            return this.generateUniqueIdentifier();
+            let that = this as ResumableJsUploader;
+            return that.generateUniqueIdentifier();
+        }
+
+        function preprocessChunkFn(resumableChunk) {
+            let that = this as ResumableJsUploader;
+            if (typeof that.preprocessFn === 'function') {
+                that.preprocessFn(resumableChunk);
+            } else {
+                resumableChunk.preprocessFinished();
+            }
         }
 
         this.config.resumablejs.generateUniqueIdentifier = generateId.bind(this);
+        if (typeof this.config.resumablejs.preprocess === 'function') {
+            // clones the function with '{}' acting as it's new 'this' parameter
+            this.preprocessFn = this.config.resumablejs.preprocess.bind({});
+        }
+        this.config.resumablejs.preprocess = preprocessChunkFn.bind(this);
 
         this.r = new Resumable(this.config.resumablejs);
 
