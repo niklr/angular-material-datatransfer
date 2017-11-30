@@ -45,6 +45,7 @@ export class DatatransferStore {
     public clear(): void {
         this.items.length = 0;
         this.updateCount();
+        this.updateFailedCount();
     }
 
     public addItem(item: IDatatransferItem): void {
