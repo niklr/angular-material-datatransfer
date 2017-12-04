@@ -35,6 +35,7 @@ export class ResumableJsAppConfig {
     query = {};
     headers = {};
     preprocess = null;
+    preprocessFile = null;
     method = 'multipart';
     uploadMethod = 'POST';
     testMethod = 'GET';

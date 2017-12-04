@@ -107,6 +107,12 @@
           preprocess: function(chunk) {
             // do something with the chunk
             chunk.preprocessFinished();
+          },
+          preprocessFile: function(file) {
+            // do something with the file
+            setTimeout(function() {
+              file.preprocessFinished();
+            }, 1000);
           }
         }
       };
