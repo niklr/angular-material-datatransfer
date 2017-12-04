@@ -100,6 +100,10 @@ export class ResumableJsUploader extends BaseUploader {
         this.r.assignBrowse(element, isDirectory);
     }
 
+    public assignDrop(element): void {
+        this.r.assignDrop(element);
+    }
+
     public editPath(oldPath: string, newPath: string): void {
         super.editPath(oldPath, newPath);
         _.each(this.r.files, function (file) {
