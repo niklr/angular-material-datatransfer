@@ -21,7 +21,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppComponent } from './app.component';
 import { BrowseDialogComponent, DropzoneComponent, EditDialogComponent, PaginationComponent, ProgressComponent } from './components';
 import { CsvExporter, JsonExporter } from './io';
-import { LoggerService, PaginationService, ExportService, DemoService } from './services';
+import { LoggerService, PaginationService, ExportService, DemoService, CryptoService } from './services';
 import { DatatransferStore } from './stores';
 import { DatatransferFacadeFactory } from './factories';
 import { DateUtil, DecimalByteUnitUtil, GuidUtil } from './utils';
@@ -61,8 +61,9 @@ import { DateUtil, DecimalByteUnitUtil, GuidUtil } from './utils';
   providers: [
     LoggerService,
     PaginationService,
-    DemoService,
     ExportService,
+    DemoService,
+    CryptoService,
     DatatransferStore,
     DatatransferFacadeFactory,
     DateUtil,

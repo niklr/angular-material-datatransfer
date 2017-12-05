@@ -3,9 +3,9 @@ import * as _ from 'underscore';
 import * as Resumable from 'resumablejs';
 
 import { BaseUploader } from './base.uploader';
-import { LoggerService } from '../../services';
+import { LoggerService, CryptoService } from '../../services';
 import { IAppConfig, IDatatransferItem, DatatransferItem, SizeInformation, ProgressInformation } from '../../models';
-import { TransferType, TransferStatus, DecimalByteUnit } from '../../enums';
+import { TransferType, TransferStatus, DecimalByteUnit, HashType } from '../../enums';
 import { GuidUtil } from '../../utils';
 
 @Injectable()
@@ -15,7 +15,8 @@ export class ResumableJsUploader extends BaseUploader {
     private preprocessFileFn = undefined;
     private preprocessChunkFn = undefined;
 
-    constructor(protected logger: LoggerService, protected config: IAppConfig, protected guidUtil: GuidUtil) {
+    constructor(protected logger: LoggerService, protected config: IAppConfig,
+        protected guidUtil: GuidUtil, private cryptoService: CryptoService) {
         super(logger, config, guidUtil);
         this.initResumable();
     }
@@ -39,6 +40,7 @@ export class ResumableJsUploader extends BaseUploader {
         function preprocessFileFn(resumableFile) {
             let that = this as ResumableJsUploader;
             if (typeof that.preprocessFileFn === 'function') {
+                // that.cryptoService.createHash(resumableFile.file, HashType.SHA1);
                 that.preprocessFileFn(resumableFile);
             } else {
                 resumableFile.preprocessFinished();

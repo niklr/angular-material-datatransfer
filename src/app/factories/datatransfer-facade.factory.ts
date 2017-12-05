@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { DatatransferFacade } from '../facades';
 import { ResumableJsUploader, BlobDownloader } from '../io';
 import { IAppConfig } from '../models';
-import { LoggerService, PaginationService, ExportService } from '../services';
+import { LoggerService, PaginationService, ExportService, CryptoService } from '../services';
 import { DatatransferStore } from '../stores';
 import { DateUtil, GuidUtil } from '../utils';
 
@@ -12,14 +12,14 @@ export class DatatransferFacadeFactory {
 
     constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferStore, private dateUtil: DateUtil,
         private guidUtil: GuidUtil, private paginationService: PaginationService, private exportService: ExportService,
-        private dialog: MatDialog) {
+        private dialog: MatDialog, private cryptoService: CryptoService) {
 
     }
 
     // TODO: pass arguments to define which uploader/downloader implementation should be used
     public createDatatransferFacade(config: IAppConfig): DatatransferFacade {
         return new DatatransferFacade(this.logger, this.zone, this.store, this.dateUtil, this.paginationService, this.exportService,
-            new ResumableJsUploader(this.logger, config, this.guidUtil), new BlobDownloader(this.logger, config, this.guidUtil),
-            this.dialog);
+            new ResumableJsUploader(this.logger, config, this.guidUtil, this.cryptoService),
+            new BlobDownloader(this.logger, config, this.guidUtil), this.dialog);
     }
 }

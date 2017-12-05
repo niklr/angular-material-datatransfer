@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EnumExtension } from '../extensions/enum.extension';
+import { EnumExtension } from '../extensions';
 import { DecimalByteUnit } from '../enums';
 
 @Injectable()
