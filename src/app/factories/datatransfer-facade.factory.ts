@@ -20,6 +20,6 @@ export class DatatransferFacadeFactory {
     public createDatatransferFacade(config: IAppConfig): DatatransferFacade {
         return new DatatransferFacade(this.logger, this.zone, this.store, this.dateUtil, this.paginationService, this.exportService,
             new ResumableJsUploader(this.logger, config, this.guidUtil, this.cryptoService),
-            new BlobDownloader(this.logger, config, this.guidUtil), this.dialog);
+            new BlobDownloader(this.logger, config, this.guidUtil, this.cryptoService), this.dialog);
     }
 }

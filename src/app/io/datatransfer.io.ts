@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { LoggerService } from '../services';
+import { LoggerService, CryptoService } from '../services';
 import { IAppConfig, IDatatransferItem } from '../models';
-import { TransferStatus, TransferType } from '../enums';
+import { TransferStatus, TransferType, HashType } from '../enums';
 import { GuidUtil } from '../utils';
 
 export interface IDatatransfer {
@@ -21,12 +21,9 @@ export abstract class BaseDatatransfer implements IDatatransfer {
 
     private events = [];
 
-    constructor(protected logger: LoggerService, protected config: IAppConfig, protected guidUtil: GuidUtil) {
+    constructor(protected logger: LoggerService, protected config: IAppConfig,
+        protected guidUtil: GuidUtil, protected cryptoService: CryptoService) {
 
-    }
-
-    protected generateUniqueIdentifier(): string {
-        return this.guidUtil.createGuid();
     }
 
     public on(event: string, callback: Function): void {
@@ -77,4 +74,20 @@ export abstract class BaseDatatransfer implements IDatatransfer {
     public abstract removeItem(item: IDatatransferItem): void;
 
     public abstract retryItem(item: IDatatransferItem): void;
+
+    protected generateUniqueIdentifier(): string {
+        return this.guidUtil.createGuid();
+    }
+
+    protected checkHash(item: IDatatransferItem, file: any, continueCallback: Function, cancelCallback: Function): void {
+        let successCallback = function(hash: string) {
+            console.log(hash);
+            continueCallback();
+        };
+        let errorCallback = function(event) {
+            console.log(event);
+            continueCallback();
+        };
+        this.cryptoService.createHash(file, HashType.SHA1, successCallback, errorCallback);
+    }
 }

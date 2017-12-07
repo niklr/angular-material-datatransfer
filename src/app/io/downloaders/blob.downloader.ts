@@ -3,7 +3,7 @@ import * as _ from 'underscore';
 import { saveAs } from 'file-saver';
 
 import { BaseDownloader } from './base.downloader';
-import { LoggerService } from '../../services';
+import { LoggerService, CryptoService } from '../../services';
 import { IAppConfig, IDatatransferItem, DatatransferItem, SizeInformation, ProgressInformation } from '../../models';
 import { TransferType, TransferStatus, DecimalByteUnit } from '../../enums';
 import { GuidUtil } from '../../utils';
@@ -16,8 +16,9 @@ export class BlobDownloader extends BaseDownloader {
     private queue: IDatatransferItem[] = [];
     private downloading: IDatatransferItem[] = [];
 
-    constructor(protected logger: LoggerService, protected config: IAppConfig, protected guidUtil: GuidUtil) {
-        super(logger, config, guidUtil);
+    constructor(protected logger: LoggerService, protected config: IAppConfig,
+        protected guidUtil: GuidUtil, protected cryptoService: CryptoService) {
+        super(logger, config, guidUtil, cryptoService);
     }
 
     public isWorking(): boolean {

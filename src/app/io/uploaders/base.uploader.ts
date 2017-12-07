@@ -3,7 +3,7 @@ import * as _ from 'underscore';
 
 import { IDatatransfer, BaseDatatransfer } from '..';
 import { IAppConfig, IDatatransferItem } from '../../models';
-import { LoggerService } from '../../services';
+import { LoggerService, CryptoService } from '../../services';
 import { TransferType } from '../../enums';
 import { GuidUtil } from '../../utils';
 import { Exception } from 'handlebars';
@@ -22,8 +22,9 @@ export abstract class BaseUploader extends BaseDatatransfer {
     private pathRegExp = new RegExp('[*?"<>:|]');
     protected transferType = TransferType.Upload;
 
-    constructor(protected logger: LoggerService, protected config: IAppConfig, protected guidUtil: GuidUtil) {
-        super(logger, config, guidUtil);
+    constructor(protected logger: LoggerService, protected config: IAppConfig,
+        protected guidUtil: GuidUtil, protected cryptoService: CryptoService) {
+        super(logger, config, guidUtil, cryptoService);
     }
 
     protected abstract addFiles(files, event): void;
