@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { LoggerService, CryptoService } from '../services';
 import { IAppConfig, IDatatransferItem } from '../models';
-import { TransferStatus, TransferType, HashType } from '../enums';
+import { TransferStatus, TransferType, HashType, EncodingType } from '../enums';
 import { GuidUtil } from '../utils';
 
 export interface IDatatransfer {
@@ -88,6 +88,6 @@ export abstract class BaseDatatransfer implements IDatatransfer {
             console.log(event);
             continueCallback();
         };
-        this.cryptoService.createHash(file, HashType.SHA1, successCallback, errorCallback);
+        this.cryptoService.createHash(file, HashType.SHA1, EncodingType.Hex, EncodingType.Latin1, successCallback, errorCallback);
     }
 }

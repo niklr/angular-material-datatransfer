@@ -1,81 +1,104 @@
 import { Injectable, NgZone } from '@angular/core';
 
 import { FileReaderEvent } from '../extensions';
-import { HashType } from '../enums';
+import { HashType, EncodingType, EncodingTypeImplementation, HashTypeImplementation } from '../enums';
+import { IHashContainer, HashContainer, IStreamHashContainer, StreamHashContainer } from '../models';
 
-// import * as crypto from 'crypto-browserify';
-import '../../public/scripts/crypto-browserify.js';
-declare var myNodeObjects: any;
+import '../libraries/crypto-browserify.js';
+declare var cryptoBrowserify: any;
 
 @Injectable()
 export class CryptoService {
+
+    // hash 4MB at a time
+    private readonly STREAM_HASH_CHUNK_SIZE = 1024 * 1000 * 4;
+    private readonly HASH_TYPE_IMPLEMENTATION = HashTypeImplementation.CryptoBrowserify;
+    private readonly ENCODING_TYPE_IMPLEMENTATION = EncodingTypeImplementation.CryptoBrowserify;
 
     constructor(private zone: NgZone) {
 
     }
 
-    private createMemoryHash(file: any, hashType: HashType): void {
+    private createHashContainer(file: any, hashType: HashType, encodingType: EncodingType,
+        inputEncodingType: EncodingType): IHashContainer {
+
+        let container = new HashContainer(
+            this.HASH_TYPE_IMPLEMENTATION,
+            this.ENCODING_TYPE_IMPLEMENTATION,
+            hashType,
+            encodingType,
+            inputEncodingType);
+
+        let hash = cryptoBrowserify.createHash(container.hashTypeString);
+
         let reader = new FileReader();
         reader.onload = function (event: FileReaderEvent) {
-            console.log(myNodeObjects.crypto.createHash('sha1').update(event.target.result, 'latin1').digest('hex'));
+            container.hash = hash.update(event.target.result, container.inputEncodingTypeString)
+                .digest(container.encodingTypeString);
+            container.endDate = new Date();
         };
         reader.readAsBinaryString(file);
+
+        return container;
     }
 
-    private createStreamHash(file: any, hashType: HashType, successCallback: Function, errorCallback: Function): void {
-        // 10MB at a time
-        let CHUNK_SIZE = 1024 * 1000 * 10;
-        let offset = 0;
+    private createStreamHashContainer(file: any, hashType: HashType, encodingType: EncodingType,
+        inputEncodingType: EncodingType, successCallback: Function, errorCallback: Function): void {
+
+            let container = new StreamHashContainer(
+                this.HASH_TYPE_IMPLEMENTATION,
+                this.ENCODING_TYPE_IMPLEMENTATION,
+                hashType,
+                encodingType,
+                inputEncodingType);
+
+        container.chunkSize = this.STREAM_HASH_CHUNK_SIZE;
+        container.offset = 0;
+
         let reader = new FileReader();
-        let startDate = new Date();
-        let encoding = 'latin1'; // latin1, hex, base64, utf8
-        let stream = myNodeObjects.crypto.createHash('sha1');
+        let hash = cryptoBrowserify.createHash(container.hashTypeString);
 
         reader.onload = function (event: FileReaderEvent) {
-            console.log(stream);
-            console.log('onload offset: ' + offset + ' file.size: ' + file.size + ' isInAngularZone: ' + NgZone.isInAngularZone());
-            let that = this as CryptoService;
+            // console.log('onload offset: ' + offset + ' file.size: ' + file.size + ' isInAngularZone: ' + NgZone.isInAngularZone());
             let binary = event.target.result;
 
-            if (offset + CHUNK_SIZE >= file.size) {
-                stream.end(binary, encoding);
-                // that.zone.runOutsideAngular(() => { stream.end(binary, encoding); });
+            if (container.offset + container.chunkSize >= file.size) {
+                hash.end(binary, container.inputEncodingTypeString);
             } else {
-                stream.write(binary, encoding);
-                // that.zone.runOutsideAngular(() => { stream.write(binary, encoding); });
+                hash.write(binary, container.inputEncodingTypeString);
             }
 
-            offset += CHUNK_SIZE;
+            container.offset += container.chunkSize;
 
             seek();
-        }.bind(this);
+        };
         reader.onerror = function (event) {
             errorCallback(event);
         };
         seek();
 
         function seek() {
-            console.log('seek offset: ' + offset + ' file.size: ' + file.size + ' isInAngularZone: ' + NgZone.isInAngularZone());
-            if (offset > file.size) {
+            // console.log('seek offset: ' + offset + ' file.size: ' + file.size + ' isInAngularZone: ' + NgZone.isInAngularZone());
+            if (container.offset > file.size) {
                 // file.progress = 1;
-                let hash = stream.read().toString('hex');
-                let endDate = new Date();
-                let seconds = (endDate.getTime() - startDate.getTime()) / 1000;
+                container.hash = hash.read().toString(container.encodingTypeString);
+                container.endDate = new Date();
+                let seconds = (container.endDate.getTime() - container.startDate.getTime()) / 1000;
                 console.log(seconds);
-                successCallback(hash);
+                successCallback(container.hash);
                 return;
             }
 
-            let slice = file.slice(offset, offset + CHUNK_SIZE);
+            let slice = file.slice(container.offset, container.offset + container.chunkSize);
             reader.readAsBinaryString(slice);
             // file.progress = offset / file.size;
         }
     }
 
-    public createHash(file: any, hashType: HashType, successCallback: Function, errorCallback: Function): void {
+    public createHash(file: any, hashType: HashType, encodingType: EncodingType,
+        inputEncodingType: EncodingType, successCallback: Function, errorCallback: Function): void {
         this.zone.runOutsideAngular(() => {
-            this.createStreamHash(file, hashType, successCallback, errorCallback);
-            // window['preprocessFile'](file, successCallback, errorCallback);
+            this.createStreamHashContainer(file, hashType, encodingType, inputEncodingType, successCallback, errorCallback);
         });
     }
 

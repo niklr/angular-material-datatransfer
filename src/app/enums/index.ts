@@ -3,3 +3,4 @@ export * from './transfer-type.enum';
 export * from './decimal-byte-unit.enum';
 export * from './export-type.enum';
 export * from './hash-type.enum';
+export * from './encoding-type.enum';

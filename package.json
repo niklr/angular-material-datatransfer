@@ -37,7 +37,6 @@
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
     "core-js": "^2.5.1",
-    "crypto-browserify": "^3.12.0",
     "file-saver": "github:eligrey/FileSaver.js#5ed507e",
     "hammerjs": "^2.0.8",
     "material-design-icons": "^3.0.1",

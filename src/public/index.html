@@ -31,8 +31,6 @@
     </p>
   </div>
 
-  <script type="text/javascript" src="scripts/crypto-browserify.js"></script>
-
   <script>
     var sampleDownloadFiles = [
       {
@@ -103,54 +101,6 @@
       }
     }
 
-    function preprocessFile(file, successCallback, errorCallback) {
-      // do something with the file
-
-      // 10MB at a time
-      let CHUNK_SIZE = 1024 * 1000 * 10;
-      let offset = 0;
-      let reader = new FileReader();
-      let startDate = new Date();
-      let encoding = 'latin1'; // latin1, hex, base64, utf8
-      let stream = myNodeObjects.crypto.createHash('sha1');
-
-      reader.onload = function (event) {
-        console.log('onload offset: ' + offset + ' file.size: ' + file.size);
-        let binary = event.target.result;
-
-        if (offset + CHUNK_SIZE >= file.size) {
-          stream.end(binary, encoding);
-        } else {
-          stream.write(binary, encoding);
-        }
-
-        offset += CHUNK_SIZE;
-
-        seek();
-      }.bind(this);
-      reader.onerror = function (event) {
-        errorCallback(event);
-      };
-      seek();
-
-      function seek() {
-        console.log('seek offset: ' + offset + ' file.size: ' + file.size);
-        if (offset > file.size) {
-          // file.progress = 1;
-          let hash = stream.read().toString('hex');
-          let endDate = new Date();
-          let seconds = (endDate.getTime() - startDate.getTime()) / 1000;
-          console.log(hash + ' / ' + seconds);
-          successCallback(hash);
-          return;
-        }
-
-        let slice = file.slice(offset, offset + CHUNK_SIZE);
-        reader.readAsBinaryString(slice);
-        // file.progress = offset / file.size;
-      }
-    }
-
     setTimeout(function () {
       var config = {
         core: {
@@ -162,8 +112,7 @@
           preprocess: function (chunk) {
             // do something with the chunk
             chunk.preprocessFinished();
-          },
-
+          }
         }
       };
       var event = new CustomEvent('github:niklr/angular-material-datatransfer.create', { 'detail': config });
