@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { LoggerService, CryptoService } from '../services';
-import { IAppConfig, IDatatransferItem } from '../models';
+import { IAppConfig, IDatatransferItem, IStreamHashContainer } from '../models';
 import { TransferStatus, TransferType, HashType, EncodingType } from '../enums';
 import { GuidUtil } from '../utils';
 
@@ -79,15 +79,19 @@ export abstract class BaseDatatransfer implements IDatatransfer {
         return this.guidUtil.createGuid();
     }
 
-    protected checkHash(item: IDatatransferItem, file: any, continueCallback: Function, cancelCallback: Function): void {
-        let successCallback = function(hash: string) {
-            console.log(hash);
+    protected checkHash(item: IDatatransferItem, file: File, continueCallback: Function, cancelCallback: Function): void {
+        let successCallback = function(container: IStreamHashContainer) {
+            let seconds = (container.endDate.getTime() - container.startDate.getTime()) / 1000;
+            console.log(seconds);
+            console.log(container);
             continueCallback();
         };
-        let errorCallback = function(event) {
+        let errorCallback = function(event: any, container: IStreamHashContainer) {
             console.log(event);
             continueCallback();
         };
-        this.cryptoService.createHash(file, HashType.SHA1, EncodingType.Hex, EncodingType.Latin1, successCallback, errorCallback);
+        let container = this.cryptoService.createStreamHashContainer(
+            file, HashType.SHA1, EncodingType.Hex, EncodingType.Latin1, successCallback, errorCallback);
+        container.run();
     }
 }

@@ -1,6 +1,7 @@
 import { HashType, HashTypeImplementation, EncodingType, EncodingTypeImplementation } from '../enums';
 
 export interface IHashContainer {
+    file: File;
     hashType: HashType;
     hashTypeString: string;
     encodingType: EncodingType;
@@ -9,7 +10,11 @@ export interface IHashContainer {
     inputEncodingTypeString: string;
     startDate: Date;
     endDate: Date;
-    hash: string;
+    hash: any;
+    hashString: string;
+    progress: number;
+    reader: FileReader;
+    run: Function;
 }
 
 export interface IStreamHashContainer extends IHashContainer {
@@ -18,6 +23,7 @@ export interface IStreamHashContainer extends IHashContainer {
 }
 
 export class HashContainer implements IHashContainer {
+    public file: File;
     public hashType: HashType;
     public hashTypeString: string;
     public encodingType: EncodingType;
@@ -26,10 +32,15 @@ export class HashContainer implements IHashContainer {
     public inputEncodingTypeString: string;
     public startDate: Date;
     public endDate: Date;
-    public hash: string;
+    public hash: any;
+    public hashString: string;
+    public progress: number;
+    public reader: FileReader;
+    public run: Function;
 
-    public constructor(hashTypeImplementation: HashTypeImplementation, encodingTypeImplementation: EncodingTypeImplementation,
+    public constructor(file: File, hashTypeImplementation: HashTypeImplementation, encodingTypeImplementation: EncodingTypeImplementation,
         hashType: HashType, encodingType: EncodingType, inputEncodingType: EncodingType) {
+        this.file = file;
         this.hashType = hashType;
         this.hashTypeString = HashType.toString(hashTypeImplementation, hashType);
         this.encodingType = encodingType;
@@ -38,6 +49,9 @@ export class HashContainer implements IHashContainer {
         this.inputEncodingTypeString = EncodingType.toString(encodingTypeImplementation, inputEncodingType);
         this.startDate = new Date();
         this.endDate = new Date();
+        this.progress = 0;
+        this.reader = new FileReader();
+        this.run = function() { };
     }
 }
 
@@ -45,8 +59,8 @@ export class StreamHashContainer extends HashContainer implements IStreamHashCon
     public chunkSize: number;
     public offset: number;
 
-    public constructor(hashTypeImplementation: HashTypeImplementation, encodingTypeImplementation: EncodingTypeImplementation,
+    public constructor(file: File, hashTypeImplementation: HashTypeImplementation, encodingTypeImplementation: EncodingTypeImplementation,
         hashType: HashType, encodingType: EncodingType, inputEncodingType: EncodingType) {
-        super(hashTypeImplementation, encodingTypeImplementation, hashType, encodingType, inputEncodingType);
+        super(file, hashTypeImplementation, encodingTypeImplementation, hashType, encodingType, inputEncodingType);
     }
 }

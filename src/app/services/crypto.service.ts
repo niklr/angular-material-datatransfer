@@ -16,90 +16,87 @@ export class CryptoService {
     private readonly ENCODING_TYPE_IMPLEMENTATION = EncodingTypeImplementation.CryptoBrowserify;
 
     constructor(private zone: NgZone) {
-
+        // Performance remains unchanged by running the hash function outside of Angular.
+        // this.zone.runOutsideAngular(() => { }
     }
 
-    private createHashContainer(file: any, hashType: HashType, encodingType: EncodingType,
+    private createHashContainer(file: File, hashType: HashType, encodingType: EncodingType,
         inputEncodingType: EncodingType): IHashContainer {
 
         let container = new HashContainer(
+            file,
             this.HASH_TYPE_IMPLEMENTATION,
             this.ENCODING_TYPE_IMPLEMENTATION,
             hashType,
             encodingType,
             inputEncodingType);
 
-        let hash = cryptoBrowserify.createHash(container.hashTypeString);
+        container.hash = cryptoBrowserify.createHash(container.hashTypeString);
 
-        let reader = new FileReader();
-        reader.onload = function (event: FileReaderEvent) {
-            container.hash = hash.update(event.target.result, container.inputEncodingTypeString)
+        container.reader.onload = function (event: FileReaderEvent) {
+            container.hashString = container.hash.update(event.target.result, container.inputEncodingTypeString)
                 .digest(container.encodingTypeString);
             container.endDate = new Date();
+            container.progress = 1;
         };
-        reader.readAsBinaryString(file);
+
+        container.run = function () {
+            container.reader.readAsBinaryString(container.file);
+        };
 
         return container;
     }
 
-    private createStreamHashContainer(file: any, hashType: HashType, encodingType: EncodingType,
-        inputEncodingType: EncodingType, successCallback: Function, errorCallback: Function): void {
+    public createStreamHashContainer(file: File, hashType: HashType, encodingType: EncodingType,
+        inputEncodingType: EncodingType, successCallback: Function, errorCallback: Function): IStreamHashContainer {
 
-            let container = new StreamHashContainer(
-                this.HASH_TYPE_IMPLEMENTATION,
-                this.ENCODING_TYPE_IMPLEMENTATION,
-                hashType,
-                encodingType,
-                inputEncodingType);
+        let container = new StreamHashContainer(
+            file,
+            this.HASH_TYPE_IMPLEMENTATION,
+            this.ENCODING_TYPE_IMPLEMENTATION,
+            hashType,
+            encodingType,
+            inputEncodingType);
 
         container.chunkSize = this.STREAM_HASH_CHUNK_SIZE;
         container.offset = 0;
+        container.hash = cryptoBrowserify.createHash(container.hashTypeString);
 
-        let reader = new FileReader();
-        let hash = cryptoBrowserify.createHash(container.hashTypeString);
-
-        reader.onload = function (event: FileReaderEvent) {
+        container.reader.onload = function (event: FileReaderEvent) {
             // console.log('onload offset: ' + offset + ' file.size: ' + file.size + ' isInAngularZone: ' + NgZone.isInAngularZone());
             let binary = event.target.result;
 
-            if (container.offset + container.chunkSize >= file.size) {
-                hash.end(binary, container.inputEncodingTypeString);
+            if (container.offset + container.chunkSize >= container.file.size) {
+                container.hash.end(binary, container.inputEncodingTypeString);
             } else {
-                hash.write(binary, container.inputEncodingTypeString);
+                container.hash.write(binary, container.inputEncodingTypeString);
             }
 
             container.offset += container.chunkSize;
 
-            seek();
+            container.run();
         };
-        reader.onerror = function (event) {
-            errorCallback(event);
-        };
-        seek();
 
-        function seek() {
+        container.reader.onerror = function (event) {
+            errorCallback(event, container);
+        };
+
+        container.run = function () {
             // console.log('seek offset: ' + offset + ' file.size: ' + file.size + ' isInAngularZone: ' + NgZone.isInAngularZone());
             if (container.offset > file.size) {
-                // file.progress = 1;
-                container.hash = hash.read().toString(container.encodingTypeString);
+                container.hashString = container.hash.read().toString(container.encodingTypeString);
                 container.endDate = new Date();
-                let seconds = (container.endDate.getTime() - container.startDate.getTime()) / 1000;
-                console.log(seconds);
-                successCallback(container.hash);
+                container.progress = 1;
+                successCallback(container);
                 return;
             }
 
             let slice = file.slice(container.offset, container.offset + container.chunkSize);
-            reader.readAsBinaryString(slice);
-            // file.progress = offset / file.size;
-        }
-    }
+            container.reader.readAsBinaryString(slice);
+            container.progress = container.offset / file.size;
+        };
 
-    public createHash(file: any, hashType: HashType, encodingType: EncodingType,
-        inputEncodingType: EncodingType, successCallback: Function, errorCallback: Function): void {
-        this.zone.runOutsideAngular(() => {
-            this.createStreamHashContainer(file, hashType, encodingType, inputEncodingType, successCallback, errorCallback);
-        });
+        return container;
     }
 
 }
