@@ -277,6 +277,10 @@ export class DatatransferFacade {
         return this.store.count > 0;
     }
 
+    public showSpinner(item: IDatatransferItem): boolean {
+        return item.status === TransferStatus.Preprocessing;
+    }
+
     public showProgressbar(item: IDatatransferItem): boolean {
         return item.progressInformation.percent > 0 &&
             (item.status === TransferStatus.Uploading || item.status === TransferStatus.Downloading);

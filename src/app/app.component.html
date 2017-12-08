@@ -93,11 +93,16 @@
         </div>
         <div fxFlex class="amd-container-row-item">
           <div class="amd-container-row-item-entry">
-            <div fxFlex="40px">
-              <mat-icon>{{datatransferFacade.getStatusClass(item.status)}}</mat-icon>
+            <div fxFlex="40px" matTooltip="3%" *ngIf="datatransferFacade.showSpinner(item); else showStatusClass">
+              <mat-spinner [diameter]="20"></mat-spinner>
             </div>
+            <ng-template #showStatusClass>
+              <div fxFlex="40px">
+                <mat-icon>{{datatransferFacade.getStatusClass(item.status)}}</mat-icon>
+              </div>
+            </ng-template>
             <div fxFlex="100%">
-              <div *ngIf="datatransferFacade.showProgressbar(item); else elseBlock">
+              <div *ngIf="datatransferFacade.showProgressbar(item); else showStatusBlock">
                 <div class="amd-container-row-item-entry-stats">
                   <div fxFlex="25%" fxFlex.lt-md="50%">
                     {{item.progressInformation.displayBitrate}}
@@ -115,7 +120,7 @@
                 <mat-progress-bar *ngIf="item.progressInformation.total > 0" color="primary" mode="determinate" [value]="item.progressInformation.percent">
                 </mat-progress-bar>
               </div>
-              <ng-template #elseBlock>
+              <ng-template #showStatusBlock>
                 {{item.getStatusName()}} ({{item.sizeInformation.displaySize}} {{item.sizeInformation.displayUnit}})
                 <div *ngIf="!!item.message">
                   <div matTooltip="{{item.message}}" matTooltipPosition="above">

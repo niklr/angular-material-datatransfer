@@ -20,7 +20,7 @@ export class CryptoService {
         // this.zone.runOutsideAngular(() => { }
     }
 
-    private createHashContainer(file: File, hashType: HashType, encodingType: EncodingType,
+    public createHashContainer(file: File, hashType: HashType, encodingType: EncodingType,
         inputEncodingType: EncodingType): IHashContainer {
 
         let container = new HashContainer(
@@ -63,7 +63,6 @@ export class CryptoService {
         container.hash = cryptoBrowserify.createHash(container.hashTypeString);
 
         container.reader.onload = function (event: FileReaderEvent) {
-            // console.log('onload offset: ' + offset + ' file.size: ' + file.size + ' isInAngularZone: ' + NgZone.isInAngularZone());
             let binary = event.target.result;
 
             if (container.offset + container.chunkSize >= container.file.size) {
@@ -82,8 +81,7 @@ export class CryptoService {
         };
 
         container.run = function () {
-            // console.log('seek offset: ' + offset + ' file.size: ' + file.size + ' isInAngularZone: ' + NgZone.isInAngularZone());
-            if (container.offset > file.size) {
+            if (container.offset > container.file.size) {
                 container.hashString = container.hash.read().toString(container.encodingTypeString);
                 container.endDate = new Date();
                 container.progress = 1;
@@ -91,7 +89,7 @@ export class CryptoService {
                 return;
             }
 
-            let slice = file.slice(container.offset, container.offset + container.chunkSize);
+            let slice = container.file.slice(container.offset, container.offset + container.chunkSize);
             container.reader.readAsBinaryString(slice);
             container.progress = container.offset / file.size;
         };

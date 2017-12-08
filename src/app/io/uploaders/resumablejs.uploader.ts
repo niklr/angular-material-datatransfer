@@ -39,6 +39,7 @@ export class ResumableJsUploader extends BaseUploader {
 
         function preprocessFileFn(resumableFile) {
             let that = this as ResumableJsUploader;
+            that.changeItemStatus(resumableFile.internalItem, TransferStatus.Preprocessing);
             if (typeof that.preprocessFileFn === 'function') {
                 that.preprocessFileFn(resumableFile);
             } else {

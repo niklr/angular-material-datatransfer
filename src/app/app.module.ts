@@ -13,6 +13,7 @@ import {
   MatMenuModule,
   MatOptionModule,
   MatProgressBarModule,
+  MatProgressSpinnerModule,
   MatSelectModule,
   MatTooltipModule
 } from '@angular/material';
@@ -42,6 +43,7 @@ import { DateUtil, DecimalByteUnitUtil, GuidUtil } from './utils';
     MatMenuModule,
     MatOptionModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatSelectModule,
     MatTooltipModule,
     FlexLayoutModule

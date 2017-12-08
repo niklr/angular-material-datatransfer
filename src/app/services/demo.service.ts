@@ -30,7 +30,7 @@ export class DemoService {
       path: '/mnt/sdcard/folder1/a/b/',
       sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 13 }),
       transferType: TransferType.Upload,
-      status: TransferStatus.Queued
+      status: TransferStatus.Preprocessing
     }),
     new DatatransferItem({
       id: '4',
