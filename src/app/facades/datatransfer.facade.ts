@@ -5,15 +5,15 @@ import * as _ from 'underscore';
 import { IDatatransfer, IUploader, IDownloader } from '../io';
 import { LoggerService, PaginationService, ExportService } from '../services';
 import { DatatransferStore } from '../stores';
-import { IDatatransferItem, ISizeInformation, IProgressInformation } from '../models';
+import { IDatatransferItem, ISizeContainer, IProgressContainer } from '../models';
 import { BrowseDialogComponent, EditDialogComponent } from '../components';
 import { DateUtil } from '../utils';
 import { TransferStatus, TransferType } from '../enums';
 
 export class DatatransferFacade {
 
-    private uploadProgress: IProgressInformation;
-    private downloadProgress: IProgressInformation;
+    private uploadProgress: IProgressContainer;
+    private downloadProgress: IProgressContainer;
 
     // Interval in milliseconds to calculate progress:
     private progressInterval = 100;
@@ -29,7 +29,7 @@ export class DatatransferFacade {
         this.init(this.downloader, this.downloadProgress);
     }
 
-    private init(datatransfer: IDatatransfer, progressInformation: IProgressInformation): void {
+    private init(datatransfer: IDatatransfer, progressContainer: IProgressContainer): void {
         datatransfer.on('itemAdded', function (item: IDatatransferItem) {
             let that = this as DatatransferFacade;
             that.zone.run(() => {
@@ -51,13 +51,13 @@ export class DatatransferFacade {
         datatransfer.on('overallProgressUpdated', function (transferType: TransferType, progress: number) {
             let that = this as DatatransferFacade;
             that.zone.run(() => {
-                that.updateOverallProgress(progressInformation, transferType, progress);
+                that.updateOverallProgress(progressContainer, transferType, progress);
             });
         }.bind(this));
         datatransfer.on('overallSizeUpdated', function (size: number) {
             let that = this as DatatransferFacade;
             that.zone.run(() => {
-                that.updateOverallSize(progressInformation, size);
+                that.updateOverallSize(progressContainer, size);
             });
         }.bind(this));
         // this.assignUploadBrowse(document.getElementById('amd-browse-folder'), true);
@@ -196,19 +196,19 @@ export class DatatransferFacade {
     public updateItemProgress(item: IDatatransferItem, progress: number): void {
         if (!!item) {
             let now: number = this.dateUtil.now();
-            let loaded: number = item.progressInformation.total * progress;
-            item.progressInformation.updateBitrate(now, loaded, this.bitrateInterval);
-            item.progressInformation.updateProgress(now, loaded, this.progressInterval);
+            let loaded: number = item.progressContainer.total * progress;
+            item.progressContainer.updateBitrate(now, loaded, this.bitrateInterval);
+            item.progressContainer.updateProgress(now, loaded, this.progressInterval);
         }
     }
 
-    public updateOverallProgress(progressInformation: IProgressInformation, transferType: TransferType, progress: number): void {
+    public updateOverallProgress(progressContainer: IProgressContainer, transferType: TransferType, progress: number): void {
         let now: number = this.dateUtil.now();
-        let loaded: number = progressInformation.total * progress;
-        // this.logger.log('total: ' + progressInformation.total + ' progress: ' + progress + ' loaded: ' + loaded);
-        progressInformation.updateBitrate(now, loaded, this.bitrateInterval);
-        progressInformation.updateProgress(now, loaded, this.progressInterval);
-        if (progressInformation.total > 0 && loaded >= progressInformation.total) {
+        let loaded: number = progressContainer.total * progress;
+        // this.logger.log('total: ' + progressContainer.total + ' progress: ' + progress + ' loaded: ' + loaded);
+        progressContainer.updateBitrate(now, loaded, this.bitrateInterval);
+        progressContainer.updateProgress(now, loaded, this.progressInterval);
+        if (progressContainer.total > 0 && loaded >= progressContainer.total) {
             switch (transferType) {
                 case TransferType.Upload:
                     document.dispatchEvent(new CustomEvent('github:niklr/angular-material-datatransfer.upload-completed'));
@@ -222,8 +222,8 @@ export class DatatransferFacade {
         }
     }
 
-    public updateOverallSize(progressInformation: IProgressInformation, size: number): void {
-        progressInformation.reset(size);
+    public updateOverallSize(progressContainer: IProgressContainer, size: number): void {
+        progressContainer.reset(size);
     }
 
     public download(filename: string, url: string, sizeInBytes: number): void {
@@ -282,7 +282,7 @@ export class DatatransferFacade {
     }
 
     public showProgressbar(item: IDatatransferItem): boolean {
-        return item.progressInformation.percent > 0 &&
+        return item.progressContainer.percent > 0 &&
             (item.status === TransferStatus.Uploading || item.status === TransferStatus.Downloading);
     }
 

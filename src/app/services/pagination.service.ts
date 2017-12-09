@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
 import { DatatransferStore } from '../stores';
-import { IDatatransferItem, IPaginationInformation, PaginationInformation } from '../models';
+import { IDatatransferItem, IPaginationContainer, PaginationContainer } from '../models';
 
 import { _ } from 'underscore';
 
 @Injectable()
 export class PaginationService {
 
-    public pagination: IPaginationInformation;
+    public pagination: IPaginationContainer;
     public paginatedItems: IDatatransferItem[] = [];
 
     constructor(private datatransferStore: DatatransferStore) {
-        this.pagination = new PaginationInformation();
+        this.pagination = new PaginationContainer();
     }
 
     setRppOptions(rppOptions): void {
         this.pagination.rppOptions = rppOptions;
-        this.setPaginationInformation();
+        this.setPaginationContainer();
     }
 
     update(total: number): void {
@@ -24,10 +24,10 @@ export class PaginationService {
             this.paginatedItems.length = 0;
         }
         this.pagination.total = total;
-        this.setPaginationInformation();
+        this.setPaginationContainer();
     }
 
-    setPaginationInformation(): void {
+    setPaginationContainer(): void {
         let pageCount: number = this.pageCount();
         if (this.pagination.pages.length > pageCount) {
             this.pagination.pages.splice(pageCount);
@@ -88,12 +88,12 @@ export class PaginationService {
     }
 
     onPageChange(): void {
-        this.setPaginationInformation();
+        this.setPaginationContainer();
         this.onPaginationChange();
     }
 
     onRppChange(): void {
-        this.setPaginationInformation();
+        this.setPaginationContainer();
         this.pagination.page = 1;
         this.onPaginationChange();
     }

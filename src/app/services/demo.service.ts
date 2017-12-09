@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IDatatransferItem, DatatransferItem, SizeInformation, ProgressInformation } from '../models';
+import { IDatatransferItem, DatatransferItem, SizeContainer, ProgressContainer } from '../models';
 import { TransferType, TransferStatus, DecimalByteUnit } from '../enums';
 
 @Injectable()
@@ -11,8 +11,8 @@ export class DemoService {
       id: '1',
       name: 'DICOM_patientXY_1.dcm',
       path: '/mnt/sdcard/folder1/a/b/',
-      sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 15 }),
-      progressInformation: new ProgressInformation(15 * 1000 * 1000),
+      sizeContainer: new SizeContainer({ decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 15 }),
+      progressContainer: new ProgressContainer(15 * 1000 * 1000),
       transferType: TransferType.Upload,
       status: TransferStatus.Uploading
     }),
@@ -20,7 +20,7 @@ export class DemoService {
       id: '2',
       name: 'DICOM_patientXY_2.dcm',
       path: '/mnt/sdcard/folder1/a/b/',
-      sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 17 }),
+      sizeContainer: new SizeContainer({ decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 17 }),
       transferType: TransferType.Upload,
       status: TransferStatus.Failed
     }),
@@ -28,7 +28,7 @@ export class DemoService {
       id: '3',
       name: 'DICOM_patientXY_3.dcm',
       path: '/mnt/sdcard/folder1/a/b/',
-      sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 13 }),
+      sizeContainer: new SizeContainer({ decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 13 }),
       transferType: TransferType.Upload,
       status: TransferStatus.Preprocessing
     }),
@@ -36,7 +36,7 @@ export class DemoService {
       id: '4',
       name: 'DICOM_patientXY_4.dcm',
       path: '/mnt/sdcard/folder1/a/b/',
-      sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 11 }),
+      sizeContainer: new SizeContainer({ decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 11 }),
       transferType: TransferType.Upload,
       status: TransferStatus.Queued,
     }),
@@ -44,7 +44,7 @@ export class DemoService {
       id: '5',
       name: 'SMIR.Thorax.089Y.M.CT.7.000.dcm.zip',
       path: '/',
-      sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.GB, decimalByteUnitSize: 2 }),
+      sizeContainer: new SizeContainer({ decimalByteUnit: DecimalByteUnit.GB, decimalByteUnitSize: 2 }),
       transferType: TransferType.Download,
       status: TransferStatus.Queued
     }),
@@ -52,7 +52,7 @@ export class DemoService {
       id: '6',
       name: 'NIFTI_patientXY.nii',
       path: '/mnt/sdcard/folder2/d/',
-      sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.GB, decimalByteUnitSize: 12 }),
+      sizeContainer: new SizeContainer({ decimalByteUnit: DecimalByteUnit.GB, decimalByteUnitSize: 12 }),
       transferType: TransferType.Upload,
       status: TransferStatus.Queued,
     })

@@ -5,7 +5,7 @@ import { DecimalByteUnitUtil } from './utils';
 import { DatatransferFacade } from './facades';
 import { DatatransferFacadeFactory } from './factories';
 import { DatatransferStore } from './stores';
-import { IAppConfig, AppConfig, IDatatransferItem, IProgressInformation } from './models';
+import { IAppConfig, AppConfig, IDatatransferItem, IProgressContainer } from './models';
 import { TransferStatus } from './enums';
 
 import * as _ from 'underscore';
@@ -23,8 +23,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   config: IAppConfig;
   datatransferFacade: DatatransferFacade;
-  uploadProgress: IProgressInformation;
-  downloadProgress: IProgressInformation;
+  uploadProgress: IProgressContainer;
+  downloadProgress: IProgressContainer;
 
   constructor( @Inject('ConfigCustomEvent') private configCustomEvent: any, private logger: LoggerService,
     private datatransferFacadeFactory: DatatransferFacadeFactory, private datatransferStore: DatatransferStore,

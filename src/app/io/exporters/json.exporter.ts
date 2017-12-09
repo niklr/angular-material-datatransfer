@@ -22,7 +22,7 @@ export class JsonExporter extends BaseExporter {
                 name: item.name,
                 path: item.path,
                 status: item.getStatusName(),
-                size: item.sizeInformation.displaySize + ' ' + item.sizeInformation.displayUnit,
+                size: item.sizeContainer.displaySize + ' ' + item.sizeContainer.displayUnit,
                 message: item.message
             });
         });

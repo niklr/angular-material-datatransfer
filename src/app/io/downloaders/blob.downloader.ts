@@ -4,7 +4,7 @@ import { saveAs } from 'file-saver';
 
 import { BaseDownloader } from './base.downloader';
 import { LoggerService, CryptoService } from '../../services';
-import { IAppConfig, IDatatransferItem, DatatransferItem, SizeInformation, ProgressInformation } from '../../models';
+import { IAppConfig, IDatatransferItem, DatatransferItem, SizeContainer, ProgressContainer } from '../../models';
 import { TransferType, TransferStatus, DecimalByteUnit } from '../../enums';
 import { GuidUtil } from '../../utils';
 
@@ -82,8 +82,8 @@ export class BlobDownloader extends BaseDownloader {
         let newItem = new DatatransferItem({
             id: this.generateUniqueIdentifier(),
             name: filename,
-            sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.Byte, decimalByteUnitSize: sizeInBytes }),
-            progressInformation: new ProgressInformation(sizeInBytes),
+            sizeContainer: new SizeContainer({ decimalByteUnit: DecimalByteUnit.Byte, decimalByteUnitSize: sizeInBytes }),
+            progressContainer: new ProgressContainer(sizeInBytes),
             transferType: TransferType.Download,
             status: TransferStatus.Queued,
             externalItem: {

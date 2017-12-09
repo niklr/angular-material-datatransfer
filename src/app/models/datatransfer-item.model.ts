@@ -1,4 +1,4 @@
-import { ISizeInformation, SizeInformation, IProgressInformation, ProgressInformation } from '.';
+import { ISizeContainer, SizeContainer, IProgressContainer, ProgressContainer } from '.';
 import { TransferType, TransferStatus } from '../enums';
 
 export interface IDatatransferItem {
@@ -6,10 +6,10 @@ export interface IDatatransferItem {
   name: string;
   path: string;
   displayPath: string;
-  sizeInformation: ISizeInformation;
+  sizeContainer: ISizeContainer;
   transferType: TransferType;
   status: TransferStatus;
-  progressInformation: IProgressInformation;
+  progressContainer: IProgressContainer;
   message?: string;
   isSelected?: boolean;
   externalItem?: any;
@@ -37,17 +37,17 @@ export class DatatransferItem implements IDatatransferItem {
       }
   }
   public displayPath: string;
-  public sizeInformation: ISizeInformation;
+  public sizeContainer: ISizeContainer;
   public transferType: TransferType;
   public status: TransferStatus;
-  public progressInformation: IProgressInformation;
+  public progressContainer: IProgressContainer;
   public message?: string;
   public isSelected?: boolean;
   public externalItem?: any;
 
   public constructor(init?: Partial<DatatransferItem>) {
-    this.sizeInformation = new SizeInformation();
-    this.progressInformation = new ProgressInformation(0);
+    this.sizeContainer = new SizeContainer();
+    this.progressContainer = new ProgressContainer(0);
     Object.assign(this, init);
   }
 

@@ -4,7 +4,7 @@ import * as Resumable from 'resumablejs';
 
 import { BaseUploader } from './base.uploader';
 import { LoggerService, CryptoService } from '../../services';
-import { IAppConfig, IDatatransferItem, DatatransferItem, SizeInformation, ProgressInformation } from '../../models';
+import { IAppConfig, IDatatransferItem, DatatransferItem, SizeContainer, ProgressContainer } from '../../models';
 import { TransferType, TransferStatus, DecimalByteUnit } from '../../enums';
 import { GuidUtil } from '../../utils';
 
@@ -75,8 +75,8 @@ export class ResumableJsUploader extends BaseUploader {
                 id: file.uniqueIdentifier,
                 name: file.fileName,
                 path: file.relativePath.substr(0, file.relativePath.length - file.fileName.length),
-                sizeInformation: new SizeInformation({ decimalByteUnit: DecimalByteUnit.Byte, decimalByteUnitSize: file.size }),
-                progressInformation: new ProgressInformation(file.size),
+                sizeContainer: new SizeContainer({ decimalByteUnit: DecimalByteUnit.Byte, decimalByteUnitSize: file.size }),
+                progressContainer: new ProgressContainer(file.size),
                 transferType: TransferType.Upload,
                 status: TransferStatus.Ready,
                 externalItem: file

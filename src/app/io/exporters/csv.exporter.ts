@@ -18,8 +18,8 @@ export class CsvExporter extends BaseExporter {
         let csvContent = 'name,path,status,size,message\n';
         let items = this.store.getItems();
         _.each(items, function (item: IDatatransferItem, index: number) {
-            let itemString = item.name + ',' + item.path + ',' + item.getStatusName() + ',' + item.sizeInformation.displaySize + ' ' +
-                item.sizeInformation.displayUnit + ',' + item.message;
+            let itemString = item.name + ',' + item.path + ',' + item.getStatusName() + ',' + item.sizeContainer.displaySize + ' ' +
+                item.sizeContainer.displayUnit + ',' + item.message;
 
             csvContent += index < items.length ? itemString + '\n' : itemString;
         });

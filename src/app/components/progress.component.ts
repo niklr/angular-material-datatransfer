@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IProgressInformation } from '../models';
+import { IProgressContainer } from '../models';
 
 @Component({
     // tslint:disable-next-line:component-selector
@@ -10,7 +10,7 @@ import { IProgressInformation } from '../models';
 
 export class ProgressComponent {
 
-    @Input() progressInformation: IProgressInformation;
+    @Input() progressContainer: IProgressContainer;
 
     constructor() { }
 }

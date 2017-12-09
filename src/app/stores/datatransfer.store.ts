@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IDatatransferItem, IProgressInformation, ProgressInformation } from '../models';
+import { IDatatransferItem, IProgressContainer, ProgressContainer } from '../models';
 import { TransferStatus } from '../enums';
 
 import * as _ from 'underscore';
@@ -11,8 +11,8 @@ export class DatatransferStore {
 
     public count = 0;
     public failedCount = 0;
-    public uploadProgress: IProgressInformation = new ProgressInformation(0);
-    public downloadProgress: IProgressInformation = new ProgressInformation(0);
+    public uploadProgress: IProgressContainer = new ProgressContainer(0);
+    public downloadProgress: IProgressContainer = new ProgressContainer(0);
 
     constructor() {
 
