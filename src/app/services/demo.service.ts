@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IDatatransferItem, DatatransferItem, SizeContainer, ProgressContainer } from '../models';
+import { IDatatransferItem, DatatransferItem, SizeContainer, ProgressContainer, PreprocessContainer } from '../models';
 import { TransferType, TransferStatus, DecimalByteUnit } from '../enums';
 
 @Injectable()
@@ -28,6 +28,7 @@ export class DemoService {
       id: '3',
       name: 'DICOM_patientXY_3.dcm',
       path: '/mnt/sdcard/folder1/a/b/',
+      preprocessContainer: new PreprocessContainer({ percent: 30 }),
       sizeContainer: new SizeContainer({ decimalByteUnit: DecimalByteUnit.MB, decimalByteUnitSize: 13 }),
       transferType: TransferType.Upload,
       status: TransferStatus.Preprocessing

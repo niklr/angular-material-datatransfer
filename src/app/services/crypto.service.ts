@@ -5,6 +5,7 @@ import { HashType, EncodingType, EncodingTypeImplementation, HashTypeImplementat
 import { IHashContainer, HashContainer, IStreamHashContainer, StreamHashContainer } from '../models';
 
 import '../libraries/crypto-browserify.js';
+import { setTimeout } from 'timers';
 declare var cryptoBrowserify: any;
 
 @Injectable()
@@ -37,11 +38,15 @@ export class CryptoService {
             container.hashString = container.hash.update(event.target.result, container.inputEncodingTypeString)
                 .digest(container.encodingTypeString);
             container.endDate = new Date();
-            container.progress = 1;
+            container.percent = 100;
+        };
+
+        container.doWork = function () {
+            container.reader.readAsBinaryString(container.file);
         };
 
         container.run = function () {
-            container.reader.readAsBinaryString(container.file);
+            container.doWork();
         };
 
         return container;
@@ -73,25 +78,33 @@ export class CryptoService {
 
             container.offset += container.chunkSize;
 
-            container.run();
+            container.doWork();
         };
 
         container.reader.onerror = function (event) {
             errorCallback(event, container);
         };
 
-        container.run = function () {
+        container.doWork = function () {
             if (container.offset > container.file.size) {
                 container.hashString = container.hash.read().toString(container.encodingTypeString);
                 container.endDate = new Date();
-                container.progress = 1;
+                container.percent = 100;
                 successCallback(container);
                 return;
             }
 
             let slice = container.file.slice(container.offset, container.offset + container.chunkSize);
             container.reader.readAsBinaryString(slice);
-            container.progress = container.offset / file.size;
+            container.percent = Math.round(container.offset / file.size * 100);
+        };
+
+        container.run = function () {
+            // TODO: reset pause state
+            // wait for the initial mat-progress-spinner animation to complete
+            setTimeout(function() {
+                container.doWork();
+            }, 1000);
         };
 
         return container;

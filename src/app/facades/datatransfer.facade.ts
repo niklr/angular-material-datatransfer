@@ -60,7 +60,6 @@ export class DatatransferFacade {
                 that.updateOverallSize(progressContainer, size);
             });
         }.bind(this));
-        // this.assignUploadBrowse(document.getElementById('amd-browse-folder'), true);
     }
 
     public assignUploadBrowse(element, isDirectory = false): void {

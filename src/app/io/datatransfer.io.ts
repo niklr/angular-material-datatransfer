@@ -80,18 +80,19 @@ export abstract class BaseDatatransfer implements IDatatransfer {
     }
 
     protected checkHash(item: IDatatransferItem, file: File, continueCallback: Function, cancelCallback: Function): void {
-        let successCallback = function(container: IStreamHashContainer) {
+        let successCallback = function (container: IStreamHashContainer) {
             let seconds = (container.endDate.getTime() - container.startDate.getTime()) / 1000;
             console.log(seconds);
             console.log(container);
             continueCallback();
         };
-        let errorCallback = function(event: any, container: IStreamHashContainer) {
+        let errorCallback = function (event: any, container: IStreamHashContainer) {
             console.log(event);
             continueCallback();
         };
-        let container = this.cryptoService.createStreamHashContainer(
+        item.preprocessContainer = this.cryptoService.createStreamHashContainer(
             file, HashType.SHA1, EncodingType.Hex, EncodingType.Latin1, successCallback, errorCallback);
-        container.run();
+
+        item.preprocessContainer.run();
     }
 }

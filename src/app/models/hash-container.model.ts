@@ -1,6 +1,7 @@
+import { IPreprocessContainer, PreprocessContainer } from '.';
 import { HashType, HashTypeImplementation, EncodingType, EncodingTypeImplementation } from '../enums';
 
-export interface IHashContainer {
+export interface IHashContainer extends IPreprocessContainer {
     file: File;
     hashType: HashType;
     hashTypeString: string;
@@ -12,9 +13,8 @@ export interface IHashContainer {
     endDate: Date;
     hash: any;
     hashString: string;
-    progress: number;
     reader: FileReader;
-    run: Function;
+    doWork: Function;
 }
 
 export interface IStreamHashContainer extends IHashContainer {
@@ -22,7 +22,7 @@ export interface IStreamHashContainer extends IHashContainer {
     offset: number;
 }
 
-export class HashContainer implements IHashContainer {
+export class HashContainer extends PreprocessContainer implements IHashContainer {
     public file: File;
     public hashType: HashType;
     public hashTypeString: string;
@@ -34,12 +34,12 @@ export class HashContainer implements IHashContainer {
     public endDate: Date;
     public hash: any;
     public hashString: string;
-    public progress: number;
     public reader: FileReader;
-    public run: Function;
+    public doWork: Function;
 
     public constructor(file: File, hashTypeImplementation: HashTypeImplementation, encodingTypeImplementation: EncodingTypeImplementation,
         hashType: HashType, encodingType: EncodingType, inputEncodingType: EncodingType) {
+        super();
         this.file = file;
         this.hashType = hashType;
         this.hashTypeString = HashType.toString(hashTypeImplementation, hashType);
@@ -49,9 +49,8 @@ export class HashContainer implements IHashContainer {
         this.inputEncodingTypeString = EncodingType.toString(encodingTypeImplementation, inputEncodingType);
         this.startDate = new Date();
         this.endDate = new Date();
-        this.progress = 0;
         this.reader = new FileReader();
-        this.run = function() { };
+        this.doWork = function() { };
     }
 }
 
