@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import * as _ from 'underscore';
 
 import { LoggerService, CryptoService } from '../services';
-import { IAppConfig, IDatatransferItem, IStreamHashContainer } from '../models';
+import { IAppConfig, IDatatransferItem, IStreamHashContainer, StreamHashContainer } from '../models';
 import { TransferStatus, TransferType, HashType, EncodingType } from '../enums';
 import { GuidUtil } from '../utils';
 
@@ -20,6 +21,8 @@ export interface IDatatransfer {
 export abstract class BaseDatatransfer implements IDatatransfer {
 
     private events = [];
+    protected _isWorking = false;
+    protected _isPaused = false;
 
     constructor(protected logger: LoggerService, protected config: IAppConfig,
         protected guidUtil: GuidUtil, protected cryptoService: CryptoService) {
@@ -59,7 +62,9 @@ export abstract class BaseDatatransfer implements IDatatransfer {
         this.fire('overallSizeUpdated', size);
     }
 
-    public abstract isWorking(): boolean;
+    public isWorking(): boolean {
+        return this._isWorking;
+    }
 
     public abstract startAll(): void;
 
@@ -90,9 +95,17 @@ export abstract class BaseDatatransfer implements IDatatransfer {
             console.log(event);
             continueCallback();
         };
-        item.preprocessContainer = this.cryptoService.createStreamHashContainer(
-            file, HashType.SHA1, EncodingType.Hex, EncodingType.Latin1, successCallback, errorCallback);
 
-        item.preprocessContainer.run();
+        if (item.preprocessContainer instanceof StreamHashContainer) {
+            // continue
+        } else {
+            item.preprocessContainer = this.cryptoService.createStreamHashContainer(
+                file, HashType.SHA1, EncodingType.Hex, EncodingType.Latin1, successCallback, errorCallback);
+        }
+
+        // wait for the initial mat-progress-spinner animation to complete
+        setTimeout(function () {
+            item.preprocessContainer.run();
+        }, 1000);
     }
 }

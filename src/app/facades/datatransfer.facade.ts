@@ -115,6 +115,9 @@ export class DatatransferFacade {
     }
 
     public pauseAll(): void {
+        _.each(this.store.getItems(), function (item: IDatatransferItem) {
+            item.preprocessContainer.pause();
+        });
         this.uploader.pauseAll();
         this.downloader.pauseAll();
     }

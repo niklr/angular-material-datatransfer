@@ -104,6 +104,9 @@ export class ResumableJsUploader extends BaseUploader {
         }.bind(this));
         this.r.on('uploadStart', function () {
             let that = this as ResumableJsUploader;
+            // that.logger.log('uploadStart');
+            that._isPaused = false;
+            that._isWorking = true;
             that.updateOverallProgress(that.transferType, that.r.progress());
             that.updateOverallSize(that.r.getSize());
         }.bind(this));
@@ -114,10 +117,12 @@ export class ResumableJsUploader extends BaseUploader {
         this.r.on('pause', function () {
             let that = this as ResumableJsUploader;
             // that.logger.log('pause');
+            that._isPaused = true;
         }.bind(this));
         this.r.on('complete', function () {
             let that = this as ResumableJsUploader;
             // that.logger.log('complete');
+            that._isWorking = false;
         }.bind(this));
     }
 
@@ -151,10 +156,6 @@ export class ResumableJsUploader extends BaseUploader {
         item.name = name;
     }
 
-    public isWorking(): boolean {
-        return this.r.isUploading();
-    }
-
     public startAll(): void {
         this.r.upload();
     }
@@ -169,10 +170,12 @@ export class ResumableJsUploader extends BaseUploader {
             let that = this as ResumableJsUploader;
             that.r.removeFile(file);
         }.bind(this));
+        this._isWorking = this.r.isUploading();
     }
 
     public removeItem(item: IDatatransferItem): void {
         this.r.removeFile(item.externalItem);
+        this._isWorking = this.r.isUploading();
     }
 
     public retryItem(item: IDatatransferItem): void {

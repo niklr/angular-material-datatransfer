@@ -45,10 +45,6 @@ export class CryptoService {
             container.reader.readAsBinaryString(container.file);
         };
 
-        container.run = function () {
-            container.doWork();
-        };
-
         return container;
     }
 
@@ -86,25 +82,20 @@ export class CryptoService {
         };
 
         container.doWork = function () {
-            if (container.offset > container.file.size) {
-                container.hashString = container.hash.read().toString(container.encodingTypeString);
-                container.endDate = new Date();
-                container.percent = 100;
-                successCallback(container);
-                return;
+            if (!container.isPaused()) {
+                if (container.offset > container.file.size) {
+                    container.hashString = container.hash.read().toString(container.encodingTypeString);
+                    container.endDate = new Date();
+                    container.percent = 100;
+                    successCallback(container);
+                    return;
+                }
+
+                let slice = container.file.slice(container.offset, container.offset + container.chunkSize);
+                container.reader.readAsBinaryString(slice);
+                container.percent = Math.round(container.offset / file.size * 100);
+                console.log(container.percent);
             }
-
-            let slice = container.file.slice(container.offset, container.offset + container.chunkSize);
-            container.reader.readAsBinaryString(slice);
-            container.percent = Math.round(container.offset / file.size * 100);
-        };
-
-        container.run = function () {
-            // TODO: reset pause state
-            // wait for the initial mat-progress-spinner animation to complete
-            setTimeout(function() {
-                container.doWork();
-            }, 1000);
         };
 
         return container;

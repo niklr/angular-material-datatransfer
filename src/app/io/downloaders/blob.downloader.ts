@@ -21,10 +21,6 @@ export class BlobDownloader extends BaseDownloader {
         super(logger, config, guidUtil, cryptoService);
     }
 
-    public isWorking(): boolean {
-        return this.downloading.length > 0;
-    }
-
     public startAll(): void {
         if (!this.isWorking()) {
             for (let index = 0; index < this.config.core.simultaneousDownloads; index++) {
@@ -45,6 +41,7 @@ export class BlobDownloader extends BaseDownloader {
         this.files.length = 0;
         this.queue.length = 0;
         this.downloading.length = 0;
+        this._isWorking = false;
         this.updateOverallSize(this.getSize());
         this.updateOverallProgress(this.transferType, this.getProgress());
     }
@@ -70,6 +67,7 @@ export class BlobDownloader extends BaseDownloader {
         this.abortDownload(item);
         this.removeItemFromArray(item, this.queue);
         this.removeItemFromArray(item, this.downloading);
+        this._isWorking = this.downloading.length > 0;
         item.externalItem.progress = 0;
         this.updateItemProgress(item, item.externalItem.progress);
         this.changeItemStatus(item, TransferStatus.Queued);
@@ -153,6 +151,7 @@ export class BlobDownloader extends BaseDownloader {
             if (!!item && !!item.externalItem && !!item.externalItem.xhr) {
                 this.changeItemStatus(item, TransferStatus.Downloading);
                 this.downloading.push(item);
+                this._isWorking = this.downloading.length > 0;
                 item.externalItem.xhr.send();
             }
         }

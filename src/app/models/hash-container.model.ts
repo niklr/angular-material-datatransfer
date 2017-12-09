@@ -14,7 +14,6 @@ export interface IHashContainer extends IPreprocessContainer {
     hash: any;
     hashString: string;
     reader: FileReader;
-    doWork: Function;
 }
 
 export interface IStreamHashContainer extends IHashContainer {
@@ -35,7 +34,6 @@ export class HashContainer extends PreprocessContainer implements IHashContainer
     public hash: any;
     public hashString: string;
     public reader: FileReader;
-    public doWork: Function;
 
     public constructor(file: File, hashTypeImplementation: HashTypeImplementation, encodingTypeImplementation: EncodingTypeImplementation,
         hashType: HashType, encodingType: EncodingType, inputEncodingType: EncodingType) {
@@ -50,7 +48,6 @@ export class HashContainer extends PreprocessContainer implements IHashContainer
         this.startDate = new Date();
         this.endDate = new Date();
         this.reader = new FileReader();
-        this.doWork = function() { };
     }
 }
 
@@ -61,5 +58,7 @@ export class StreamHashContainer extends HashContainer implements IStreamHashCon
     public constructor(file: File, hashTypeImplementation: HashTypeImplementation, encodingTypeImplementation: EncodingTypeImplementation,
         hashType: HashType, encodingType: EncodingType, inputEncodingType: EncodingType) {
         super(file, hashTypeImplementation, encodingTypeImplementation, hashType, encodingType, inputEncodingType);
+        this.chunkSize = 0;
+        this.offset = 0;
     }
 }
