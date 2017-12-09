@@ -61,4 +61,9 @@ export class StreamHashContainer extends HashContainer implements IStreamHashCon
         this.chunkSize = 0;
         this.offset = 0;
     }
+
+    public cancel(cancel: boolean): void {
+        super.cancel(cancel);
+        this.offset = 0;
+    }
 }

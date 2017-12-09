@@ -22,7 +22,6 @@ export abstract class BaseDatatransfer implements IDatatransfer {
 
     private events = [];
     protected _isWorking = false;
-    protected _isPaused = false;
 
     constructor(protected logger: LoggerService, protected config: IAppConfig,
         protected guidUtil: GuidUtil, protected cryptoService: CryptoService) {
@@ -96,7 +95,7 @@ export abstract class BaseDatatransfer implements IDatatransfer {
             continueCallback();
         };
 
-        if (item.preprocessContainer instanceof StreamHashContainer) {
+        if (!item.preprocessContainer.isCancelled() && item.preprocessContainer instanceof StreamHashContainer) {
             // continue
         } else {
             item.preprocessContainer = this.cryptoService.createStreamHashContainer(

@@ -116,13 +116,16 @@ export class DatatransferFacade {
 
     public pauseAll(): void {
         _.each(this.store.getItems(), function (item: IDatatransferItem) {
-            item.preprocessContainer.pause();
+            item.preprocessContainer.pause(true);
         });
         this.uploader.pauseAll();
         this.downloader.pauseAll();
     }
 
     public removeAll(): void {
+        _.each(this.store.getItems(), function (item: IDatatransferItem) {
+            item.preprocessContainer.cancel(true);
+        });
         this.uploader.removeAll();
         this.downloader.removeAll();
         this.store.clear();
@@ -152,6 +155,7 @@ export class DatatransferFacade {
 
     public removeItem(item: IDatatransferItem): void {
         if (!!item) {
+            item.preprocessContainer.cancel(true);
             switch (item.transferType) {
                 case TransferType.Upload:
                     this.uploader.removeItem(item);
@@ -169,6 +173,7 @@ export class DatatransferFacade {
 
     public retryItem(item: IDatatransferItem): void {
         if (!!item) {
+            item.preprocessContainer.cancel(true);
             switch (item.transferType) {
                 case TransferType.Upload:
                     this.uploader.retryItem(item);

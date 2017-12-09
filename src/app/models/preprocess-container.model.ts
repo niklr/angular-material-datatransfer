@@ -1,8 +1,9 @@
 export interface IPreprocessContainer {
     percent: number; // 0-100
-    pause(): void;
+    pause(pause: boolean): void;
     isPaused(): boolean;
-    cancel(): void;
+    cancel(cancel: boolean): void;
+    isCancelled(): boolean;
     doWork(): void;
     run(): void;
 }
@@ -11,6 +12,7 @@ export class PreprocessContainer implements IPreprocessContainer {
     public percent: number;
 
     private _isPaused: boolean;
+    private _isCancelled: boolean;
 
     public constructor(init?: Partial<PreprocessContainer>) {
         this.percent = 0;
@@ -18,16 +20,20 @@ export class PreprocessContainer implements IPreprocessContainer {
         Object.assign(this, init);
     }
 
-    public pause(): void {
-        this._isPaused = true;
+    public pause(pause: boolean): void {
+        this._isPaused = pause;
     }
 
     public isPaused(): boolean {
         return this._isPaused;
     }
 
-    public cancel(): void {
+    public cancel(cancel: boolean): void {
+        this._isCancelled = cancel;
+    }
 
+    public isCancelled(): boolean {
+        return this._isCancelled;
     }
 
     public doWork(): void {

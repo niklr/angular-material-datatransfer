@@ -82,7 +82,7 @@ export class CryptoService {
         };
 
         container.doWork = function () {
-            if (!container.isPaused()) {
+            if (!container.isCancelled() && !container.isPaused()) {
                 if (container.offset > container.file.size) {
                     container.hashString = container.hash.read().toString(container.encodingTypeString);
                     container.endDate = new Date();
@@ -94,7 +94,6 @@ export class CryptoService {
                 let slice = container.file.slice(container.offset, container.offset + container.chunkSize);
                 container.reader.readAsBinaryString(slice);
                 container.percent = Math.round(container.offset / file.size * 100);
-                console.log(container.percent);
             }
         };
 
