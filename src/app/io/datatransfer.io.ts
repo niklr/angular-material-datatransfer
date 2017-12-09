@@ -45,6 +45,10 @@ export abstract class BaseDatatransfer implements IDatatransfer {
         }
     };
 
+    protected updateZone(): void {
+        this.fire('zoneUpdated');
+    }
+
     protected changeItemStatus(item: IDatatransferItem, status: TransferStatus, message?: string) {
         this.fire('itemStatusChanged', item, status, message);
     }

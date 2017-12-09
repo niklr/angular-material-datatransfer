@@ -105,6 +105,8 @@ export class ResumableJsUploader extends BaseUploader {
         this.r.on('uploadStart', function () {
             let that = this as ResumableJsUploader;
             // that.logger.log('uploadStart');
+            that._isWorking = true;
+            that.updateZone();
             that.updateOverallProgress(that.transferType, that.r.progress());
             that.updateOverallSize(that.r.getSize());
         }.bind(this));
@@ -115,10 +117,20 @@ export class ResumableJsUploader extends BaseUploader {
         this.r.on('pause', function () {
             let that = this as ResumableJsUploader;
             // that.logger.log('pause');
+            that._isWorking = false;
+            that.updateZone();
+        }.bind(this));
+        this.r.on('cancel', function () {
+            let that = this as ResumableJsUploader;
+            // that.logger.log('cancel');
+            that._isWorking = false;
+            that.updateZone();
         }.bind(this));
         this.r.on('complete', function () {
             let that = this as ResumableJsUploader;
             // that.logger.log('complete');
+            that._isWorking = false;
+            that.updateZone();
         }.bind(this));
     }
 
@@ -153,12 +165,10 @@ export class ResumableJsUploader extends BaseUploader {
     }
 
     public startAll(): void {
-        this._isWorking = true;
         this.r.upload();
     }
 
     public pauseAll(): void {
-        this._isWorking = false;
         // reset preprocessState
         _.each(this.r.files, function (file) {
             if (file.preprocessState === 1) {
@@ -174,16 +184,17 @@ export class ResumableJsUploader extends BaseUploader {
             let that = this as ResumableJsUploader;
             that.r.removeFile(file);
         }.bind(this));
-        this._isWorking = this.r.isUploading();
+        this._isWorking = false;
     }
 
     public removeItem(item: IDatatransferItem): void {
         this.r.removeFile(item.externalItem);
-        this._isWorking = this.r.isUploading();
+        if (this.r.files.length <= 0) {
+            this._isWorking = false;
+        }
     }
 
     public retryItem(item: IDatatransferItem): void {
         item.externalItem.retry();
-        this._isWorking = this.r.isUploading();
     }
 }

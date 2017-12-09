@@ -36,6 +36,12 @@ export class DatatransferFacade {
                 that.addItem(item);
             });
         }.bind(this));
+        datatransfer.on('zoneUpdated', function (item: IDatatransferItem, status: TransferStatus, message?: string) {
+            let that = this as DatatransferFacade;
+            that.zone.run(() => {
+                // console.log(that.uploader.isWorking());
+            });
+        }.bind(this));
         datatransfer.on('itemStatusChanged', function (item: IDatatransferItem, status: TransferStatus, message?: string) {
             let that = this as DatatransferFacade;
             that.zone.run(() => {
