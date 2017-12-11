@@ -291,7 +291,7 @@ export class DatatransferFacade {
     }
 
     public showPreprocessingCheckbox(): boolean {
-        return this.store.count > 0 && this.config.core.preprocessHashModule;
+        return this.store.count > 0 && this.config.core.preprocessHashEnabled;
     }
 
     public showSpinner(item: IDatatransferItem): boolean {

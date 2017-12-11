@@ -15,8 +15,8 @@ export class CoreAppConfig {
     paginationRppOptions = [5, 10, 25];
     simultaneousDownloads = 2;
     downloadMethod = 'GET';
-    preprocessHashModule = false;
-    preprocessHashEnabled = true;
+    preprocessHashEnabled = false;
+    preprocessHashChecked = true;
     preprocessHashTarget = 'https://httpbin.org';
     preprocessHashMethod = 'GET';
     preprocessHashParameterName = 'hash';
@@ -26,7 +26,7 @@ export class CoreAppConfig {
     getTarget = function (request, params) {
         let target;
 
-        if (request === 'preprocessHash' && this.preprocessHashEnabled) {
+        if (request === 'preprocessHash' && this.preprocessHashChecked) {
             target = this.preprocessHashTarget;
         }
 
