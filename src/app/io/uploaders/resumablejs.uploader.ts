@@ -43,13 +43,17 @@ export class ResumableJsUploader extends BaseUploader {
             if (typeof that.preprocessFileFn === 'function') {
                 that.preprocessFileFn(resumableFile);
             } else {
-                let continueCallback = function() {
+                if (that.config.core.checkHashEnabled) {
+                    let continueCallback = function() {
+                        resumableFile.preprocessFinished();
+                    };
+                    let cancelCallback = function() {
+                        resumableFile.cancel();
+                    };
+                    that.checkHash(resumableFile.internalItem, resumableFile.file, continueCallback, cancelCallback);
+                } else {
                     resumableFile.preprocessFinished();
-                };
-                let cancelCallback = function() {
-                    resumableFile.cancel();
-                };
-                that.checkHash(resumableFile.internalItem, resumableFile.file, continueCallback, cancelCallback);
+                }
             }
         }
 

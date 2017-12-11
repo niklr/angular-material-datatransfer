@@ -15,6 +15,13 @@ export class CoreAppConfig {
     paginationRppOptions = [5, 10, 25];
     simultaneousDownloads = 2;
     downloadMethod = 'GET';
+    checkHashEnabled = true;
+    checkHashTarget = 'https://httpbin.org';
+    checkHashMethod = 'GET';
+    checkHashParameterName = 'hash';
+    checkHashFunctionName = 'sha1';
+    checkHashEncodingName = 'hex';
+    checkHashInputEncodingName = 'latin1';
 }
 
 export class ResumableJsAppConfig {

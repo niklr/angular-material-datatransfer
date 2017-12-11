@@ -3,7 +3,7 @@ import * as _ from 'underscore';
 
 import { LoggerService, CryptoService } from '../services';
 import { IAppConfig, IDatatransferItem, IStreamHashContainer, StreamHashContainer } from '../models';
-import { TransferStatus, TransferType, HashType, EncodingType } from '../enums';
+import { TransferStatus, TransferType, HashType, EncodingType, HashTypeImplementation, EncodingTypeImplementation } from '../enums';
 import { GuidUtil } from '../utils';
 
 export interface IDatatransfer {
@@ -21,11 +21,16 @@ export interface IDatatransfer {
 export abstract class BaseDatatransfer implements IDatatransfer {
 
     private events = [];
+    private readonly hashType: HashType;
+    private readonly encodingType: EncodingType;
+    private readonly inputEncodingType: EncodingType;
     protected _isWorking = false;
 
     constructor(protected logger: LoggerService, protected config: IAppConfig,
         protected guidUtil: GuidUtil, protected cryptoService: CryptoService) {
-
+        this.hashType = HashType.toEnum(HashTypeImplementation.Internal, config.core.checkHashFunctionName);
+        this.encodingType = EncodingType.toEnum(EncodingTypeImplementation.Internal, config.core.checkHashEncodingName);
+        this.inputEncodingType = EncodingType.toEnum(EncodingTypeImplementation.Internal, config.core.checkHashInputEncodingName);
     }
 
     public on(event: string, callback: Function): void {
@@ -103,7 +108,7 @@ export abstract class BaseDatatransfer implements IDatatransfer {
             // continue
         } else {
             item.preprocessContainer = this.cryptoService.createStreamHashContainer(
-                file, HashType.SHA1, EncodingType.Hex, EncodingType.Latin1, successCallback, errorCallback);
+                file, this.hashType, this.encodingType, this.inputEncodingType, successCallback, errorCallback);
         }
 
         // wait for the initial mat-progress-spinner animation to complete

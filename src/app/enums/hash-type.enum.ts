@@ -16,7 +16,17 @@ export namespace HashType {
             case HashType.SHA1:
                 return 'sha1';
             default:
-                return 'md5';
+                return 'sha1';
+        }
+    }
+    export function toEnum(hashTypeImplementation: HashTypeImplementation, hashType: string): HashType {
+        switch (hashType) {
+            case 'md5':
+                return HashType.MD5;
+            case 'sha1':
+                return HashType.SHA1;
+            default:
+                return HashType.SHA1;
         }
     }
 }

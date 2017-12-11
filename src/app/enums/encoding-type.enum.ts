@@ -25,4 +25,18 @@ export namespace EncodingType {
                 return 'hex';
         }
     }
+    export function toEnum(encodingTypeImplementation: EncodingTypeImplementation, encodingType: string): EncodingType {
+        switch (encodingType) {
+            case 'latin1':
+                return EncodingType.Latin1;
+            case 'hex':
+                return EncodingType.Hex;
+            case 'base64':
+                return EncodingType.Base64;
+            case 'utf8':
+                return EncodingType.UTF8;
+            default:
+                return EncodingType.Hex;
+        }
+    }
 }

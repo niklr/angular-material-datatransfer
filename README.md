@@ -132,6 +132,13 @@ document.dispatchEvent(event);
 * `paginationRppOptions` The pagination options containing the numbers defining how many results should be shown per page. (Default: `[5, 10, 25]`)
 * `simultaneousDownloads` Number of simultaneous downloads. (Default: `2`)
 * `downloadMethod` HTTP method to use when downloading from the server (`GET`, `POST`, `PUT`, `PATCH`). (Default: `GET`)
+* `checkHashEnabled` Indicates if the built-in hash check should be enabled. (Default: `'true'`)
+* `checkHashTarget` The target URL for the GET request to the server for each file to see if it already exists based on the in-browser calculated hash. This can be a `string` or a `function` that allows you you to construct and return a value, based on supplied `params`. (Default: `https://httpbin.org`)
+* `checkHashMethod` HTTP method to use when sending file hash check requests. (Default: `'GET'`)
+* `checkHashParameterName` The name of the check hash request parameter. (Default: `'hash'`)
+* `checkHashFunctionName` The name of the hash function to be used in the built-in hash check. (`sha1`, `md5`) (Default: `'sha1'`)
+* `checkHashEncodingName` The name of the encoding scheme to be used in the built-in hash check. (`latin1`, `hex`, `base64`, `utf8`) (Default: `'hex'`)
+* `checkHashInputEncodingName` The name of the input encoding scheme to be used in the built-in hash check. (`latin1`, `hex`, `base64`, `utf8`) (Default: `'latin1'`)
 
 ### Resumablejs configuration
 * `target` The target URL for the multipart POST request. This can be a `string` or a `function` that allows you you to construct and return a value, based on supplied `params`. (Default: `https://httpbin.org`)
@@ -192,5 +199,5 @@ You should allow for the same chunk to be uploaded more than once; this isn't st
 For every request, you can confirm reception in HTTP status codes (can be change through the `permanentErrors` option):
 
 * `200`: The chunk was accepted and correct. No need to re-upload.
-* `400`, `404`. `405`, `415`, `501`: The file for which the chunk was uploaded is not supported, cancel the entire upload.
+* `400`, `404`, `405`, `415`, `501`: The file for which the chunk was uploaded is not supported, cancel the entire upload.
 * _Anything else_: Something went wrong, but try reuploading the file.
