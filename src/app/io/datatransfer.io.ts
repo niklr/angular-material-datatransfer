@@ -28,9 +28,9 @@ export abstract class BaseDatatransfer implements IDatatransfer {
 
     constructor(protected logger: LoggerService, protected config: IAppConfig,
         protected guidUtil: GuidUtil, protected cryptoService: CryptoService) {
-        this.hashType = HashType.toEnum(HashTypeImplementation.Internal, config.core.checkHashFunctionName);
-        this.encodingType = EncodingType.toEnum(EncodingTypeImplementation.Internal, config.core.checkHashEncodingName);
-        this.inputEncodingType = EncodingType.toEnum(EncodingTypeImplementation.Internal, config.core.checkHashInputEncodingName);
+        this.hashType = HashType.toEnum(HashTypeImplementation.Internal, config.core.preprocessHashFunctionName);
+        this.encodingType = EncodingType.toEnum(EncodingTypeImplementation.Internal, config.core.preprocessHashEncodingName);
+        this.inputEncodingType = EncodingType.toEnum(EncodingTypeImplementation.Internal, config.core.preprocessHashInputEncodingName);
     }
 
     public on(event: string, callback: Function): void {
@@ -92,7 +92,7 @@ export abstract class BaseDatatransfer implements IDatatransfer {
         return this.guidUtil.createGuid();
     }
 
-    protected checkHash(item: IDatatransferItem, file: File, continueCallback: Function, cancelCallback: Function): void {
+    protected preprocessHash(item: IDatatransferItem, file: File, continueCallback: Function, cancelCallback: Function): void {
         let successCallback = function (container: IStreamHashContainer) {
             let that = this as BaseDatatransfer;
             if (container.hashString) {
@@ -119,7 +119,7 @@ export abstract class BaseDatatransfer implements IDatatransfer {
                 let params = [];
                 params = params.concat(
                     [
-                        [that.config.core.checkHashParameterName, container.hashString]
+                        [that.config.core.preprocessHashParameterName, container.hashString]
                     ]
                     .map(function (pair) {
                         return [
@@ -128,7 +128,7 @@ export abstract class BaseDatatransfer implements IDatatransfer {
                     })
                 );
 
-                xhr.open(that.config.core.checkHashMethod, that.config.core.getTarget('checkHash', params));
+                xhr.open(that.config.core.preprocessHashMethod, that.config.core.getTarget('preprocessHash', params));
                 xhr.send(null);
 
             } else {

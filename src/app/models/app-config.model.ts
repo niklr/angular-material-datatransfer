@@ -15,19 +15,19 @@ export class CoreAppConfig {
     paginationRppOptions = [5, 10, 25];
     simultaneousDownloads = 2;
     downloadMethod = 'GET';
-    checkHashModule = false;
-    checkHashEnabled = true;
-    checkHashTarget = 'https://httpbin.org';
-    checkHashMethod = 'GET';
-    checkHashParameterName = 'hash';
-    checkHashFunctionName = 'sha1';
-    checkHashEncodingName = 'hex';
-    checkHashInputEncodingName = 'latin1';
+    preprocessHashModule = false;
+    preprocessHashEnabled = true;
+    preprocessHashTarget = 'https://httpbin.org';
+    preprocessHashMethod = 'GET';
+    preprocessHashParameterName = 'hash';
+    preprocessHashFunctionName = 'sha1';
+    preprocessHashEncodingName = 'hex';
+    preprocessHashInputEncodingName = 'latin1';
     getTarget = function (request, params) {
         let target;
 
-        if (request === 'checkHash' && this.checkHashEnabled) {
-            target = this.checkHashTarget;
+        if (request === 'preprocessHash' && this.preprocessHashEnabled) {
+            target = this.preprocessHashTarget;
         }
 
         if (typeof target === 'function') {

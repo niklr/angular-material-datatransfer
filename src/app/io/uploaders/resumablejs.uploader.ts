@@ -43,7 +43,7 @@ export class ResumableJsUploader extends BaseUploader {
                 that.changeItemStatus(resumableFile.internalItem, TransferStatus.Preprocessing);
                 that.preprocessFileFn(resumableFile);
             } else {
-                if (that.config.core.checkHashModule && that.config.core.checkHashEnabled) {
+                if (that.config.core.preprocessHashModule && that.config.core.preprocessHashEnabled) {
                     that.changeItemStatus(resumableFile.internalItem, TransferStatus.Preprocessing);
                     let continueCallback = function() {
                         resumableFile.preprocessFinished();
@@ -53,7 +53,7 @@ export class ResumableJsUploader extends BaseUploader {
                         that.changeItemStatus(resumableFile.internalItem, TransferStatus.Finished, resumableFile.internalItem.message);
                         that.r.uploadNextChunk();
                     };
-                    that.checkHash(resumableFile.internalItem, resumableFile.file, continueCallback, cancelCallback);
+                    that.preprocessHash(resumableFile.internalItem, resumableFile.file, continueCallback, cancelCallback);
                 } else {
                     resumableFile.preprocessFinished();
                 }
