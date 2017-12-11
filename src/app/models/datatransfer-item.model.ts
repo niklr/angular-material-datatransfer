@@ -43,7 +43,13 @@ export class DatatransferItem implements IDatatransferItem {
   public status: TransferStatus;
   public preprocessContainer: IPreprocessContainer;
   public progressContainer: IProgressContainer;
-  public message?: string;
+  private _message; string;
+  get message(): string {
+    return this._message;
+  }
+  set message(newMessage: string) {
+    this._message = newMessage.toLowerCase().startsWith('<!doctype html') ? undefined : newMessage;
+  }
   public isSelected?: boolean;
   public externalItem?: any;
 

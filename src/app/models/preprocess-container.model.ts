@@ -17,6 +17,7 @@ export class PreprocessContainer implements IPreprocessContainer {
     public constructor(init?: Partial<PreprocessContainer>) {
         this.percent = 0;
         this._isPaused = false;
+        this._isCancelled = false;
         Object.assign(this, init);
     }
 

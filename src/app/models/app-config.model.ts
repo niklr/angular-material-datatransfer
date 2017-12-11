@@ -22,6 +22,26 @@ export class CoreAppConfig {
     checkHashFunctionName = 'sha1';
     checkHashEncodingName = 'hex';
     checkHashInputEncodingName = 'latin1';
+    getTarget = function (request, params) {
+        let target;
+
+        if (request === 'checkHash' && this.checkHashEnabled) {
+            target = this.checkHashTarget;
+        }
+
+        if (typeof target === 'function') {
+            return target(params);
+        }
+
+        if (target) {
+            let separator = target.indexOf('?') < 0 ? '?' : '&';
+            let joinedParams = params.join('&');
+
+            return target + separator + joinedParams;
+        } else {
+            return;
+        }
+    };
 }
 
 export class ResumableJsAppConfig {

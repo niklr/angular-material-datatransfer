@@ -49,6 +49,8 @@ export class ResumableJsUploader extends BaseUploader {
                     };
                     let cancelCallback = function() {
                         resumableFile.cancel();
+                        that.changeItemStatus(resumableFile.internalItem, TransferStatus.Finished, resumableFile.internalItem.message);
+                        that.r.uploadNextChunk();
                     };
                     that.checkHash(resumableFile.internalItem, resumableFile.file, continueCallback, cancelCallback);
                 } else {

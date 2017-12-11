@@ -94,11 +94,47 @@ export abstract class BaseDatatransfer implements IDatatransfer {
 
     protected checkHash(item: IDatatransferItem, file: File, continueCallback: Function, cancelCallback: Function): void {
         let successCallback = function (container: IStreamHashContainer) {
-            let seconds = (container.endDate.getTime() - container.startDate.getTime()) / 1000;
-            console.log(seconds);
-            console.log(container);
-            continueCallback();
-        };
+            let that = this as BaseDatatransfer;
+            if (container.hashString) {
+                let seconds = (container.endDate.getTime() - container.startDate.getTime()) / 1000;
+                // console.log('file hashing took ' + seconds + ' seconds');
+
+                let xhr = new XMLHttpRequest();
+
+                let responseHandler = function (e) {
+                    // ignore response if container has been cancelled
+                    if (!container.isCancelled()) {
+                        if (xhr.status === 200) {
+                            item.message = xhr.responseText;
+                            cancelCallback();
+                        } else {
+                            continueCallback();
+                        }
+                    }
+                };
+                xhr.addEventListener('load', responseHandler, false);
+                xhr.addEventListener('error', responseHandler, false);
+                xhr.addEventListener('timeout', responseHandler, false);
+
+                let params = [];
+                params = params.concat(
+                    [
+                        [that.config.core.checkHashParameterName, container.hashString]
+                    ]
+                    .map(function (pair) {
+                        return [
+                            pair[0], encodeURIComponent(pair[1])
+                        ].join('=');
+                    })
+                );
+
+                xhr.open(that.config.core.checkHashMethod, that.config.core.getTarget('checkHash', params));
+                xhr.send(null);
+
+            } else {
+                continueCallback();
+            }
+        }.bind(this);
         let errorCallback = function (event: any, container: IStreamHashContainer) {
             console.log(event);
             continueCallback();

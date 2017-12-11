@@ -199,7 +199,7 @@ export class DatatransferFacade {
                 this.paginationService.setPageByItemId(item.id);
                 item.status = status;
                 if (!!message) {
-                    item.message = message.toLowerCase().startsWith('<!doctype html') ? undefined : message;
+                    item.message = message;
                 }
                 this.store.updateFailedCount();
             }
