@@ -39,11 +39,12 @@ export class ResumableJsUploader extends BaseUploader {
 
         function preprocessFileFn(resumableFile) {
             let that = this as ResumableJsUploader;
-            that.changeItemStatus(resumableFile.internalItem, TransferStatus.Preprocessing);
             if (typeof that.preprocessFileFn === 'function') {
+                that.changeItemStatus(resumableFile.internalItem, TransferStatus.Preprocessing);
                 that.preprocessFileFn(resumableFile);
             } else {
-                if (that.config.core.checkHashEnabled) {
+                if (that.config.core.checkHashModule && that.config.core.checkHashEnabled) {
+                    that.changeItemStatus(resumableFile.internalItem, TransferStatus.Preprocessing);
                     let continueCallback = function() {
                         resumableFile.preprocessFinished();
                     };

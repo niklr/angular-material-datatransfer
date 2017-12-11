@@ -5,7 +5,7 @@ import * as _ from 'underscore';
 import { IDatatransfer, IUploader, IDownloader } from '../io';
 import { LoggerService, PaginationService, ExportService } from '../services';
 import { DatatransferStore } from '../stores';
-import { IDatatransferItem, ISizeContainer, IProgressContainer } from '../models';
+import { IDatatransferItem, ISizeContainer, IProgressContainer, IAppConfig } from '../models';
 import { BrowseDialogComponent, EditDialogComponent } from '../components';
 import { DateUtil } from '../utils';
 import { TransferStatus, TransferType } from '../enums';
@@ -20,8 +20,8 @@ export class DatatransferFacade {
     // Interval in milliseconds to calculate bitrate:
     private bitrateInterval = 500;
 
-    constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferStore, private dateUtil: DateUtil,
-        private paginationService: PaginationService, private exportService: ExportService,
+    constructor(private logger: LoggerService, private config: IAppConfig, private zone: NgZone, private store: DatatransferStore,
+        private dateUtil: DateUtil, private paginationService: PaginationService, private exportService: ExportService,
         private uploader: IUploader, private downloader: IDownloader, private dialog: MatDialog) {
         this.uploadProgress = this.store.uploadProgress;
         this.downloadProgress = this.store.downloadProgress;
@@ -288,6 +288,10 @@ export class DatatransferFacade {
 
     public showExportButton(): boolean {
         return this.store.count > 0;
+    }
+
+    public showPreprocessingCheckbox(): boolean {
+        return this.store.count > 0 && this.config.core.checkHashModule;
     }
 
     public showSpinner(item: IDatatransferItem): boolean {

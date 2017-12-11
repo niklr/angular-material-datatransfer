@@ -15,6 +15,7 @@ export class CoreAppConfig {
     paginationRppOptions = [5, 10, 25];
     simultaneousDownloads = 2;
     downloadMethod = 'GET';
+    checkHashModule = false;
     checkHashEnabled = true;
     checkHashTarget = 'https://httpbin.org';
     checkHashMethod = 'GET';

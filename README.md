@@ -132,6 +132,7 @@ document.dispatchEvent(event);
 * `paginationRppOptions` The pagination options containing the numbers defining how many results should be shown per page. (Default: `[5, 10, 25]`)
 * `simultaneousDownloads` Number of simultaneous downloads. (Default: `2`)
 * `downloadMethod` HTTP method to use when downloading from the server (`GET`, `POST`, `PUT`, `PATCH`). (Default: `GET`)
+* `checkHashModule` Indicates if the built-in hash check module should be added. (Default: `'false'`)
 * `checkHashEnabled` Indicates if the built-in hash check should be enabled. (Default: `'true'`)
 * `checkHashTarget` The target URL for the GET request to the server for each file to see if it already exists based on the in-browser calculated hash. This can be a `string` or a `function` that allows you you to construct and return a value, based on supplied `params`. (Default: `https://httpbin.org`)
 * `checkHashMethod` HTTP method to use when sending file hash check requests. (Default: `'GET'`)

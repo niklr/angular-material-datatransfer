@@ -25,6 +25,9 @@
         Export
         <mat-icon>expand_more</mat-icon>
       </button>
+      <mat-checkbox *ngIf="datatransferFacade.showPreprocessingCheckbox()" [(ngModel)]="config.core.checkHashEnabled" style="margin-left: 10px;">
+        Preprocessing
+      </mat-checkbox>
     </div>
     <div fxFlex="70px" fxFlex.lt-sm="0px">
     </div>
