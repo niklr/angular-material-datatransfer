@@ -31,6 +31,12 @@ Table of Content:
   <img src="demo/images/amd_download_v1.gif">
 </kbd>
 
+## Preprocessing
+Checks if a file already exists on the server without sending the entire file by calculating and comparing the hash value.
+<kbd>
+  <img src="demo/images/amd_preprocessing.gif">
+</kbd>
+
 ## Export
 <kbd>
   <img src="demo/images/amd_export.gif">
