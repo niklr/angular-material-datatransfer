@@ -97,7 +97,7 @@
         <div fxFlex class="amd-container-row-item">
           <div class="amd-container-row-item-entry">
             <div fxFlex="40px" matTooltip="{{item.preprocessContainer.percent}}%" *ngIf="datatransferFacade.showSpinner(item); else showStatusClass">
-              <mat-progress-spinner [diameter]="20" mode="determinate" [value]="item.preprocessContainer.percent"></mat-progress-spinner>
+              <mat-progress-spinner *ngIf="item.preprocessContainer.percent > 0" [diameter]="20" mode="determinate" [value]="item.preprocessContainer.percent"></mat-progress-spinner>
             </div>
             <ng-template #showStatusClass>
               <div fxFlex="40px">

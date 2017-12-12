@@ -258,7 +258,8 @@ export class DatatransferFacade {
             case TransferStatus.Failed:
                 return 'error_outline';
             case TransferStatus.Queued:
-                return 'query_builder';
+            case TransferStatus.Preprocessing:
+                return 'schedule';
             case TransferStatus.Finished:
                 return 'done_all';
             default:
@@ -295,7 +296,7 @@ export class DatatransferFacade {
     }
 
     public showSpinner(item: IDatatransferItem): boolean {
-        return item.status === TransferStatus.Preprocessing;
+        return item.preprocessContainer.percent > 0 && item.status === TransferStatus.Preprocessing;
     }
 
     public showProgressbar(item: IDatatransferItem): boolean {
