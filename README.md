@@ -34,7 +34,7 @@ Table of Content:
 ## Preprocessing
 Checks if a file already exists on the server without sending the entire file by calculating and comparing the hash value.
 <kbd>
-  <img src="demo/images/amd_preprocessing.gif">
+  <img src="demo/images/amd_preprocessing_v1.gif">
 </kbd>
 
 ## Export
