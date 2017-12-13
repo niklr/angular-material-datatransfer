@@ -65,16 +65,22 @@
       </div>
     </div>
     <ng-template ngFor let-item [ngForOf]="paginationService.paginatedItems" let-i="index" [ngForTrackBy]="trackByFn">
-      <div *ngIf="datatransferFacade.showPath(paginationService.paginatedItems, i)" class="amd-container-headline">
-        <div fxLayout="row" style="align-items: center;">
-          <div fxFlex="40px">
-            <mat-icon>folder_open</mat-icon>
-          </div>
-          <div fxFlex>
-            <span><b>{{item.displayPath}}</b></span>
-            <button mat-icon-button (click)="datatransferFacade.openEditPathDialog(item)" *ngIf="datatransferFacade.showEditDialog(item)">
-                <mat-icon aria-label="Edit path">edit</mat-icon>
-              </button>
+      <div *ngIf="datatransferFacade.showPath(paginationService.paginatedItems, i)">
+        <div fxLayout="row" class="amd-container-headline">
+          <div fxFlex class="amd-container-headline-item">
+            <div class="amd-container-headline-item-entry">
+              <div fxFlex="40px">
+                <mat-icon>folder_open</mat-icon>
+              </div>
+              <div fxFlex>
+                <span>
+                  <b>{{item.displayPath}}</b>
+                </span>
+                <button mat-icon-button (click)="datatransferFacade.openEditPathDialog(item)" *ngIf="datatransferFacade.showEditDialog(item)">
+                  <mat-icon aria-label="Edit path">edit</mat-icon>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -88,8 +94,8 @@
               <div matTooltip="{{item.name}}" matTooltipPosition="above">
                 <span>{{item.name}}</span>
                 <button mat-icon-button (click)="datatransferFacade.openEditFilenameDialog(item)" *ngIf="datatransferFacade.showEditDialog(item)">
-                    <mat-icon aria-label="Edit filename">edit</mat-icon>
-                  </button>
+                  <mat-icon aria-label="Edit filename">edit</mat-icon>
+                </button>
               </div>
             </div>
           </div>

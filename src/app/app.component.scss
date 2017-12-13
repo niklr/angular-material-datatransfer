@@ -41,10 +41,20 @@ $amd-gray: lighten(#000, 90%);;
 }
 
 .amd-container-headline {
-    padding: 10px;
+    padding: 0px 20px 0px 10px;
     font-size: 13px;
     color: mat-contrast($candy-app-primary, 600);
     background-color: mat-color($candy-app-primary, 600);
+}
+
+.amd-container-headline-item {
+    padding: 10px 0px 10px 0px;
+    height: 60px;
+}
+
+.amd-container-headline-item-entry {
+    align-items: center; 
+    height: 40px;
 }
 
 .amd-container-row {
