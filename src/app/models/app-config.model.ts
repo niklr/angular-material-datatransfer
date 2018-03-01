@@ -20,6 +20,7 @@ export class CoreAppConfig {
     preprocessHashTarget = 'https://httpbin.org';
     preprocessHashMethod = 'GET';
     preprocessHashParameterName = 'hash';
+    preprocessHashFileNameParameterName = 'filename';
     preprocessHashFunctionName = 'sha1';
     preprocessHashEncodingName = 'hex';
     preprocessHashInputEncodingName = 'latin1';

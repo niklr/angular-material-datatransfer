@@ -119,7 +119,8 @@ export abstract class BaseDatatransfer implements IDatatransfer {
                 let params = [];
                 params = params.concat(
                     [
-                        [that.config.core.preprocessHashParameterName, container.hashString]
+                        [that.config.core.preprocessHashParameterName, container.hashString],
+                        [that.config.core.preprocessHashFileNameParameterName, item.name]
                     ]
                     .map(function (pair) {
                         return [

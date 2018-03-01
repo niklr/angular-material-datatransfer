@@ -5,7 +5,6 @@ import { IAppConfig, IDatatransferItem } from '../../models';
 import { LoggerService, CryptoService } from '../../services';
 import { TransferType } from '../../enums';
 import { GuidUtil } from '../../utils';
-import { Exception } from 'handlebars';
 
 export interface IUploader extends IDatatransfer {
     assignBrowse(element, isDirectory): void;
