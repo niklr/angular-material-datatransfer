@@ -81,3 +81,8 @@ $amd-gray: lighten(#000, 90%);;
 .amd-container-row-item-entry-stats {
     font-size: 11px;
 }
+
+.amd-vertical-align-middle {
+    display: inline-flex;
+    vertical-align: middle;
+}

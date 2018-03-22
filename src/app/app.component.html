@@ -26,8 +26,8 @@
         <mat-icon>expand_more</mat-icon>
       </button>
       <mat-checkbox *ngIf="datatransferFacade.showPreprocessingCheckbox()" [(ngModel)]="config.core.preprocessHashChecked" style="margin-left: 10px;">
-        Preprocessing
-      </mat-checkbox>
+        Preprocessing <span *ngIf="datatransferFacade.showPreprocessingTooltip()" class="amd-vertical-align-middle" [matTooltip]="config.core.preprocessHashTooltipContent" matTooltipPosition="right"><mat-icon>info_outline</mat-icon></span> 
+      </mat-checkbox>           
     </div>
     <div fxFlex="70px" fxFlex.lt-sm="0px">
     </div>

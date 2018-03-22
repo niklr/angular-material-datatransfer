@@ -147,6 +147,7 @@ document.dispatchEvent(event);
 * `preprocessHashFunctionName` The name of the hash function to be used in the built-in preprocess hash module. (`sha1`, `md5`) (Default: `'sha1'`)
 * `preprocessHashEncodingName` The name of the encoding scheme to be used in the built-in preprocess hash module. (`latin1`, `hex`, `base64`, `utf8`) (Default: `'hex'`)
 * `preprocessHashInputEncodingName` The name of the input encoding scheme to be used in the built-in preprocess hash module. (`latin1`, `hex`, `base64`, `utf8`) (Default: `'latin1'`)
+* `preprocessHashTooltipContent` The text to explain the preprocess option in a tooltip. (Default: `'The preprocess option checks if the file is already on the system before uploading.'`)
 
 ### Resumablejs configuration
 * `target` The target URL for the multipart POST request. This can be a `string` or a `function` that allows you you to construct and return a value, based on supplied `params`. (Default: `https://httpbin.org`)

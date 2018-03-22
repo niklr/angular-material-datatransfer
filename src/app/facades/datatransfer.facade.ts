@@ -295,6 +295,10 @@ export class DatatransferFacade {
         return this.store.count > 0 && this.config.core.preprocessHashEnabled;
     }
 
+    public showPreprocessingTooltip(): boolean {
+        return this.showPreprocessingCheckbox() && !!this.config.core.preprocessHashTooltipContent;
+    }
+
     public showSpinner(item: IDatatransferItem): boolean {
         return item.preprocessContainer.percent > 0 && item.status === TransferStatus.Preprocessing;
     }

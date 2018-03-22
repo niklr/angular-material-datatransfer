@@ -24,6 +24,7 @@ export class CoreAppConfig {
     preprocessHashFunctionName = 'sha1';
     preprocessHashEncodingName = 'hex';
     preprocessHashInputEncodingName = 'latin1';
+    preprocessHashTooltipContent = 'The preprocess option checks if the file is already on the system before uploading.';
     getTarget = function (request, params) {
         let target;
 
