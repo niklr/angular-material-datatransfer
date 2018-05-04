@@ -1,7 +1,16 @@
 {
   "name": "angular-material-datatransfer",
-  "version": "2.1.1",
   "description": "A HTML5 datatransfer UI for handling upload and download of multiple simultaneous files.",
+  "version": "2.1.1",  
+  "keywords": [
+    "angular",
+    "material-design",
+    "uploader",
+    "downloader",
+    "datatransfer",
+    "responsive",
+    "web"
+  ],
   "author": "https://github.com/niklr",  
   "main": "dist/js/angular-material-datatransfer",
   "repository": {
