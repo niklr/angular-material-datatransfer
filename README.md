@@ -20,6 +20,7 @@ Table of Content:
 * [Events](#events)
 * [Configuration](#configuration)
 * [Server-side setup](#server_setup)
+* [Building](#building)
 
 ## Upload
 <kbd>
@@ -210,3 +211,32 @@ For every request, you can confirm reception in HTTP status codes (can be change
 * `200`: The chunk was accepted and correct. No need to re-upload.
 * `400`, `404`, `405`, `415`, `501`: The file for which the chunk was uploaded is not supported, cancel the entire upload.
 * _Anything else_: Something went wrong, but try reuploading the file.
+
+## Building <a name="building"></a>
+
+In order to build Angular Material Datatransfer, ensure that you have [Git](https://git-scm.com/downloads) and [Node.js](https://nodejs.org/) installed.
+
+Clone a copy of the repo:
+
+```bash
+git clone https://github.com/niklr/angular-material-datatransfer.git
+```
+
+Change to the angular-material-datatransfer directory:
+
+```bash
+cd angular-material-datatransfer
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Use one of the following to build:
+
+```
+npm run build          # Builds into dist
+npm run start          # Starts the webpack-dev-server + watching for changes
+```
