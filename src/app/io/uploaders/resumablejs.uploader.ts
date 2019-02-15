@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'underscore';
-import * as Resumable from 'resumablejs';
+import Resumable = require('resumablejs');
 
 import { BaseUploader } from './base.uploader';
 import { LoggerService, CryptoService } from '../../services';
@@ -74,6 +74,7 @@ export class ResumableJsUploader extends BaseUploader {
         }
         this.config.resumablejs.preprocessFile = preprocessFileFn.bind(this);
 
+        // @ts-ignore: ignore type checking
         this.r = new Resumable(this.config.resumablejs);
 
         this.r.on('fileAdded', function (file, event) {
@@ -115,6 +116,7 @@ export class ResumableJsUploader extends BaseUploader {
             that._isWorking = true;
             that.updateZone();
             that.updateOverallProgress(that.transferType, that.r.progress());
+            // @ts-ignore: ignore type definitions bug
             that.updateOverallSize(that.r.getSize());
         }.bind(this));
         this.r.on('chunkingComplete', function () {
@@ -141,8 +143,8 @@ export class ResumableJsUploader extends BaseUploader {
         }.bind(this));
     }
 
-    protected addFiles(files, event): void {
-        this.r.addFiles(files, event);
+    protected addFiles(files): void {
+        this.r.addFiles(files);
     }
 
     public assignBrowse(element, isDirectory): void {

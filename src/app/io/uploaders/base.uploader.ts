@@ -25,7 +25,7 @@ export abstract class BaseUploader extends BaseDatatransfer {
         super(logger, config, guidUtil, cryptoService);
     }
 
-    protected abstract addFiles(files, event): void;
+    protected abstract addFiles(files): void;
 
     public abstract assignBrowse(element, isDirectory): void;
 

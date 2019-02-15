@@ -39,7 +39,7 @@ export class CryptoService {
                 .digest(container.encodingTypeString);
             container.endDate = new Date();
             container.percent = 100;
-        };
+        }.bind(container);
 
         container.doWork = function () {
             container.reader.readAsBinaryString(container.file);
@@ -75,7 +75,7 @@ export class CryptoService {
             container.offset += container.chunkSize;
 
             container.doWork();
-        };
+        }.bind(container);
 
         container.reader.onerror = function (event) {
             errorCallback(event, container);
