@@ -25,11 +25,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   uploadProgress: IProgressContainer;
   downloadProgress: IProgressContainer;
 
-  constructor( @Inject('ConfigCustomEvent') private configCustomEvent: any, private logger: LoggerService,
+  constructor(@Inject('ConfigCustomEvent') private configCustomEvent: any, private logger: LoggerService,
     private datatransferFacadeFactory: DatatransferFacadeFactory, private datatransferStore: DatatransferStore,
     private paginationService: PaginationService, private demoService: DemoService) {
     this.config = new AppConfig();
-    this.setConfig(configCustomEvent);
+    this.setConfig(this.configCustomEvent);
+
+    this.datatransferFacade = this.datatransferFacadeFactory.createDatatransferFacade(this.config);
+    this.uploadProgress = this.datatransferStore.uploadProgress;
+    this.downloadProgress = this.datatransferStore.downloadProgress;
   }
 
   ngOnInit() {
@@ -76,10 +80,6 @@ export class AppComponent implements OnInit, AfterViewInit {
         });
       }
     }
-
-    this.datatransferFacade = this.datatransferFacadeFactory.createDatatransferFacade(this.config);
-    this.uploadProgress = this.datatransferStore.uploadProgress;
-    this.downloadProgress = this.datatransferStore.downloadProgress;
     this.paginationService.setRppOptions(this.config.core.paginationRppOptions);
   }
 
@@ -89,5 +89,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       let item = event.detail;
       this.datatransferFacade.download(item.filename, item.url, item.size);
     }
+  }
+
+  @HostListener('document:' + CustomEventType.toString(CustomEventType.UPDATE_CONFIG), ['$event'])
+  private onUpdateConfig(event): void {
+    this.setConfig(event);
   }
 }

@@ -21,16 +21,10 @@ export interface IDatatransfer {
 export abstract class BaseDatatransfer implements IDatatransfer {
 
     private events = [];
-    private readonly hashType: HashType;
-    private readonly encodingType: EncodingType;
-    private readonly inputEncodingType: EncodingType;
     protected _isWorking = false;
 
     constructor(protected logger: LoggerService, protected config: IAppConfig,
         protected guidUtil: GuidUtil, protected cryptoService: CryptoService) {
-        this.hashType = HashType.toEnum(HashTypeImplementation.Internal, config.core.preprocessHashFunctionName);
-        this.encodingType = EncodingType.toEnum(EncodingTypeImplementation.Internal, config.core.preprocessHashEncodingName);
-        this.inputEncodingType = EncodingType.toEnum(EncodingTypeImplementation.Internal, config.core.preprocessHashInputEncodingName);
     }
 
     public on(event: string, callback: Function): void {
@@ -144,8 +138,15 @@ export abstract class BaseDatatransfer implements IDatatransfer {
         if (!item.preprocessContainer.isCancelled() && item.preprocessContainer instanceof StreamHashContainer) {
             // continue
         } else {
+            let hashType = HashType.toEnum(
+                HashTypeImplementation.Internal, this.config.core.preprocessHashFunctionName);
+            let encodingType = EncodingType.toEnum(
+                EncodingTypeImplementation.Internal, this.config.core.preprocessHashEncodingName);
+            let inputEncodingType = EncodingType.toEnum(
+                EncodingTypeImplementation.Internal, this.config.core.preprocessHashInputEncodingName);
+
             item.preprocessContainer = this.cryptoService.createStreamHashContainer(
-                file, this.hashType, this.encodingType, this.inputEncodingType, successCallback, errorCallback);
+                file, hashType, encodingType, inputEncodingType, successCallback, errorCallback);
         }
 
         // wait for the initial mat-progress-spinner animation to complete
