@@ -1,12 +1,11 @@
 import { Component, Inject, OnInit, AfterViewInit, HostListener } from '@angular/core';
 
 import { LoggerService, PaginationService, DemoService } from './services';
-import { DecimalByteUnitUtil } from './utils';
 import { DatatransferFacade } from './facades';
 import { DatatransferFacadeFactory } from './factories';
 import { DatatransferStore } from './stores';
-import { IAppConfig, AppConfig, IDatatransferItem, IProgressContainer } from './models';
-import { TransferStatus } from './enums';
+import { IAppConfig, AppConfig, IProgressContainer } from './models';
+import { CustomEventType } from './enums';
 
 import * as _ from 'underscore';
 
@@ -34,7 +33,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    document.dispatchEvent(new Event('github:niklr/angular-material-datatransfer.init'));
+    document.dispatchEvent(new Event(CustomEventType.toString(CustomEventType.INIT)));
     // _.each(this.demoService.testItems, function (item: IDatatransferItem) {
     //   this.datatransferFacade.addItem(item);
     // }.bind(this));
@@ -84,7 +83,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.paginationService.setRppOptions(this.config.core.paginationRppOptions);
   }
 
-  @HostListener('document:github:niklr/angular-material-datatransfer.download-item', ['$event'])
+  @HostListener('document:' + CustomEventType.toString(CustomEventType.DOWNLOAD_ITEM), ['$event'])
   public downloadItem(event): void {
     if (!!event && !!event.detail) {
       let item = event.detail;

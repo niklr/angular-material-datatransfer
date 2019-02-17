@@ -5,10 +5,10 @@ import * as _ from 'underscore';
 import { IDatatransfer, IUploader, IDownloader } from '../io';
 import { LoggerService, PaginationService, ExportService } from '../services';
 import { DatatransferStore } from '../stores';
-import { IDatatransferItem, ISizeContainer, IProgressContainer, IAppConfig } from '../models';
+import { IDatatransferItem, IProgressContainer, IAppConfig } from '../models';
 import { BrowseDialogComponent, EditDialogComponent } from '../components';
 import { DateUtil } from '../utils';
-import { TransferStatus, TransferType } from '../enums';
+import { TransferStatus, TransferType, CustomEventType } from '../enums';
 
 export class DatatransferFacade {
 
@@ -224,10 +224,10 @@ export class DatatransferFacade {
         if (progressContainer.total > 0 && loaded >= progressContainer.total) {
             switch (transferType) {
                 case TransferType.Upload:
-                    document.dispatchEvent(new CustomEvent('github:niklr/angular-material-datatransfer.upload-completed'));
+                    document.dispatchEvent(new CustomEvent(CustomEventType.toString(CustomEventType.UPLOAD_COMPLETED)));
                     break;
                 case TransferType.Download:
-                    document.dispatchEvent(new CustomEvent('github:niklr/angular-material-datatransfer.download-completed'));
+                    document.dispatchEvent(new CustomEvent(CustomEventType.toString(CustomEventType.DOWNLOAD_COMPLETED)));
                     break;
                 default:
                     break;

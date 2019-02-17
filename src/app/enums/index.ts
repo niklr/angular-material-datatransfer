@@ -1,3 +1,4 @@
+export * from './custom-event-type.enum';
 export * from './transfer-status.enum';
 export * from './transfer-type.enum';
 export * from './decimal-byte-unit.enum';
