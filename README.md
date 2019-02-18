@@ -67,7 +67,9 @@ Checks if a file already exists on the server without sending the entire file by
 </head>
 
 <body>
-  <angular-material-datatransfer>Loading...</angular-material-datatransfer>
+  <div class="angular-material-datatransfer">
+    <angular-material-datatransfer>Loading...</angular-material-datatransfer>
+  </div>
 
   <script type="text/javascript" src="js/angular-material-datatransfer.min.js"></script>
 
@@ -115,6 +117,9 @@ document.addEventListener('github:niklr/angular-material-datatransfer.upload-com
 
 * `github:niklr/angular-material-datatransfer.upload-completed` Indicates that the overall upload has been completed.
 * `github:niklr/angular-material-datatransfer.download-completed` Indicates that the overall download has been completed.
+* `github:niklr/angular-material-datatransfer.item-added` Indicates that an item has been added. It will be passed a IDatatransferItem as detail payload.
+* `github:niklr/angular-material-datatransfer.item-removed` Indicates that an item has been removed. It will be passed a IDatatransferItem as detail payload.
+* `github:niklr/angular-material-datatransfer.items-cleared` Indicates that all items have been cleared.
 
 ## Configuration <a name="configuration"></a>
 In order to initialize and configure angular-material-datatransfer, a custom event called `github:niklr/angular-material-datatransfer.create` can be dispatched on the document object. The configuration differentiates between `core` and `resumablejs`. Both are described below. 

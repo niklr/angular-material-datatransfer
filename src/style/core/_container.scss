@@ -1,0 +1,58 @@
+$amd-container-radius: 2px !default;
+$amd-gray: lighten(#000, 90%);
+
+.amd-container {
+    @include mat-elevation-transition;
+    display: block;
+    border-radius: $amd-container-radius;
+    &:not([class*='mat-elevation-z']) {
+        @include mat-elevation(2);
+    }
+    >.amd-container-headline:first-child {
+        border-top-left-radius: $amd-container-radius;
+        border-top-right-radius: $amd-container-radius;
+    }
+}
+.amd-container-header {
+    padding: 10px 20px 10px 10px;
+    font-size: 13px;
+    font-weight: bold;
+}
+.amd-container-footer {
+    padding: 10px 20px 10px 10px;
+    font-size: 12px;
+}
+.amd-container-headline {
+    padding: 0px 20px 0px 10px;
+    font-size: 13px;
+    color: mat-contrast($amd-primary, 600);
+    background-color: mat-color($amd-primary, 600);
+}
+.amd-container-headline-item {
+    padding: 10px 0px 10px 0px;
+    height: 60px;
+}
+.amd-container-headline-item-entry {
+    align-items: center;
+    height: 40px;
+}
+.amd-container-row {
+    //margin-bottom: 10px;
+    padding: 0px 20px 0px 10px;
+    font-size: 13px;
+    &.selected {
+        color: mat-contrast($amd-primary, 50);
+        background-color: mat-color($amd-primary, 50);
+    }
+}
+.amd-container-row-item {
+    padding: 10px 0px 10px 0px;
+    height: 60px;
+}
+.amd-container-row-item-entry {
+    align-items: center;
+    height: 40px;
+}
+.amd-container-row-item-entry-stats {
+    font-size: 11px;
+}

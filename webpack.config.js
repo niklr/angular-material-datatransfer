@@ -99,41 +99,36 @@ module.exports = function makeWebpackConfig() {
         loaders: ['awesome-typescript-loader?' + atlOptions, 'angular2-template-loader'],
         exclude: [isTest ? /\.(e2e)\.ts$/ : /\.(spec|e2e)\.ts$/, /node_modules\/(?!(ng2-.+))/]
       },
-
       // copy those assets to output
       {
         test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'file-loader?name=fonts/[name].[hash].[ext]?'
       },
-
       // Support for *.json files.
-      {test: /\.json$/, loader: 'json-loader'},
-
-      // Support for CSS as raw text
-      // use 'null' loader in test mode (https://github.com/webpack/null-loader)
-      // all css in src/style will be bundled in an external css file
       {
-        test: /\.css$/,
-        exclude: root('src', 'app'),
-        loader: isTest ? 'null-loader' : ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'postcss-loader']})
+        test: /\.json$/,
+        loader: 'json-loader'
       },
-      // all css required in src/app files will be merged in js files
-      {test: /\.css$/, include: root('src', 'app'), loader: 'raw-loader!postcss-loader'},
-
       // support for .scss files
       // use 'null' loader in test mode (https://github.com/webpack/null-loader)
       // all css in src/style will be bundled in an external css file
       {
         test: /\.(scss|sass)$/,
-        exclude: root('src', 'app'),
-        loader: isTest ? 'null-loader' : ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'postcss-loader', 'sass-loader']})
+        include: root('src', 'style'),
+        loader: isTest ? 'null-loader' : ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'postcss-loader', 'sass-loader'] })
       },
-      // all css required in src/app files will be merged in js files
-      {test: /\.(scss|sass)$/, exclude: [root('src', 'style'), root('src', 'angular-material.scss')], loader: 'raw-loader!postcss-loader!sass-loader'},
-
+      {
+        test: /\.(scss|sass)$/,
+        include: root('src', 'angular-material.scss'),
+        loader: isTest ? 'null-loader' : ExtractTextPlugin.extract({ fallback: 'style-loader', use: ['css-loader', 'postcss-loader', 'sass-loader'] })
+      },
       // support for .html as raw text
       // todo: change the loader to something that adds a hash to images
-      {test: /\.html$/, loader: 'raw-loader',  exclude: root('src', 'public')}
+      {
+        test: /\.html$/,
+        loader: 'raw-loader',
+        exclude: root('src', 'public')
+      }
     ]
   };
 
@@ -234,7 +229,7 @@ module.exports = function makeWebpackConfig() {
       // Extract css files
       // Reference: https://github.com/webpack/extract-text-webpack-plugin
       // Disabled when in test mode or not in build mode
-      new ExtractTextPlugin({filename: 'css/[name].[hash].css', disable: isTest})
+      new ExtractTextPlugin({ filename: 'css/[name].[hash].css', disable: isTest })
     );
   }
 
@@ -251,7 +246,7 @@ module.exports = function makeWebpackConfig() {
 
       // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
       // Minify all javascript, switch loaders to minimizing mode
-      new webpack.optimize.UglifyJsPlugin({sourceMap: true, mangle: { keep_fnames: true }}),
+      new webpack.optimize.UglifyJsPlugin({ sourceMap: true, mangle: { keep_fnames: true } }),
 
       // Copy assets from the public folder
       // Reference: https://github.com/kevlened/copy-webpack-plugin

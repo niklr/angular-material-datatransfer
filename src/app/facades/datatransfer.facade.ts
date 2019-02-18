@@ -137,6 +137,7 @@ export class DatatransferFacade {
         this.store.clear();
         this.uploadProgress.reset(0);
         this.paginationService.update(0);
+        document.dispatchEvent(new CustomEvent(CustomEventType.toString(CustomEventType.ITEMS_CLEARED)));
     }
 
     public retryAll(): void {
@@ -154,9 +155,12 @@ export class DatatransferFacade {
         }.bind(this));
     }
 
-    public addItem(item): void {
-        this.store.addItem(item);
-        this.paginationService.update(this.store.count);
+    public addItem(item: IDatatransferItem): void {
+        if (!!item) {
+            this.store.addItem(item);
+            this.paginationService.update(this.store.count);
+            document.dispatchEvent(new CustomEvent(CustomEventType.toString(CustomEventType.ITEM_ADDED), { 'detail': item }));
+        }
     }
 
     public removeItem(item: IDatatransferItem): void {
@@ -174,6 +178,7 @@ export class DatatransferFacade {
             }
             this.store.removeById(item.id);
             this.paginationService.update(this.store.count);
+            document.dispatchEvent(new CustomEvent(CustomEventType.toString(CustomEventType.ITEM_ADDED), { 'detail': item }));
         }
     }
 

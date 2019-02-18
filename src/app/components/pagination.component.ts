@@ -4,8 +4,7 @@ import { LoggerService, PaginationService } from '../services';
 @Component({
     // tslint:disable-next-line:component-selector
     selector: 'amd-pagination',
-    templateUrl: 'pagination.component.html',
-    styleUrls: ['pagination.component.scss'],
+    templateUrl: 'pagination.component.html'
 })
 
 export class PaginationComponent {

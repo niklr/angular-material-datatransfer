@@ -10,13 +10,11 @@ import { CustomEventType } from './enums';
 import * as _ from 'underscore';
 
 import '../style/app.scss';
-import '../style/angular-material-theme.scss';
 
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'angular-material-datatransfer',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
