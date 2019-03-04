@@ -1,7 +1,7 @@
 {
   "name": "angular-material-datatransfer",
   "description": "A HTML5 datatransfer UI for handling upload and download of multiple simultaneous files.",
-  "version": "3.0.0",  
+  "version": "3.0.1",
   "keywords": [
     "angular",
     "material-design",
@@ -11,12 +11,12 @@
     "responsive",
     "web"
   ],
-  "author": "https://github.com/niklr",  
+  "author": "https://github.com/niklr",
   "main": "dist/js/angular-material-datatransfer",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/niklr/angular-material-datatransfer.git"
-  },  
+  },
   "scripts": {
     "clean": "rimraf node_modules doc dist && npm cache clean",
     "clean-install": "npm run clean && npm install",
