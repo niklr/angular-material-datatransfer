@@ -16,6 +16,8 @@ export enum CustomEventType {
     ITEM_ADDED,
     // Indicates that an item has been removed. It will be passed a IDatatransferItem as detail payload.
     ITEM_REMOVED,
+    // Indicates that an item has been completed.
+    ITEM_COMPLETED,
     // Indicates that all items have been cleared.
     ITEMS_CLEARED
 }
@@ -31,6 +33,7 @@ export namespace CustomEventType {
     let CUSTOM_EVENT_TYPE_DOWNLOAD_COMPLETED = CUSTOM_EVENT_TYPE_NS + 'download-completed';
     let CUSTOM_EVENT_TYPE_ITEM_ADDED = CUSTOM_EVENT_TYPE_NS + 'item-added';
     let CUSTOM_EVENT_TYPE_ITEM_REMOVED = CUSTOM_EVENT_TYPE_NS + 'item-removed';
+    let CUSTOM_EVENT_TYPE_ITEM_COMPLETED = CUSTOM_EVENT_TYPE_NS + 'item-completed';
     let CUSTOM_EVENT_TYPE_ITEMS_CLEARED = CUSTOM_EVENT_TYPE_NS + 'items-cleared';
     export function toString(type: CustomEventType): string {
         switch (type) {
@@ -50,6 +53,8 @@ export namespace CustomEventType {
                 return CUSTOM_EVENT_TYPE_ITEM_ADDED;
             case CustomEventType.ITEM_REMOVED:
                 return CUSTOM_EVENT_TYPE_ITEM_REMOVED;
+            case CustomEventType.ITEM_COMPLETED:
+                return CUSTOM_EVENT_TYPE_ITEM_COMPLETED;
             case CustomEventType.ITEMS_CLEARED:
                 return CUSTOM_EVENT_TYPE_ITEMS_CLEARED;
             default:
@@ -74,6 +79,8 @@ export namespace CustomEventType {
                 return CustomEventType.ITEM_ADDED;
             case CUSTOM_EVENT_TYPE_ITEM_REMOVED:
                 return CustomEventType.ITEM_REMOVED;
+            case CUSTOM_EVENT_TYPE_ITEM_COMPLETED:
+                return CustomEventType.ITEM_COMPLETED;
             case CUSTOM_EVENT_TYPE_ITEMS_CLEARED:
                 return CustomEventType.ITEMS_CLEARED;
             default:

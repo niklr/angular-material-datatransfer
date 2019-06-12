@@ -119,6 +119,7 @@ document.addEventListener('github:niklr/angular-material-datatransfer.upload-com
 * `github:niklr/angular-material-datatransfer.download-completed` Indicates that the overall download has been completed.
 * `github:niklr/angular-material-datatransfer.item-added` Indicates that an item has been added. It will be passed a IDatatransferItem as detail payload.
 * `github:niklr/angular-material-datatransfer.item-removed` Indicates that an item has been removed. It will be passed a IDatatransferItem as detail payload.
+* `github:niklr/angular-material-datatransfer.item-completed` Indicates that an item has been completed.
 * `github:niklr/angular-material-datatransfer.items-cleared` Indicates that all items have been cleared.
 
 ## Configuration <a name="configuration"></a>
@@ -154,6 +155,7 @@ document.dispatchEvent(event);
 * `preprocessHashEncodingName` The name of the encoding scheme to be used in the built-in preprocess hash module. (`latin1`, `hex`, `base64`, `utf8`) (Default: `'hex'`)
 * `preprocessHashInputEncodingName` The name of the input encoding scheme to be used in the built-in preprocess hash module. (`latin1`, `hex`, `base64`, `utf8`) (Default: `'latin1'`)
 * `preprocessHashTooltipContent` The text to explain the preprocess option in a tooltip. (Default: `'The preprocess option checks if the file is already on the system before uploading.'`)
+* `parseMessageCallback` A function which displays the status message of an uploaded item. (Default: displays the raw result of an uploaded item as returned by the API endpoint)
 
 ### Resumablejs configuration
 * `target` The target URL for the multipart POST request. This can be a `string` or a `function` that allows you you to construct and return a value, based on supplied `params`. (Default: `https://httpbin.org`)

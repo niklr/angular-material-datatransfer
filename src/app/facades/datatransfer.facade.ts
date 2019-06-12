@@ -178,7 +178,7 @@ export class DatatransferFacade {
             }
             this.store.removeById(item.id);
             this.paginationService.update(this.store.count);
-            document.dispatchEvent(new CustomEvent(CustomEventType.toString(CustomEventType.ITEM_ADDED), { 'detail': item }));
+            document.dispatchEvent(new CustomEvent(CustomEventType.toString(CustomEventType.ITEM_REMOVED), { 'detail': item }));
         }
     }
 
@@ -207,6 +207,9 @@ export class DatatransferFacade {
                     item.message = message;
                 }
                 this.store.updateFailedCount();
+                if (status === TransferStatus.Finished) {
+                    document.dispatchEvent(new CustomEvent(CustomEventType.toString(CustomEventType.ITEM_COMPLETED), { 'detail': item }));
+                }
             }
         }
     }
@@ -365,6 +368,14 @@ export class DatatransferFacade {
                 break;
             default:
                 break;
+        }
+    }
+
+    public parseMessage(item: IDatatransferItem): string {
+        if (this.config.core.parseMessageCallback instanceof Function) {
+            return this.config.core.parseMessageCallback(item.message);
+        } else {
+            return undefined;
         }
     }
 }

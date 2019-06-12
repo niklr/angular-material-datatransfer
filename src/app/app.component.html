@@ -132,11 +132,7 @@
               <ng-template #showStatusBlock>
                 {{item.getStatusName()}} ({{item.sizeContainer.displaySize}} {{item.sizeContainer.displayUnit}})
                 <div *ngIf="!!item.message">
-                  <div matTooltip="{{item.message}}" matTooltipPosition="above">
-                    <span>
-                      <small>{{item.message}}</small>
-                    </span>
-                  </div>
+                  <small>{{datatransferFacade.parseMessage(item)}}</small>
                 </div>
               </ng-template>
             </div>
