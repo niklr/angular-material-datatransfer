@@ -6,7 +6,7 @@ import { BaseDownloader } from './base.downloader';
 import { LoggerService, CryptoService } from '../../services';
 import { IAppConfig, IDatatransferItem, DatatransferItem, SizeContainer, ProgressContainer } from '../../models';
 import { TransferType, TransferStatus, DecimalByteUnit } from '../../enums';
-import { GuidUtil } from '../../utils';
+import { CommonUtil, GuidUtil } from '../../utils';
 
 @Injectable()
 export class BlobDownloader extends BaseDownloader {
@@ -17,7 +17,7 @@ export class BlobDownloader extends BaseDownloader {
     private downloading: IDatatransferItem[] = [];
 
     constructor(protected logger: LoggerService, protected config: IAppConfig,
-        protected guidUtil: GuidUtil, protected cryptoService: CryptoService) {
+        protected guidUtil: GuidUtil, protected cryptoService: CryptoService, private commonUtil: CommonUtil) {
         super(logger, config, guidUtil, cryptoService);
     }
 
@@ -104,6 +104,18 @@ export class BlobDownloader extends BaseDownloader {
         item.externalItem.xhr = xhr;
 
         xhr.open(this.config.core.downloadMethod, item.externalItem.url);
+        xhr.timeout = this.config.core.downloadXhrTimeout;
+        xhr.withCredentials = this.config.core.downloadWithCredentials;
+
+        // Add data from header options
+        let customHeaders = this.config.core.downloadHeaders;
+        if (typeof customHeaders === 'function') {
+            customHeaders = customHeaders(item);
+        }
+        this.commonUtil.each(customHeaders, function (k: string, v: string) {
+            xhr.setRequestHeader(k, v);
+        });
+
         xhr.responseType = 'blob';
         xhr.onloadstart = function (e) {
             let that = this as BlobDownloader;

@@ -5,14 +5,14 @@ import { ResumableJsUploader, BlobDownloader } from '../io';
 import { IAppConfig } from '../models';
 import { LoggerService, PaginationService, ExportService, CryptoService } from '../services';
 import { DatatransferStore } from '../stores';
-import { DateUtil, GuidUtil } from '../utils';
+import { CommonUtil, DateUtil, GuidUtil } from '../utils';
 
 @Injectable()
 export class DatatransferFacadeFactory {
 
-    constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferStore, private dateUtil: DateUtil,
-        private guidUtil: GuidUtil, private paginationService: PaginationService, private exportService: ExportService,
-        private dialog: MatDialog, private cryptoService: CryptoService) {
+    constructor(private logger: LoggerService, private zone: NgZone, private store: DatatransferStore, private commonUtil: CommonUtil,
+        private dateUtil: DateUtil, private guidUtil: GuidUtil, private paginationService: PaginationService,
+        private exportService: ExportService, private dialog: MatDialog, private cryptoService: CryptoService) {
 
     }
 
@@ -27,7 +27,7 @@ export class DatatransferFacadeFactory {
             this.paginationService,
             this.exportService,
             new ResumableJsUploader(this.logger, config, this.guidUtil, this.cryptoService),
-            new BlobDownloader(this.logger, config, this.guidUtil, this.cryptoService),
+            new BlobDownloader(this.logger, config, this.guidUtil, this.cryptoService, this.commonUtil),
             this.dialog);
     }
 }

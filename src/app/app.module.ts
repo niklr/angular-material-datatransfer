@@ -25,7 +25,7 @@ import { CsvExporter, JsonExporter } from './io';
 import { LoggerService, PaginationService, ExportService, DemoService, CryptoService } from './services';
 import { DatatransferStore } from './stores';
 import { DatatransferFacadeFactory } from './factories';
-import { DateUtil, DecimalByteUnitUtil, GuidUtil } from './utils';
+import { CommonUtil, DateUtil, DecimalByteUnitUtil, GuidUtil } from './utils';
 
 @NgModule({
   imports: [
@@ -68,6 +68,7 @@ import { DateUtil, DecimalByteUnitUtil, GuidUtil } from './utils';
     CryptoService,
     DatatransferStore,
     DatatransferFacadeFactory,
+    CommonUtil,
     DateUtil,
     DecimalByteUnitUtil,
     GuidUtil,
