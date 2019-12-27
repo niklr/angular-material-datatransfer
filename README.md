@@ -67,11 +67,10 @@ Checks if a file already exists on the server without sending the entire file by
 </head>
 
 <body>
-  <div class="angular-material-datatransfer">
-    <angular-material-datatransfer>Loading...</angular-material-datatransfer>
-  </div>
+  <angular-material-datatransfer-app></angular-material-datatransfer-app>
 
-  <script type="text/javascript" src="js/angular-material-datatransfer.min.js"></script>
+  <script type="text/javascript" src="angular-material-datatransfer-es2015.js" type="module"></script>
+  <script type="text/javascript" src="angular-material-datatransfer-es5.js" nomodule defer></script>
 
   <script type="text/javascript">
     (function () {
@@ -127,6 +126,7 @@ In order to initialize and configure angular-material-datatransfer, a custom eve
 
 ```js
 var config = {
+  production: boolean // corresponds to the environment variable (Default: true)
   core: {
     ...
   },

@@ -1,0 +1,168 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "angular-material-datatransfer": {
+      "projectType": "library",
+      "root": "projects/angular-material-datatransfer",
+      "sourceRoot": "projects/angular-material-datatransfer/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/angular-material-datatransfer/tsconfig.lib.json",
+            "project": "projects/angular-material-datatransfer/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/angular-material-datatransfer/src/test.ts",
+            "tsConfig": "projects/angular-material-datatransfer/tsconfig.spec.json",
+            "karmaConfig": "projects/angular-material-datatransfer/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/angular-material-datatransfer/tsconfig.lib.json",
+              "projects/angular-material-datatransfer/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "amd-app": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/amd-app",
+      "sourceRoot": "projects/amd-app/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/amd-app",
+            "index": "projects/amd-app/src/index.html",
+            "main": "projects/amd-app/src/main.ts",
+            "polyfills": "projects/amd-app/src/polyfills.ts",
+            "tsConfig": "projects/amd-app/tsconfig.app.json",
+            "assets": [
+              "projects/amd-app/src/public/files",
+              "projects/amd-app/src/index.html",
+              "projects/amd-app/src/favicon.ico",
+              "projects/amd-app/src/assets"
+            ],
+            "styles": [
+              {
+                "input": "projects/amd-app/src/angular-material.scss",
+                "bundleName": "angular-material"
+              },
+              {
+                "input": "projects/amd-app/src/style/app.scss",
+                "bundleName": "angular-material-datatransfer"
+              }
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "index": "projects/amd-app/src/placeholder.html",
+              "fileReplacements": [
+                {
+                  "replace": "projects/amd-app/src/environments/environment.ts",
+                  "with": "projects/amd-app/src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "projects/amd-app/src/index.html",
+                  "with": "projects/amd-app/src/index.prod.html"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "amd-app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "amd-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "amd-app:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/amd-app/src/test.ts",
+            "polyfills": "projects/amd-app/src/polyfills.ts",
+            "tsConfig": "projects/amd-app/tsconfig.spec.json",
+            "karmaConfig": "projects/amd-app/karma.conf.js",
+            "assets": [
+              "projects/amd-app/src/favicon.ico",
+              "projects/amd-app/src/assets"
+            ],
+            "styles": [
+              "projects/amd-app/src/styles.css"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/amd-app/tsconfig.app.json",
+              "projects/amd-app/tsconfig.spec.json",
+              "projects/amd-app/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/amd-app/e2e/protractor.conf.js",
+            "devServerTarget": "amd-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "amd-app:serve:production"
+            }
+          }
+        }
+      }
+    }},
+  "defaultProject": "amd-app"
+}

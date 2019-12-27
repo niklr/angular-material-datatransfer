@@ -1,0 +1,16 @@
+<div style="font-size: 11px; margin-top: 10px;">
+    <div fxFlex="25%" fxFlex.lt-md="50%">
+        {{progressContainer.displayBitrate}}
+    </div>
+    <div fxFlex="25%" fxHide.lt-md style="text-align: center">
+        {{progressContainer.displayTimeLeft}}
+    </div>
+    <div fxFlex="25%" fxHide.lt-md style="text-align: center">
+        {{progressContainer.percent}}%
+    </div>
+    <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
+        {{progressContainer.loadedSizeContainer.displaySize}} / {{progressContainer.totalSizeContainer.displaySize}} {{progressContainer.totalSizeContainer.displayUnit}}
+    </div>
+</div>
+<mat-progress-bar *ngIf="progressContainer.total > 0" [value]="progressContainer.percent">
+</mat-progress-bar>
