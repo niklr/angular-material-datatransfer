@@ -3,7 +3,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-import { CustomEventType, CustomEventTypeExtensions } from 'projects/angular-material-datatransfer/src/public-api';
+import { CustomEventType, CustomEventTypeExtensions } from 'projects/amd-lib/src/public-api';
 
 if (environment.production) {
   enableProdMode();

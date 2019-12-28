@@ -12,7 +12,7 @@
     "web"
   ],
   "author": "https://github.com/niklr",
-  "main": "dist/js/angular-material-datatransfer",
+  "main": "dist/amd-app",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/niklr/angular-material-datatransfer.git"
@@ -23,7 +23,7 @@
     "build": "ng build",
     "build-watch": "ng build --watch",
     "build-prod": "ng build --prod --output-hashing=none",
-    "build-lib": "ng build angular-material-datatransfer && node ./scripts/scss-bundle.build.js",
+    "build-lib": "ng build amd-lib && node ./scripts/scss-bundle.build.js",
     "package-es5": "cd dist/amd-app && type runtime-es5.js polyfills-es5.js main-es5.js > angular-material-datatransfer-es5.js",
     "package-es2015": "cd dist/amd-app && type runtime-es2015.js polyfills-es2015.js main-es2015.js > angular-material-datatransfer-es2015.js",
     "append-banner": "node ./scripts/prepend.build.js",

@@ -1,9 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
 import * as cryptoBrowserify from 'crypto-browserify';
-import { HashTypeImplementation, HashType } from '../enums/hash-type.enum.js';
-import { EncodingTypeImplementation, EncodingType } from '../enums/encoding-type.enum.js';
-import { IHashContainer, HashContainer, IStreamHashContainer, StreamHashContainer } from '../models/hash-container.model.js';
-import { FileReaderEvent } from '../extensions/file-reader.extension.js';
+import { HashTypeImplementation, HashType } from '../enums/hash-type.enum';
+import { EncodingTypeImplementation, EncodingType } from '../enums/encoding-type.enum';
+import { IHashContainer, HashContainer, IStreamHashContainer, StreamHashContainer } from '../models/hash-container.model';
+import { FileReaderEvent } from '../extensions/file-reader.extension';
 
 @Injectable()
 export class CryptoService {

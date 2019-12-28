@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AngularMaterialDatatransferModule, AngularMaterialDatatransferComponent } from 'projects/angular-material-datatransfer/src/public-api';
+import { AngularMaterialDatatransferModule, AngularMaterialDatatransferComponent } from 'projects/amd-lib/src/public-api';
 
 import { AppComponent } from './app.component';
 

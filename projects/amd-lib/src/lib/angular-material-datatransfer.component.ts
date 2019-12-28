@@ -10,7 +10,7 @@ import { IAppConfig } from './models/app-config.model';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'angular-material-datatransfer',
+  selector: 'angular-material-datatransfer-lib',
   templateUrl: './angular-material-datatransfer.component.html'
 })
 export class AngularMaterialDatatransferComponent implements OnInit, AfterViewInit {

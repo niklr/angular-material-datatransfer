@@ -19,11 +19,11 @@
       "dom"
     ],
     "paths": {
-      "angular-material-datatransfer": [
-        "dist/angular-material-datatransfer"
+      "amd-lib": [
+        "dist/amd-lib"
       ],
-      "angular-material-datatransfer/*": [
-        "dist/angular-material-datatransfer/*"
+      "amd-lib/*": [
+        "dist/amd-lib/*"
       ]
     }
   }

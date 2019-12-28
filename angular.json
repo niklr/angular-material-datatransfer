@@ -3,33 +3,33 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-material-datatransfer": {
+    "amd-lib": {
       "projectType": "library",
-      "root": "projects/angular-material-datatransfer",
-      "sourceRoot": "projects/angular-material-datatransfer/src",
+      "root": "projects/amd-lib",
+      "sourceRoot": "projects/amd-lib/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/angular-material-datatransfer/tsconfig.lib.json",
-            "project": "projects/angular-material-datatransfer/ng-package.json"
+            "tsConfig": "projects/amd-lib/tsconfig.lib.json",
+            "project": "projects/amd-lib/ng-package.json"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/angular-material-datatransfer/src/test.ts",
-            "tsConfig": "projects/angular-material-datatransfer/tsconfig.spec.json",
-            "karmaConfig": "projects/angular-material-datatransfer/karma.conf.js"
+            "main": "projects/amd-lib/src/test.ts",
+            "tsConfig": "projects/amd-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/amd-lib/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/angular-material-datatransfer/tsconfig.lib.json",
-              "projects/angular-material-datatransfer/tsconfig.spec.json"
+              "projects/amd-lib/tsconfig.lib.json",
+              "projects/amd-lib/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

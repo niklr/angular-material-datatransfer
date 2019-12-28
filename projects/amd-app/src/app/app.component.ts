@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { AngularMaterialDatatransferComponent } from 'projects/angular-material-datatransfer/src/public-api';
+import { AngularMaterialDatatransferComponent } from 'projects/amd-lib/src/public-api';
 
 @Component({
   // tslint:disable-next-line: component-selector
