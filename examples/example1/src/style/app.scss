@@ -1,0 +1,6 @@
+// styles in src/style directory are applied to the whole page
+@import 'angular-material-theme.scss';
+
+.angular-material-datatransfer {
+    @import 'angular-material-datatransfer-lib/assets/style/styles.scss';
+}

@@ -3,7 +3,7 @@ angular-material-datatransfer
 
 Demo: https://niklr.github.io/angular-material-datatransfer/
 
-angular-material-datatransfer is an application which combines the upload and download of multiple simultaneous files in a unified user interface. 
+angular-material-datatransfer is a web-based application combining the upload and download of multiple simultaneous files in a unified user interface. 
 The application is explicitly designed for modern browsers supporting advanced [`HTML5 File API`](http://www.w3.org/TR/FileAPI/) features.
 
 The unified user interface is built on top of Google's [Material Design](https://material.io) implemented by [Angular Material](https://material.angular.io/) using [Angular](https://angular.io/). Material Design by Google's definition is a visual language that synthesizes the classic principles of good design with the innovation and possibility of technology and science.
@@ -62,12 +62,12 @@ Checks if a file already exists on the server without sending the entire file by
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="css/angular-material.css">
-  <link rel="stylesheet" href="css/angular-material-datatransfer.css">
+  <link rel="stylesheet" href="angular-material.css">
+  <link rel="stylesheet" href="angular-material-datatransfer.css">
 </head>
 
 <body>
-  <angular-material-datatransfer-app></angular-material-datatransfer-app>
+  <angular-material-datatransfer-app>Loading...</angular-material-datatransfer-app>
 
   <script type="text/javascript" src="angular-material-datatransfer-es2015.js" type="module"></script>
   <script type="text/javascript" src="angular-material-datatransfer-es5.js" nomodule defer></script>
