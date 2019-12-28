@@ -135,9 +135,9 @@ THE SOFTWARE.
 @angular/platform-browser
 MIT
 
-angular-material-datatransfer
-
 angular-material-datatransfer-app
+
+angular-material-datatransfer-lib
 
 core-js
 MIT

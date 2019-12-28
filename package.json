@@ -1,7 +1,7 @@
 {
   "name": "angular-material-datatransfer-app",
   "description": "A HTML5 datatransfer UI for handling upload and download of multiple simultaneous files.",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "keywords": [
     "angular",
     "material-design",
