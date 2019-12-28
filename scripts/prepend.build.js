@@ -1,5 +1,5 @@
 const fs = require('fs');
-const pjson = require('./package.json');
+const pjson = require('../package.json');
 
 var files = [
   "./dist/amd-app/angular-material.css",
