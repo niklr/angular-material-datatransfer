@@ -4,4 +4,3 @@
 
 export * from './lib/angular-material-datatransfer.component';
 export * from './lib/angular-material-datatransfer.module';
-export * from './lib/enums/custom-event-type.enum';

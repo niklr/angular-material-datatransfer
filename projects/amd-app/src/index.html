@@ -20,7 +20,7 @@
       alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png">
   </a>
   <div style="padding: 40px;">
-    <angular-material-datatransfer-app></angular-material-datatransfer-app>
+    <angular-material-datatransfer-app>Loading...</angular-material-datatransfer-app>
     <p>
       <div class="page-header">
         <h3>Sample files
@@ -102,6 +102,7 @@
     }
     setTimeout(function () {
       var config = {
+        production: false,
         core: {
           showUploadDropzone: true,
           paginationRppOptions: [5, 10, 25],
