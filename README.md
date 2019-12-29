@@ -54,6 +54,7 @@ Checks if a file already exists on the server without sending the entire file by
 </kbd>
 
 ## Basic setup <a name="basic_setup"></a>
+To add this library as a module in an existing Angular project please consider the steps described [here](https://github.com/niklr/angular-material-datatransfer/tree/master/projects/amd-lib).
 
 ```html
 <!doctype html>
