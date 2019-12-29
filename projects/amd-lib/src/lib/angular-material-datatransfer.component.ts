@@ -1,13 +1,11 @@
-import { Component, OnInit, ApplicationRef } from '@angular/core';
-import { DatatransferFacade } from './facades/datatransfer.facade';
-import { IProgressContainer } from './models/progress-container.model';
-import { LoggerService } from './services/logger.service';
-import { ConfigService } from './services/config.service';
-import { DatatransferFacadeFactory } from './factories/datatransfer-facade.factory';
-import { DatatransferStore } from './stores/datatransfer.store';
-import { PaginationService } from './services/pagination.service';
+import { Component, OnInit, ViewChild, ComponentFactoryResolver } from '@angular/core';
 import { CustomEventType, CustomEventTypeExtensions } from './enums/custom-event-type.enum';
-import { IAppConfig } from './models/app-config.model';
+import { HostDirective } from './directives/host.directive';
+import { MainComponent } from './components/main.component';
+import { DatatransferFacade } from './facades/datatransfer.facade';
+import { DatatransferFacadeFactory } from './factories/datatransfer-facade.factory';
+import { ConfigService } from './services/config.service';
+import { PaginationService } from './services/pagination.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -16,74 +14,39 @@ import { IAppConfig } from './models/app-config.model';
 })
 export class AngularMaterialDatatransferComponent implements OnInit {
 
-  componentId: number;
+  @ViewChild(HostDirective, { static: true }) amdHost: HostDirective;
 
-  isCreated = false;
-  config: IAppConfig;
-  datatransferFacade: DatatransferFacade;
-  uploadProgress: IProgressContainer;
-  downloadProgress: IProgressContainer;
+  private datatransferFacade: DatatransferFacade;
 
-  constructor(private logger: LoggerService, private ref: ApplicationRef, private datatransferFacadeFactory: DatatransferFacadeFactory,
-              private configService: ConfigService, public datatransferStore: DatatransferStore,
-              public paginationService: PaginationService) {
-    this.componentId = Math.random();
+  constructor(private componentFactoryResolver: ComponentFactoryResolver,
+              private datatransferFacadeFactory: DatatransferFacadeFactory,
+              private configService: ConfigService,
+              private paginationService: PaginationService) {
   }
 
   ngOnInit() {
     document.dispatchEvent(new Event(CustomEventTypeExtensions.toString(CustomEventType.INIT)));
-    // _.each(this.demoService.testItems, function (item: IDatatransferItem) {
-    //   this.datatransferFacade.addItem(item);
-    // }.bind(this));
   }
 
-  private init(): void {
-    if (this.config.core.showUploadDropzone) {
-      const dropzoneElement = document.getElementById('amd-dropzone-component');
-      if (dropzoneElement) {
-        // this.removeAllEventListeners(dropzoneElement);
-        dropzoneElement.addEventListener('click', this.datatransferFacade.openBrowseDialog.bind(this.datatransferFacade), false);
-        this.datatransferFacade.assignUploadDrop(dropzoneElement);
-      }
-    } else {
-      if (typeof this.config.core.uploadBrowseElementId !== 'undefined') {
-        const uploadBrowseElement = document.getElementById(this.config.core.uploadBrowseElementId);
-        if (uploadBrowseElement) {
-          // this.removeAllEventListeners(uploadBrowseElement);
-          uploadBrowseElement.addEventListener('click', this.datatransferFacade.openBrowseDialog.bind(this.datatransferFacade), false);
-        }
-      }
-      if (typeof this.config.core.uploadDropElementId !== 'undefined') {
-        const uploadDropElement = document.getElementById(this.config.core.uploadDropElementId);
-        if (uploadDropElement) {
-          // this.removeAllEventListeners(uploadDropElement);
-          this.datatransferFacade.assignUploadDrop(uploadDropElement);
-        }
-      }
-    }
+  public create(config: any): void {
+    this.setConfig(config);
   }
 
-  private removeAllEventListeners(element: HTMLElement): void {
-    const elementClone = element.cloneNode(true);
-    element.parentNode.replaceChild(elementClone, element);
-  }
-
-  public create(event: any): void {
-    if (!this.isCreated) {
-      this.setConfig(event);
-      this.isCreated = true;
-      this.ref.tick();
-      this.init();
-    }
-  }
-
-  public setConfig(event: any): void {
-    this.configService.load(event);
-    this.config = ConfigService.settings;
-    this.datatransferFacade = this.datatransferFacadeFactory.createDatatransferFacade();
-    this.uploadProgress = this.datatransferStore.uploadProgress;
-    this.downloadProgress = this.datatransferStore.downloadProgress;
+  public setConfig(config: any): void {
+    this.configService.load(config);
     this.paginationService.setRppOptions(ConfigService.settings.core.paginationRppOptions);
-    this.logger.log('AngularMaterialDatatransferComponent.componentId: ' + this.componentId);
+    this.datatransferFacade = this.datatransferFacadeFactory.createDatatransferFacade();
+
+    const viewContainerRef = this.amdHost.viewContainerRef;
+    viewContainerRef.clear();
+
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(MainComponent);
+    const componentRef = viewContainerRef.createComponent(componentFactory);
+    const componentRefInstance = componentRef.instance as MainComponent;
+    componentRefInstance.datatransferFacade = this.datatransferFacade;
+  }
+
+  public download(filename: string, url: string, size: number): void {
+    this.datatransferFacade.download(filename, url, size);
   }
 }

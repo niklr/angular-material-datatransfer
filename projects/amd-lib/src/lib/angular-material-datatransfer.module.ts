@@ -19,6 +19,7 @@ import {
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AngularMaterialDatatransferComponent } from './angular-material-datatransfer.component';
+import { MainComponent } from './components/main.component';
 import { BrowseDialogComponent } from './components/browse-dialog.component';
 import { DropzoneComponent } from './components/dropzone.component';
 import { EditDialogComponent } from './components/edit-dialog.component';
@@ -40,15 +41,18 @@ import { CsvExporter } from './io/exporters/csv.exporter';
 import { JsonExporter } from './io/exporters/json.exporter';
 import { ResumableJsUploader } from './io/uploaders/resumablejs.uploader';
 import { BlobDownloader } from './io/downloaders/blob.downloader';
+import { HostDirective } from './directives/host.directive';
 
 @NgModule({
   declarations: [
     AngularMaterialDatatransferComponent,
+    MainComponent,
     BrowseDialogComponent,
     DropzoneComponent,
     EditDialogComponent,
     PaginationComponent,
-    ProgressComponent
+    ProgressComponent,
+    HostDirective
   ],
   imports: [
     BrowserModule,
@@ -71,6 +75,7 @@ import { BlobDownloader } from './io/downloaders/blob.downloader';
   ],
   exports: [AngularMaterialDatatransferComponent],
   entryComponents: [
+    MainComponent,
     BrowseDialogComponent,
     EditDialogComponent
   ],

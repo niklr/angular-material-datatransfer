@@ -3,7 +3,7 @@ angular-material-datatransfer-lib
 
 Demo: https://niklr.github.io/angular-material-datatransfer/
 
-angular-material-datatransfer-lib is a web-based library combining the upload and download of multiple simultaneous files in a unified user interface. 
+angular-material-datatransfer-lib is a library combining the upload and download of multiple simultaneous files in a unified user interface. 
 The library is explicitly designed for modern browsers supporting advanced [`HTML5 File API`](http://www.w3.org/TR/FileAPI/) features.
 
 The unified user interface is built on top of Google's [Material Design](https://material.io) implemented by [Angular Material](https://material.angular.io/) using [Angular](https://angular.io/). Material Design by Google's definition is a visual language that synthesizes the classic principles of good design with the innovation and possibility of technology and science.
@@ -38,7 +38,7 @@ Follow the steps below to add this library to your project:
 ],
 "stylePreprocessorOptions": {
     "includePaths": [
-    "node_modules"
+        "node_modules"
     ]
 },
 "scripts": [
@@ -51,10 +51,18 @@ Follow the steps below to add this library to your project:
   * [`angular-material-theme.scss`](https://github.com/niklr/angular-material-datatransfer/tree/master/examples/example1/src/style/angular-material-theme.scss)
   * [`app.scss`](https://github.com/niklr/angular-material-datatransfer/tree/master/examples/example1/src/style/app.scss)
 6. Append the following lines in `src/styles.scss`
-  * `@import 'angular-material.scss'`;
-  * `@import 'style/app.scss'`;
+
+```css
+@import 'angular-material.scss';
+@import 'style/app.scss';
+```
+
 7. Include Material Icons in the header of `index.html`
-  * `<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">`
+
+```html
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+```
+
 8. Extend `app.module.ts` by importing `AngularMaterialDatatransferModule` and `AngularMaterialDatatransferComponent`
 
 ```js
@@ -120,7 +128,7 @@ export class AppComponent implements AfterViewInit {
           }
         }
       };
-      this.amdComponent.create({ detail: config });
+      this.amdComponent.create(config);
     }, 10);
   }
 

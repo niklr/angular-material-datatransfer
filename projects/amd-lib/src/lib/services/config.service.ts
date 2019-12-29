@@ -10,9 +10,8 @@ export class ConfigService {
 
     }
 
-    public load(event: any) {
-        if (!!event && !!event.detail) {
-            const config: IAppConfig = event.detail;
+    public load(config: IAppConfig) {
+        if (!!config) {
             ConfigService.settings.production = config.production;
             if (!!config.core) {
                 Object.keys(config.core).forEach(propertyName => {

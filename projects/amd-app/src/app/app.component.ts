@@ -15,19 +15,25 @@ export class AppComponent {
 
   @HostListener('document:github:niklr/angular-material-datatransfer.create', ['$event'])
   public onCreate(event): void {
-    this.amdComponent.create(event);
+    if (!!event && !!event.detail) {
+      const config = event.detail;
+      this.amdComponent.create(config);
+    }
   }
 
   @HostListener('document:github:niklr/angular-material-datatransfer.update-config', ['$event'])
   public onUpdateConfig(event): void {
-    this.amdComponent.setConfig(event);
+    if (!!event && !!event.detail) {
+      const config = event.detail;
+      this.amdComponent.setConfig(config);
+    }
   }
 
   @HostListener('document:github:niklr/angular-material-datatransfer.download-item', ['$event'])
   public downloadItem(event): void {
     if (!!event && !!event.detail) {
       const item = event.detail;
-      this.amdComponent.datatransferFacade.download(item.filename, item.url, item.size);
+      this.amdComponent.download(item.filename, item.url, item.size);
     }
   }
 

@@ -1,0 +1,186 @@
+<div class="amd-font">
+    <div *ngIf="config.core.showUploadDropzone">
+        <amd-dropzone></amd-dropzone>
+    </div>
+
+    <div fxLayout="row" fxLayout.lt-sm="column" style="margin-bottom: 10px">
+        <div fxFlex>
+            <button class="amd-mr-1" mat-raised-button *ngIf="datatransferFacade.showStartButton()"
+                (click)="datatransferFacade.startAll()">
+                <mat-icon>play_arrow</mat-icon> Start
+            </button>
+            <button class="amd-mr-1" mat-raised-button *ngIf="datatransferFacade.showPauseButton()"
+                (click)="datatransferFacade.pauseAll()">
+                <mat-icon>pause</mat-icon> Pause
+            </button>
+            <button class="amd-mr-1" mat-raised-button *ngIf="datatransferFacade.showRemoveButton()"
+                (click)="datatransferFacade.removeAll()">
+                <mat-icon>close</mat-icon> Remove all
+            </button>
+            <button class="amd-mr-1" mat-raised-button *ngIf="datatransferFacade.showRetryButton()"
+                (click)="datatransferFacade.retryAll()">
+                <mat-icon>refresh</mat-icon> Retry ({{datatransferStore.failedCount}})
+            </button>
+            <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item (click)="datatransferFacade.export('CSV')">
+                    <span>CSV</span>
+                </button>
+                <button mat-menu-item (click)="datatransferFacade.export('JSON')">
+                    <span>JSON</span>
+                </button>
+            </mat-menu>
+            <button mat-raised-button *ngIf="datatransferFacade.showExportButton()" [matMenuTriggerFor]="exportMenu">
+                Export
+                <mat-icon>expand_more</mat-icon>
+            </button>
+            <mat-checkbox *ngIf="datatransferFacade.showPreprocessingCheckbox()"
+                [(ngModel)]="config.core.preprocessHashChecked" style="margin-left: 10px;">
+                Preprocessing <span *ngIf="datatransferFacade.showPreprocessingTooltip()"
+                    class="amd-vertical-align-middle" [matTooltip]="config.core.preprocessHashTooltipContent"
+                    matTooltipPosition="right">
+                    <mat-icon>info_outline</mat-icon>
+                </span>
+            </mat-checkbox>
+        </div>
+        <div fxFlex="70px" fxFlex.lt-sm="0px">
+        </div>
+        <div fxFlex>
+            <div *ngIf="uploadProgress.percent > 0">
+                <amd-progress [progressContainer]="uploadProgress"></amd-progress>
+            </div>
+            <div *ngIf="downloadProgress.percent > 0">
+                <amd-progress [progressContainer]="downloadProgress"></amd-progress>
+            </div>
+        </div>
+    </div>
+
+    <div class="amd-container">
+        <div fxLayout="row" class="amd-container-header" style="align-items: center;">
+            <div fxFlex="40px">
+                <mat-checkbox (change)="datatransferFacade.toggleVisible($event.checked)"></mat-checkbox>
+            </div>
+            <div fxFlex="50%" fxFlex.lt-sm="100%">
+                Filename
+            </div>
+            <div fxFlex="50%" style="padding-left: 40px;" fxHide.lt-sm>
+                Progress
+            </div>
+            <div fxFlex="20px">
+                <mat-menu #batchItemMenu="matMenu">
+                    <button mat-menu-item (click)="datatransferFacade.removeSelected()">
+                        <mat-icon>close</mat-icon>
+                        <span>Remove</span>
+                    </button>
+                </mat-menu>
+                <button mat-icon-button [matMenuTriggerFor]="batchItemMenu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+            </div>
+        </div>
+        <ng-template ngFor let-item [ngForOf]="paginationService.paginatedItems" let-i="index">
+            <div *ngIf="datatransferFacade.showPath(paginationService.paginatedItems, i)">
+                <div fxLayout="row" class="amd-container-headline">
+                    <div fxFlex class="amd-container-headline-item">
+                        <div class="amd-container-headline-item-entry">
+                            <div fxFlex="40px">
+                                <mat-icon>folder_open</mat-icon>
+                            </div>
+                            <div fxFlex>
+                                <span>
+                                    <b>{{item.displayPath}}</b>
+                                </span>
+                                <button mat-icon-button (click)="datatransferFacade.openEditPathDialog(item)"
+                                    *ngIf="datatransferFacade.showEditDialog(item)">
+                                    <mat-icon aria-label="Edit path">edit</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.lt-sm="column" class="amd-container-row"
+                [ngClass]="{'selected': item.isSelected}">
+                <div fxFlex class="amd-container-row-item">
+                    <div class="amd-container-row-item-entry">
+                        <div fxFlex="40px">
+                            <mat-checkbox [(ngModel)]="item.isSelected"></mat-checkbox>
+                        </div>
+                        <div fxFlex="100%">
+                            <div matTooltip="{{item.name}}" matTooltipPosition="above">
+                                <span>{{item.name}}</span>
+                                <button mat-icon-button (click)="datatransferFacade.openEditFilenameDialog(item)"
+                                    *ngIf="datatransferFacade.showEditDialog(item)">
+                                    <mat-icon aria-label="Edit filename">edit</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div fxFlex class="amd-container-row-item">
+                    <div class="amd-container-row-item-entry">
+                        <div fxFlex="40px" matTooltip="{{item.preprocessContainer.percent}}%"
+                            *ngIf="datatransferFacade.showSpinner(item); else showStatusClass">
+                            <mat-progress-spinner *ngIf="item.preprocessContainer.percent > 0" [diameter]="20"
+                                mode="determinate" [value]="item.preprocessContainer.percent"></mat-progress-spinner>
+                        </div>
+                        <ng-template #showStatusClass>
+                            <div fxFlex="40px">
+                                <mat-icon>{{datatransferFacade.getStatusClass(item.status)}}</mat-icon>
+                            </div>
+                        </ng-template>
+                        <div fxFlex="100%">
+                            <div *ngIf="datatransferFacade.showProgressbar(item); else showStatusBlock">
+                                <div class="amd-container-row-item-entry-stats">
+                                    <div fxFlex="25%" fxFlex.lt-md="50%">
+                                        {{item.progressContainer.displayBitrate}}
+                                    </div>
+                                    <div fxFlex="25%" fxHide.lt-md style="text-align: center">
+                                        {{item.progressContainer.displayTimeLeft}}
+                                    </div>
+                                    <div fxFlex="25%" fxHide.lt-md style="text-align: center">
+                                        {{item.progressContainer.percent}}%
+                                    </div>
+                                    <div fxFlex="25%" fxFlex.lt-md="50%" style="text-align: right">
+                                        {{item.progressContainer.loadedSizeContainer.displaySize}} /
+                                        {{item.sizeContainer.displaySize}}
+                                        {{item.sizeContainer.displayUnit}}
+                                    </div>
+                                </div>
+                                <mat-progress-bar *ngIf="item.progressContainer.total > 0" color="primary"
+                                    mode="determinate" [value]="item.progressContainer.percent">
+                                </mat-progress-bar>
+                            </div>
+                            <ng-template #showStatusBlock>
+                                {{item.getStatusName()}} ({{item.sizeContainer.displaySize}}
+                                {{item.sizeContainer.displayUnit}})
+                                <div *ngIf="!!item.message">
+                                    <small>{{datatransferFacade.parseMessage(item)}}</small>
+                                </div>
+                            </ng-template>
+                        </div>
+                        <div fxFlex="20px">
+                            <mat-menu #itemMenu="matMenu">
+                                <button mat-menu-item (click)="datatransferFacade.retryItem(item)"
+                                    *ngIf="datatransferFacade.showRetryButtonByItem(item)">
+                                    <mat-icon>refresh</mat-icon>
+                                    <span>Retry</span>
+                                </button>
+                                <button mat-menu-item (click)="datatransferFacade.removeItem(item)">
+                                    <mat-icon>close</mat-icon>
+                                    <span>Remove</span>
+                                </button>
+                            </mat-menu>
+                            <button mat-icon-button [matMenuTriggerFor]="itemMenu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+
+    <div style="font-size: 12px; margin-top: 20px; text-align: right;">
+        <amd-pagination [paginationService]="paginationService"></amd-pagination>
+    </div>
+</div>
