@@ -46,24 +46,24 @@ In order to add this library to your project, follow the steps below:
 ]
 ```
 
-4. Add [`angular-material.scss`](https://github.com/niklr/angular-material-datatransfer/tree/master/examples/example1/src/angular-material.scss) to your `src` folder (if it does not exist already).
-5. Add a folder called `style` in the `src` folder with the following files
+5. Add [`angular-material.scss`](https://github.com/niklr/angular-material-datatransfer/tree/master/examples/example1/src/angular-material.scss) to your `src` folder (if it does not exist already).
+6. Add a folder called `style` in the `src` folder with the following files
   * [`angular-material-theme.scss`](https://github.com/niklr/angular-material-datatransfer/tree/master/examples/example1/src/style/angular-material-theme.scss)
   * [`app.scss`](https://github.com/niklr/angular-material-datatransfer/tree/master/examples/example1/src/style/app.scss)
-6. Append the following lines in `src/styles.scss`
+7. Append the following lines in `src/styles.scss`
 
 ```css
 @import 'angular-material.scss';
 @import 'style/app.scss';
 ```
 
-7. Include Material Icons in the header of `index.html`
+8. Include Material Icons in the header of `index.html`
 
 ```html
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 ```
 
-8. Extend `app.module.ts` by importing `AngularMaterialDatatransferModule` and `AngularMaterialDatatransferComponent`
+9. Extend `app.module.ts` by importing `AngularMaterialDatatransferModule` and `AngularMaterialDatatransferComponent`
 
 ```js
 import { BrowserModule } from '@angular/platform-browser';
@@ -86,13 +86,13 @@ import { AppComponent } from './app.component';
 export class AppModule { }
 ```
 
-9. Add the library to one of your components e.g. `app.component.html`
+10. Add the library to one of your components e.g. `app.component.html`
 
 ```html
 <angular-material-datatransfer-lib>Loading...</angular-material-datatransfer-lib>
 ```
 
-10. Initialize the library
+11. Initialize the library
 
 ```js
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
