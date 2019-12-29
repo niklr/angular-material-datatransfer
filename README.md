@@ -108,7 +108,7 @@ document.dispatchEvent(event);
 ```
 
 ## Events <a name="events"></a>
-After initialization, interaction with angular-material-datatransfer is done by listening to events:
+After initialization, it is possible to listen to events initiated by angular-material-datatransfer:
 
 ```js
 document.addEventListener('github:niklr/angular-material-datatransfer.upload-completed', function (e) { ... });
@@ -247,6 +247,7 @@ npm install
 Use one of the following to build:
 
 ```
-npm run build          # Builds into dist
+npm run build          # Builds the app into dist
+npm run build-lib      # Builds the library into dist
 npm run start          # Starts the webpack-dev-server + watching for changes
 ```

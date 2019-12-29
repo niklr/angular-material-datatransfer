@@ -25,7 +25,7 @@ Table of Content:
 ## Basic setup <a name="basic_setup"></a>
 A sample implementation can be found [here](https://github.com/niklr/angular-material-datatransfer/tree/master/examples/example1). It was created with `ng new example1` of [Angular CLI](https://github.com/angular/angular-cli).
 
-Follow the steps below to add this library to your project:
+In order to add this library to your project, follow the steps below:
 
 1. npm install angular-material-datatransfer-lib --save
 2. Add the dependencies listed in `peerDependencies` (node_modules/angular-material-datatransfer-lib/package.json) to the `dependencies` in your package.json
@@ -89,9 +89,7 @@ export class AppModule { }
 9. Add the library to one of your components e.g. `app.component.html`
 
 ```html
-<div class="angular-material-datatransfer">
-  <angular-material-datatransfer-lib>Loading...</angular-material-datatransfer-lib>
-</div>
+<angular-material-datatransfer-lib>Loading...</angular-material-datatransfer-lib>
 ```
 
 10. Initialize the library
@@ -136,23 +134,17 @@ export class AppComponent implements AfterViewInit {
 ```
 
 ## Handling download <a name="handling_download"></a>
-The download of a file can be triggered by dispatching a custom event called `github:niklr/angular-material-datatransfer.download-item` on the document object. Data can be passed as detail object with the following properties.
+The download of a file can be triggered by invoking the download function with the following arguments:
 * `filename` The name of the file to be downloaded.
 * `url` The URL of the file to be downloaded.
 * `size` The size in bytes of the file to be downloaded. 
 
 ```js
-var eventDetail = { 
-  'filename': filename, 
-  'url': url, 
-  'size': size 
-};
-var event = new CustomEvent('github:niklr/angular-material-datatransfer.download-item', { 'detail': eventDetail });
-document.dispatchEvent(event);
+this.amdComponent.download(filename, url, size);
 ```
 
 ## Events <a name="events"></a>
-After initialization, interaction with angular-material-datatransfer is done by listening to events:
+After initialization, it is possible to listen to events initiated by angular-material-datatransfer:
 
 ```js
 document.addEventListener('github:niklr/angular-material-datatransfer.upload-completed', function (e) { ... });
@@ -265,32 +257,3 @@ For every request, you can confirm reception in HTTP status codes (can be change
 * `200`: The chunk was accepted and correct. No need to re-upload.
 * `400`, `404`, `405`, `415`, `501`: The file for which the chunk was uploaded is not supported, cancel the entire upload.
 * _Anything else_: Something went wrong, but try reuploading the file.
-
-## Building <a name="building"></a>
-
-In order to build Angular Material Datatransfer, ensure that you have [Git](https://git-scm.com/downloads) and [Node.js](https://nodejs.org/) installed.
-
-Clone a copy of the repo:
-
-```bash
-git clone https://github.com/niklr/angular-material-datatransfer.git
-```
-
-Change to the angular-material-datatransfer directory:
-
-```bash
-cd angular-material-datatransfer
-```
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Use one of the following to build:
-
-```
-npm run build          # Builds into dist
-npm run start          # Starts the webpack-dev-server + watching for changes
-```
