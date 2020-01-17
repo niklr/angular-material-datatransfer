@@ -8,5 +8,11 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+export function main(event) {
+  return platformBrowserDynamic([{ provide: 'ConfigCustomEvent', useValue: event }]).bootstrapModule(AppModule);
+}
+
+document.addEventListener('github:niklr/angular-material-datatransfer.create', (event: any) => {
+  event.production = environment.production;
+  main(event).catch(err => console.error(err));
+});

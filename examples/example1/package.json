@@ -21,7 +21,7 @@
     "@angular/platform-browser": "^8.0.0",
     "@angular/platform-browser-dynamic": "^8.0.0",
     "@angular/router": "^8.0.0",
-    "angular-material-datatransfer-lib": "^4.0.2",
+    "angular-material-datatransfer-lib": "^4.0.3",
     "crypto-browserify": "github:niklr/crypto-browserify#7f681b3",
     "file-saver": "github:eligrey/FileSaver.js#5ed507e",
     "hammerjs": "^2.0.8",

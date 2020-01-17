@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild, Inject, AfterViewInit } from '@angular/core';
 import { AngularMaterialDatatransferComponent } from 'projects/amd-lib/src/public-api';
 
 @Component({
@@ -7,18 +7,18 @@ import { AngularMaterialDatatransferComponent } from 'projects/amd-lib/src/publi
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   @ViewChild(AngularMaterialDatatransferComponent, {static: false}) amdComponent: AngularMaterialDatatransferComponent;
 
-  constructor() {
+  constructor(@Inject('ConfigCustomEvent') private configCustomEvent: any) {
   }
 
-  @HostListener('document:github:niklr/angular-material-datatransfer.create', ['$event'])
-  public onCreate(event): void {
-    if (!!event && !!event.detail) {
-      const config = event.detail;
-      this.amdComponent.create(config);
-    }
+  ngAfterViewInit() {
+    setTimeout(() => {
+      if (this.configCustomEvent && this.configCustomEvent.detail) {
+        this.amdComponent.create(this.configCustomEvent.detail);
+      }
+    }, 0);
   }
 
   @HostListener('document:github:niklr/angular-material-datatransfer.update-config', ['$event'])
