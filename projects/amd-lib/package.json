@@ -17,6 +17,9 @@
     "type": "git",
     "url": "git+https://github.com/niklr/angular-material-datatransfer.git"
   },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
     "@angular/animations": "^8.0.0",
     "@angular/cdk": "^8.0.0",
@@ -30,7 +33,6 @@
     "hammerjs": "^2.0.8",
     "resumablejs": "github:23/resumable.js#2d5e06b",
     "rxjs": "~6.5.3",
-    "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   }
 }
