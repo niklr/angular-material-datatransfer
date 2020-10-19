@@ -45,10 +45,10 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
-    "crypto-browserify": "github:niklr/crypto-browserify#7f681b3",
-    "file-saver": "github:eligrey/FileSaver.js#5ed507e",
+    "crypto-browserify": "git+ssh://git@github.com:niklr/crypto-browserify#7f681b3",
+    "file-saver": "git+ssh://git@github.com:eligrey/FileSaver.js#5ed507e",
     "hammerjs": "^2.0.8",
-    "resumablejs": "github:23/resumable.js#2d5e06b",
+    "resumablejs": "git+ssh://git@github.com:chaos-sl/resumable.js.git#2d5e06b",
     "rxjs": "~6.5.3",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
