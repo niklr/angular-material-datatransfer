@@ -135,6 +135,12 @@
           simultaneousUploads: 2,
           fileType:['stl','png'],
           header:{authentication:'Bearer x.y.z'},
+          generateUniqueIdentifier:async (file,event)=>  SparkMD5.ArrayBuffer.hash(await new Promise((resolve)=>{
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result);
+              reader.readAsArrayBuffer(file);
+            }))
+          ,
           target:params=>{
               console.log(params,'https://api.sailing3d.cn/model/upload?'+params.join('&'))
            return  'https://api.sailing3d.cn/model/upload?'+params.join('&')
