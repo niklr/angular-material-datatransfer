@@ -10,7 +10,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/amd-lib/tsconfig.lib.json",
             "project": "projects/amd-lib/ng-package.json"
@@ -66,14 +66,18 @@
             "styles": [
               {
                 "input": "projects/amd-app/src/angular-material.scss",
-                "bundleName": "angular-material"
+                "bundleName": "angular-material",
+                "inject": true
               },
               {
                 "input": "projects/amd-app/src/style/app.scss",
-                "bundleName": "angular-material-datatransfer"
+                "bundleName": "angular-material-datatransfer",
+                "inject": true
               }
             ],
-            "scripts": ["node_modules/spark-md5/spark-md5.min.js"]
+            "scripts": [
+              "node_modules/spark-md5/spark-md5.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -91,7 +95,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
