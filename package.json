@@ -30,7 +30,8 @@
     "bundle": "npm run build-prod amd-app && npm run package-es5 && npm run package-es2015 && npm run append-banner",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "deploy": "gh-pages -d ./dist/amd-lib"
   },
   "private": true,
   "dependencies": {
@@ -63,6 +64,7 @@
     "@types/jasminewd2": "~2.0.8",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.1",
+    "gh-pages": "^3.1.0",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.0.0",
