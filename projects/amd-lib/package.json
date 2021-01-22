@@ -1,7 +1,7 @@
 {
   "name": "angular-material-datatransfer-lib",
   "description": "A HTML5 datatransfer UI for handling upload and download of multiple simultaneous files.",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "keywords": [
     "angular",
     "material-design",
@@ -17,20 +17,21 @@
     "type": "git",
     "url": "git+https://github.com/niklr/angular-material-datatransfer.git"
   },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
-    "@angular/animations": "^8.0.0",
-    "@angular/cdk": "^8.0.0",
-    "@angular/common": "^8.0.0",
-    "@angular/core": "^8.0.0",
-    "@angular/flex-layout": "8.0.0-beta.27",
-    "@angular/forms": "^8.0.0",
-    "@angular/material": "^8.0.0",
-    "crypto-browserify": "github:niklr/crypto-browserify#7f681b3",
-    "file-saver": "github:eligrey/FileSaver.js#5ed507e",
-    "hammerjs": "^2.0.8",
-    "resumablejs": "github:23/resumable.js#2d5e06b",
-    "rxjs": "~6.5.3",
-    "tslib": "^1.10.0",
+    "@angular/animations": "~10.1.6",
+    "@angular/cdk": "^10.2.5",
+    "@angular/common": "~10.1.6",
+    "@angular/core": "~10.1.6",
+    "@angular/flex-layout": "10.0.0-beta.32",
+    "@angular/forms": "~10.1.6",
+    "@angular/material": "^10.2.5",
+    "crypto-browserify": "git+ssh://git@github.com:niklr/crypto-browserify#7f681b3",
+    "file-saver": "git+ssh://git@github.com:eligrey/FileSaver.js#5ed507e",
+    "resumablejs": "git+ssh://git@github.com:chaos-sl/resumable.js.git#2d5e06b",
+    "rxjs": "~6.6.3",
     "zone.js": "~0.10.2"
   }
 }

@@ -62,6 +62,7 @@
         size: 24874100
       }
     ];
+    var fileNameHashMap = {}
     function fillDownloadItemList() {
       var listElement = document.getElementById('sampleDownloadFileList')
       if (!!listElement) {
@@ -107,10 +108,51 @@
           showUploadDropzone: true,
           paginationRppOptions: [5, 10, 25],
           preprocessHashEnabled: true,
-          preprocessHashChecked: false
+          preprocessHashChecked: true,
+          preprocessHashParameterName :'uid',
+          preprocessHashFunctionName :'md5',
+          preprocessHashInputEncodingName :'utf8',
+          preprocessHashTooltipContent :"是否校验服务器已存在",
+          preprocessHashTarget :params=>{
+           const result =  params.reduce((acc,v)=>{
+              const [key,value] = v.split('=')
+              acc[key]=decodeURIComponent(value)
+              return acc
+            },{})
+            console.log(result)
+              fileNameHashMap[result.filename] = result
+              console.log(params,'https://api.sailing3d.cn/model/check?'+params.join('&'))
+           return  'https://api.sailing3d.cn/model/check?'+params.join('&')
+          },
+          parseMessageCallback:(message)=>{
+              console.log(message)
+              return 'Parsed: '+message
+          }
         },
         resumablejs: {
+          maxChunkRetries:5,
+          chunkRetryInterval :10000,
           simultaneousUploads: 2,
+          fileType:['stl','png'],
+          header:{authentication:'Bearer x.y.z'},
+          generateUniqueIdentifier:async (file,event)=>  SparkMD5.ArrayBuffer.hash(await new Promise((resolve)=>{
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result);
+              reader.readAsArrayBuffer(file);
+            }))
+          ,
+          target:params=>{
+              console.log(params,'https://api.sailing3d.cn/model/upload?'+params.join('&'))
+           return  'https://api.sailing3d.cn/model/upload?'+params.join('&')
+          },
+          testTarget:params=>{
+              console.log(params,'https://api.sailing3d.cn/model/check-part?'+params.join('&'))
+           return  'https://api.sailing3d.cn/model/check-part?'+params.join('&')
+          },
+          query:params=>{
+              console.log(params,fileNameHashMap[params.fileName])
+           return {...fileNameHashMap[params.fileName],filesize:params.size,owner:'test'}
+          },
           preprocess: function (chunk) {
             // do something with the chunk
             chunk.preprocessFinished();

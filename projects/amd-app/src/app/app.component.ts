@@ -8,7 +8,7 @@ import { AngularMaterialDatatransferComponent } from 'projects/amd-lib/src/publi
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements AfterViewInit {
-  @ViewChild(AngularMaterialDatatransferComponent, {static: false}) amdComponent: AngularMaterialDatatransferComponent;
+  @ViewChild(AngularMaterialDatatransferComponent) amdComponent: AngularMaterialDatatransferComponent;
 
   constructor(@Inject('ConfigCustomEvent') private configCustomEvent: any) {
   }
