@@ -24,33 +24,33 @@ Table of Content:
 
 ## Upload
 <kbd>
-  <img src="demo/images/amd_upload_v1.gif">
+  <img src="https://raw.githubusercontent.com/niklr/angular-material-datatransfer/master/demo/images/amd_upload_v1.gif">
 </kbd>
 
 ## Download
 <kbd>
-  <img src="demo/images/amd_download_v1.gif">
+  <img src="https://raw.githubusercontent.com/niklr/angular-material-datatransfer/master/demo/images/amd_download_v1.gif">
 </kbd>
 
 ## Preprocessing
 Checks if a file already exists on the server without sending the entire file by calculating and comparing the hash value.
 <kbd>
-  <img src="demo/images/amd_preprocessing_v1.gif">
+  <img src="https://raw.githubusercontent.com/niklr/angular-material-datatransfer/master/demo/images/amd_preprocessing_v1.gif">
 </kbd>
 
 ## Export
 <kbd>
-  <img src="demo/images/amd_export.gif">
+  <img src="https://raw.githubusercontent.com/niklr/angular-material-datatransfer/master/demo/images/amd_export.gif">
 </kbd>
 
 ## Responsive
 <kbd>
-  <img src="demo/images/amd_responsive.gif">
+  <img src="https://raw.githubusercontent.com/niklr/angular-material-datatransfer/master/demo/images/amd_responsive.gif">
 </kbd>
 
 ## Customizable
 <kbd>
-  <img src="demo/images/amd_theme.gif">
+  <img src="https://raw.githubusercontent.com/niklr/angular-material-datatransfer/master/demo/images/amd_theme.gif">
 </kbd>
 
 ## Basic setup <a name="basic_setup"></a>
